@@ -1,4 +1,5 @@
 import { Schema, model, ObjectId } from 'mongoose'
+import _ from 'lodash'
 
 const schema = new Schema(
   {
@@ -30,16 +31,28 @@ const schema = new Schema(
       type: String,
       required: [true, '缺少主要遊玩類型'],
       enum: {
-        value: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
+        values: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
         message: '桌遊類型錯誤'
+      },
+      validate: {
+        validator () {
+          return _.intersection(this.type, this.interesting).length === 0
+        },
+        message: '錯誤'
       },
       default: []
     },
     interesting: {
       type: [String],
       enum: {
-        value: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
+        values: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
         message: '桌遊類型錯誤'
+      },
+      validate: {
+        validator () {
+          return _.intersection(this.type, this.interesting).length === 0
+        },
+        message: '錯誤'
       },
       default: []
     },
