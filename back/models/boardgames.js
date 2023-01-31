@@ -1,40 +1,22 @@
 import { Schema, model } from 'mongoose'
 
-const descSchema = new Schema({
-  introduction: {
-    type: String,
-    required: [true, '缺少桌遊介紹']
-  },
-  components: {
-    type: String,
-    required: [true, '缺少遊戲配件']
-  },
-  setUp: {
-    type: String,
-    required: [true, '缺少遊戲設置']
-  },
-  playingTheGame: {
-    type: String,
-    required: [true, '缺少遊戲流程']
-  },
-  endingTheGame: {
-    type: String,
-    required: [true, '缺少遊戲結束說明']
-  }
-})
-
 const schema = new Schema(
   {
+    introduction: {
+      type: String,
+      required: [true, '缺少桌遊介紹']
+    },
     name: {
       type: String,
-      required: [true, '缺少桌遊名稱']
+      required: [true, '缺少桌遊名稱'],
+      unique: true
     },
     images: {
       type: [String],
       required: [true, '缺少桌遊圖片'],
       default: []
     },
-    type: {
+    types: {
       type: [String],
       required: [true, '缺少桌遊類型'],
       enum: {
@@ -43,13 +25,8 @@ const schema = new Schema(
       },
       default: []
     },
-    description: {
-      type: [descSchema],
-      required: [true, '缺少桌遊詳細說明'],
-      default: []
-    },
     players: {
-      type: Number,
+      type: String,
       required: [true, '缺少遊玩人數']
     },
     playingTime: {
@@ -62,6 +39,22 @@ const schema = new Schema(
     },
     ytVideo: {
       type: String
+    },
+    components: {
+      type: String,
+      required: [true, '缺少遊戲配件']
+    },
+    setup: {
+      type: String,
+      required: [true, '缺少遊戲設置']
+    },
+    playingTheGame: {
+      type: String,
+      required: [true, '缺少遊戲流程']
+    },
+    endingTheGame: {
+      type: String,
+      required: [true, '缺少遊戲結束說明']
     }
   }, { versionKey: false })
 

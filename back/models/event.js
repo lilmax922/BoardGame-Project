@@ -3,7 +3,8 @@ import { Schema, model, ObjectId } from 'mongoose'
 const schema = new Schema(
   {
     participant: {
-      type: ObjectId,
+      type: [ObjectId],
+      ref: 'users',
       required: [true, '缺少報名人']
     },
     startDate: {

@@ -4,10 +4,12 @@ const schema = new Schema(
   {
     organizer: {
       type: ObjectId,
+      ref: 'users',
       required: [true, '缺少揪團發起人']
     },
     participant: {
       type: [ObjectId],
+      ref: 'users',
       required: [true, '缺少組隊參加人']
     },
     startDate: {
@@ -25,7 +27,7 @@ const schema = new Schema(
       required: [true, '缺少總人數']
     },
     type: {
-      type: [String],
+      type: String,
       required: [true, '缺少主要遊玩類型'],
       enum: {
         value: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
@@ -43,7 +45,9 @@ const schema = new Schema(
     },
     title: {
       type: String,
-      required: [true, '缺少揪團標題']
+      required: [true, '缺少揪團標題'],
+      maxLength: [20, '標題最多 20 個字'],
+      minLength: [1, '標題最少 1 個字']
     },
     content: {
       type: String,

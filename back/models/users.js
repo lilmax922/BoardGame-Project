@@ -35,8 +35,8 @@ const userSchema = new Schema(
       unique: true,
       default: '',
       validate: {
-        validator (value) {
-          return validator.isEmail(value)
+        validator (email) {
+          return validator.isEmail(email)
         },
         message: '電子信箱格式錯誤'
       }
