@@ -4,6 +4,6 @@ import { register, teamup } from '../controllers/users.js'
 
 const router = Router()
 
-router.post('/', content('application/json'), register, teamup)
+router.post('/', content('application/json'), register)
 
 export default router
