@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', () => {
     return `https://source.boringavatars.com/beam/256/${email.value}?colors=ffabab,ffdaab,ddffab,abe4ff,d9abff`
   })
 
-  const login = async (form) => {
+  async function login (form) {
     try {
       const { data } = await api.post('/users/login', form)
       email.value = data.result.email
@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user', () => {
         title: '成功',
         text: '登入成功'
       })
-      router.push('/')
+      this.router.push('/login')
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const logout = async () => {
+  async function logout () {
     try {
       await apiAuth.delete('/users/logout')
       token.value = ''
@@ -65,7 +65,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const getMyself = async () => {
+  async function getMyself () {
     if (token.value.length === 0) return
     try {
       const { data } = await apiAuth.get('/users/myself')

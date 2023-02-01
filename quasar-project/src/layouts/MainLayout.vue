@@ -1,16 +1,29 @@
-<template>
-  <q-layout view="hHh lpR fFf">
+<script setup>
+import { ref } from 'vue'
 
-    <q-header elevated class="bg-primary text-white">
-      <q-toolbar>
-        <q-toolbar-title>
+const tab = ref('images')
+</script>
+
+<template>
+<div class="q-pa-md">
+  <q-layout view="hHh lpR fFf">
+    <q-header elevated>
+        <q-toolbar>
+          <q-btn flat round dense icon="menu" class="q-mr-sm" />
           <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
-          Title
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+
+          <q-toolbar-title>Quasar Framework</q-toolbar-title>
+
+        </q-toolbar>
+
+        <q-tabs v-model="tab">
+          <q-tab name="images" label="Images" />
+          <q-tab name="videos" label="Videos" />
+          <q-tab name="articles" label="Articles" />
+        </q-tabs>
+      </q-header>
 
     <q-page-container>
       <router-view />
@@ -28,4 +41,6 @@
     </q-footer>
 
   </q-layout>
+</div>
+
 </template>
