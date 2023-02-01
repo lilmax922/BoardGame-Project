@@ -2,7 +2,7 @@ import { Schema, model, Error } from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
 
-const userSchema = new Schema(
+const schema = new Schema(
   {
     nickname: {
       type: String,
@@ -53,7 +53,7 @@ const userSchema = new Schema(
     }
   }, { versionKey: false }) // 不要紀錄修改次數
 
-userSchema.pre('save', function (next) {
+schema.pre('save', function (next) {
   const user = this
   if (user.isModified('password')) {
     if (user.password.length >= 4 && user.password.length <= 12) {
@@ -68,7 +68,7 @@ userSchema.pre('save', function (next) {
   next()
 })
 
-userSchema.pre('findOneAndUpdate', function (next) {
+schema.pre('findOneAndUpdate', function (next) {
   const user = this._update // 更新的資料
   if (user.password) {
     if (user.password.length >= 4 && user.password.length <= 12) {
@@ -84,4 +84,4 @@ userSchema.pre('findOneAndUpdate', function (next) {
   next()
 })
 
-export default model('users', userSchema)
+export default model('users', schema)

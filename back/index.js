@@ -1,8 +1,9 @@
 import 'dotenv/config'
 import mongoose from 'mongoose'
 import express from 'express'
-import cors from 'cors'
+// import cors from 'cors'
 import userRoute from './routes/users.js'
+import './passport/passport.js'
 
 mongoose.connect(process.env.DB_URL)
 mongoose.set('sanitizeFilter', true) // 塞進 mongoose 的資料有特殊字元時，自動過濾
@@ -14,7 +15,7 @@ const app = express()
 //   // origin:請求來源
 //   // callback(錯誤, 是否允許)
 //   origin (origin, callback) {
-//     if (origin.includes('github') || origin.includes('localhost') || origin === undefined) {
+//     if (origin === undefined || origin.includes('github') || origin.includes('localhost')  ) {
 //       callback(null, true)
 //     } else {
 //       callback(new Error(), false)

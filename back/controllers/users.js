@@ -1,6 +1,8 @@
 import users from '../models/users.js'
 import teamups from '../models/teamups.js'
+import jwt from 'jsonwebtoken'
 
+// 註冊
 export const register = async (req, res) => {
   try {
     await users.create({
@@ -34,6 +36,72 @@ export const register = async (req, res) => {
   }
 }
 
+// 登入
+export const login = async (req, res) => {
+  try {
+    const token = jwt.sign({ _id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '7 days' })
+    req.user.token.push(token)
+    await req.user.save()
+    res.status(200).json({
+      success: true,
+      message: '登入成功',
+      result: {
+        token,
+        nickname: req.user.nickname,
+        phone: req.user.phone,
+        email: req.user.email,
+        role: req.user.role
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
+// 登出
+export const logout = async (req, res) => {
+  try {
+    // 把目前請求的 JWT 從資料庫拿掉
+    req.user.tokens = req.user.tokens.filter(token => token !== req.token)
+    await req.user.save()
+    res.status(200).json({ success: true, message: '登出成功' })
+  } catch (error) {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
+// 過期 JWT 換新 JWT
+export const extend = async (req, res) => {
+  try {
+    const idx = req.user.tokens.findIndex(token => token === req.token)
+    const token = jwt.sign({ _id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '7 days' })
+    req.user.tokens[idx] = token
+    await req.user.save()
+    res.status(200).json({ success: true, message: 'JWT 更新成功', result: token })
+  } catch (error) {
+    res.status(500).json({ success: true, message: '未知錯誤' })
+  }
+}
+
+// 取自己的資料
+export const getMyself = (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: '使用者資料取得成功',
+      result: {
+        nickname: req.user.nickname,
+        phone: req.user.phone,
+        email: req.user.email,
+        role: req.user.role
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
+// 發起揪團
 export const teamup = async (req, res) => {
   try {
     await teamups.create({
