@@ -4,11 +4,17 @@ import bcrypt from 'bcrypt'
 
 const schema = new Schema(
   {
-    nickname: {
+    email: {
       type: String,
-      required: [true, '缺少暱稱'],
+      required: [true, '缺少電子信箱'],
       unique: true,
-      default: ''
+      default: '',
+      validate: {
+        validator (email) {
+          return validator.isEmail(email)
+        },
+        message: '電子信箱格式錯誤'
+      }
     },
     phone: {
       type: String,
@@ -24,22 +30,16 @@ const schema = new Schema(
         message: '手機號碼格式錯誤'
       }
     },
+    nickname: {
+      type: String,
+      required: [true, '缺少暱稱'],
+      unique: true,
+      default: ''
+    },
     password: {
       type: String,
       required: true,
       default: ''
-    },
-    email: {
-      type: String,
-      required: [true, '缺少電子信箱'],
-      unique: true,
-      default: '',
-      validate: {
-        validator (email) {
-          return validator.isEmail(email)
-        },
-        message: '電子信箱格式錯誤'
-      }
     },
     tokens: {
       type: [String],

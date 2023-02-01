@@ -47,9 +47,9 @@ export const login = async (req, res) => {
       message: '登入成功',
       result: {
         token,
-        nickname: req.user.nickname,
-        phone: req.user.phone,
         email: req.user.email,
+        phone: req.user.phone,
+        nickname: req.user.nickname,
         role: req.user.role
       }
     })
@@ -90,9 +90,9 @@ export const getMyself = (req, res) => {
       success: true,
       message: '使用者資料取得成功',
       result: {
-        nickname: req.user.nickname,
-        phone: req.user.phone,
         email: req.user.email,
+        phone: req.user.phone,
+        nickname: req.user.nickname,
         role: req.user.role
       }
     })

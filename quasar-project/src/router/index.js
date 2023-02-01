@@ -1,4 +1,5 @@
 import { route } from 'quasar/wrappers'
+import { useUserStore } from 'src/stores/user'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 
@@ -16,7 +17,7 @@ export default route(function (/* { store, ssrContext } */) {
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
 
-  const Router = createRouter({
+  const router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
 
@@ -26,5 +27,20 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
-  return Router
+  router.afterEach((to, from) => {
+    document.title = to.meta.title
+  })
+
+  router.beforeEach(async (to, from, next) => {
+    const user = useUserStore()
+    if (user.isLogin && (to.path === '/register' || to.path === '/login')) {
+      next('/')
+    } else if (to.meta.login && !user.isLogin) {
+      next('/login')
+    } else if (to.meta.admin && !user.isAdmin) {
+      next('/')
+    } else next()
+  })
+
+  return router
 })
