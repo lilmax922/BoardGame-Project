@@ -3,7 +3,7 @@ q-card#registerCard(flat style="width:1000px")
   q-card-section(horizontal)
     q-card-section.col-8
       h5.text-center 會員註冊
-      q-form(@submit="register" @reset="onReset")
+      q-form(@submit="register")
         q-input.bottom-slots(filled v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-envelope")
@@ -63,7 +63,6 @@ const $q = useQuasar()
 const router = useRouter()
 
 const text = ref('')
-const accept = ref(false)
 const registerForm = reactive({
   email: '',
   phone: '',
@@ -110,12 +109,5 @@ const register = async () => {
       message: '註冊失敗'
     })
   }
-}
-
-const onReset = () => {
-  registerForm.email = null
-  registerForm.password = null
-  registerForm.confirmPassword = null
-  accept.value = false
 }
 </script>

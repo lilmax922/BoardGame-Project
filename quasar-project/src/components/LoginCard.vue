@@ -3,7 +3,7 @@ q-card#loginCard(flat style="width:1000px")
   q-card-section(horizontal)
     q-card-section.col-8
       h5.text-center 會員登入
-      q-form(@submit="login" @reset="onReset")
+      q-form(@submit="login")
         q-input(filled v-model='loginForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-envelope")
@@ -25,10 +25,11 @@ q-card#loginCard(flat style="width:1000px")
 import { reactive, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import validator from 'validator'
+import { useUserStore } from 'src/stores/user'
 
 const $q = useQuasar()
+const user = useUserStore()
 
-const accept = ref(false)
 const loginForm = reactive({
   email: '',
   password: '',
@@ -54,6 +55,7 @@ const rules = {
 
 const login = async () => {
   try {
+    await user.login(loginForm)
     $q.notify({
       color: 'primary',
       textColor: 'white',
@@ -68,12 +70,5 @@ const login = async () => {
       message: '註冊失敗'
     })
   }
-}
-
-const onReset = () => {
-  loginForm.email = null
-  loginForm.password = null
-  loginForm.confirmPassword = null
-  accept.value = false
 }
 </script>
