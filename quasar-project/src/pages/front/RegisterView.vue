@@ -1,3 +1,30 @@
+<template lang="pug">
+q-page.flex-center.row
+  #register
+    h5.text-center 會員註冊
+    q-form.q-gutter-md(filled @submit="register" @reset="onReset")
+      q-input.dark.outlined.bottom-slots(v-model="registerForm.email" label="請輸入電子信箱" :rules="[rules.email, rules.required]")
+        template(v-slot:prepend)
+          q-icon(name="fa-solid fa-envelope")
+        template(v-slot:append)
+          q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
+      q-input.outlined(v-model="registerForm.phone" label="請輸入手機號碼" :rules="[rules.phone, rules.required]")
+        template(v-slot:prepend)
+          q-icon(name="fa-solid fa-mobile")
+      q-input.dark.outlined(v-model="registerForm.nickname" label="請輸入暱稱" :rules="[rules.nickname, rules.required]")
+        template(v-slot:prepend)
+          q-icon(name="fa-solid fa-signature")
+      q-input.dark.outlined(v-model="registerForm.password" label="請輸入密碼" :rules="[rules.required, rules.length]")
+        template(v-slot:prepend)
+          q-icon(name="fa-solid fa-key")
+      q-input.dark.outlined(v-model="registerForm.confirmPassword" label="請再次確認密碼" :rules="[rules.confirmPassword, rules.required, rules.length]")
+        template(v-slot:prepend)
+          q-icon(name="fa-solid fa-key")
+      q-btn(label="註冊" type="submit" color="primary")
+      q-btn.q-ml-sm(label="重新輸入" type="reset" color="white" flat)
+
+</template>
+
 <script setup>
 import { useQuasar } from 'quasar'
 import { ref, reactive } from 'vue'
@@ -8,6 +35,7 @@ import { api } from 'src/boot/axios'
 const $q = useQuasar()
 const router = useRouter()
 
+const text = ref('')
 const accept = ref(false)
 const registerForm = reactive({
   email: '',
@@ -42,17 +70,17 @@ const register = async () => {
   try {
     await api.post('/users', registerForm)
     $q.notify({
-      color: 'green-4',
+      color: 'secondary',
       textColor: 'white',
-      icon: 'cloud_done',
+      icon: 'fa-solid fa-face-laugh-squint',
       message: '註冊成功'
     })
     router.push('/')
   } catch (error) {
     $q.notify({
-      color: 'red-5',
+      color: 'negative',
       textColor: 'white',
-      icon: 'warning',
+      icon: 'fa-solid fa-face-sad-tear',
       message: '註冊失敗'
     })
   }
@@ -65,52 +93,3 @@ const onReset = () => {
   accept.value = false
 }
 </script>
-
-<template>
-  <q-page class="flex-center">
-    <div id="register">
-      <q-form class="q-gutter-md" @submit="register" @reset="onReset">
-        <q-input
-          v-model="registerForm.email"
-          label="請輸入電子信箱"
-          :rules="[rules.email, rules.required]"
-        />
-
-        <q-input
-          v-model="registerForm.phone"
-          label="請輸入手機號碼"
-          :rules="[rules.phone, rules.required]"
-        />
-
-        <q-input
-          v-model="registerForm.nickname"
-          label="請輸入暱稱"
-          :rules="[rules.nickname, rules.required]"
-        />
-
-        <q-input
-          v-model="registerForm.password"
-          label="請輸入密碼"
-          :rules="[rules.required, rules.length]"
-        />
-
-        <q-input
-          v-model="registerForm.confirmPassword"
-          label="請再次確認密碼"
-          :rules="[rules.confirmPassword, rules.required, rules.length]"
-        />
-
-        <div class="">
-          <q-btn label="註冊" type="submit" color="primary" />
-          <q-btn
-            label="重新輸入"
-            type="reset"
-            color="black"
-            flat
-            class="q-ml-sm"
-          />
-        </div>
-      </q-form>
-    </div>
-  </q-page>
-</template>

@@ -3,7 +3,8 @@
     "gameplay",
     "MAXXD",
     "teamup",
-    "teamups"
+    "teamups",
+    "xmark"
   ],
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#ffd9b8",
