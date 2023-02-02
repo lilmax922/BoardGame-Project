@@ -13,14 +13,14 @@ q-layout(view='hHh lpR fFf')
       q-space
       q-btn(icon='fa-solid fa-search')
       q-btn( icon='fa-solid fa-bell')
-      q-btn(@click="showLogin" icon='fa-solid fa-user-plus')
+      q-btn(@click="showLogin = true" icon='fa-solid fa-user-plus')
       q-btn(@click="logout" icon='fa-solid fa-right-from-bracket')
 
   q-page-container
     q-page
       router-view
 
-  q-dialog
+  q-dialog(v-model="showLogin")
     LoginDialog
 </template>
 

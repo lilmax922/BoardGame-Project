@@ -20,4 +20,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const tab = ref('one')
 </script>
