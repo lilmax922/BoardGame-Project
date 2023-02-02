@@ -12,17 +12,17 @@ q-layout(view='hHh lpR fFf')
         q-tab 揪團組隊
       q-space
       q-btn(icon='fa-solid fa-search')
-      q-btn(icon='fa-solid fa-bell')
+      q-btn(v-if="isLogin" icon='fa-solid fa-bell')
       q-btn(@click="showLogin = true" icon='fa-solid fa-user-plus')
-      q-btn(@click="logout" icon='fa-solid fa-right-from-bracket')
+      q-btn(v-if="isLogin" @click="logout" icon='fa-solid fa-right-from-bracket')
 
   q-page-container
     q-page
       router-view
 
-  q-dialog(v-model="showLogin")
-    RegisterCard
-    LoginCard
+  q-dialog(v-if="!isLogin" v-model="showLogin")
+    RegisterCard(v-if="showRegister")
+    LoginCard(v-else)
 </template>
 
 <script setup>
@@ -37,6 +37,6 @@ const { isLogin } = storeToRefs(user)
 const { logout } = user
 
 const tabs = ref('')
-const showLogin = ref(false)
 const showRegister = ref(false)
+const showLogin = ref(false)
 </script>
