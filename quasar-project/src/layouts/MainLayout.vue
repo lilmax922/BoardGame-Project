@@ -1,10 +1,11 @@
 <script setup>
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from 'src/stores/user'
 
 const user = useUserStore()
 const { isLogin } = storeToRefs(user)
-// const { logout } = user
+const tabs = ref('')
 </script>
 
 <template>
@@ -16,7 +17,7 @@ const { isLogin } = storeToRefs(user)
           <q-tabs v-model="tabs" shrink>
             <q-tab>探索桌遊</q-tab>
             <q-tab>本期EVENT</q-tab>
-            <q-tab>揪團組隊</q-tab>
+            <q-tab>手刀預約</q-tab>
             <q-tab>揪團組隊</q-tab>
           </q-tabs>
           <q-space />

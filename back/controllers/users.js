@@ -20,8 +20,8 @@ export const register = async (req, res) => {
       res.status(400).json({ success: false, message })
     } else if (error.name === 'MongoServerError' && error.code === 11000) {
       // 代表重複
+      console.log(error)
       const key = Object.keys(error.keyPattern)[0]
-      console.log(key)
       switch (key) {
         case 'nickname':
           return res.status(400).json({ success: false, message: '暱稱已被註冊' })
@@ -31,6 +31,7 @@ export const register = async (req, res) => {
           return res.status(400).json({ success: false, message: '電子信箱已被註冊' })
       }
     } else {
+      console.log(error)
       res.status(500).json({ success: false, message: '未知錯誤' })
     }
   }

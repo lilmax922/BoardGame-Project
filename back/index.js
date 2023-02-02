@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import mongoose from 'mongoose'
 import express from 'express'
-// import cors from 'cors'
+import cors from 'cors'
 import userRoute from './routes/users.js'
 import './passport/passport.js'
 
@@ -11,17 +11,17 @@ mongoose.set('sanitizeFilter', true) // 塞進 mongoose 的資料有特殊字元
 const app = express()
 
 // 跨域請求
-// app.use(cors({
-//   // origin:請求來源
-//   // callback(錯誤, 是否允許)
-//   origin (origin, callback) {
-//     if (origin === undefined || origin.includes('github') || origin.includes('localhost')  ) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error(), false)
-//     }
-//   }
-// }))
+app.use(cors({
+  // origin:請求來源
+  // callback(錯誤, 是否允許)
+  origin (origin, callback) {
+    if (origin === undefined || origin.includes('github') || origin.includes('localhost')) {
+      callback(null, true)
+    } else {
+      callback(new Error(), false)
+    }
+  }
+}))
 // 處理跨域錯誤
 app.use((_, req, res, next) => {
   res.status(403).json({ success: false, message: '請求被拒絕' })
