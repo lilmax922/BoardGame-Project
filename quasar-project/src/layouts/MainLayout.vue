@@ -21,15 +21,15 @@ q-layout(view='hHh lpR fFf')
       router-view
 
   q-dialog(v-model="showLogin")
-    LoginDialog
+    RegisterCard
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from 'src/stores/user'
-import LoginDialog from 'src/components/LoginDialog.vue'
-import RegisterDialog from 'src/components/RegisterDialog.vue'
+import LoginCard from 'src/components/LoginCard.vue'
+import RegisterCard from 'src/components/RegisterCard.vue'
 
 const user = useUserStore()
 const { isLogin } = storeToRefs(user)
