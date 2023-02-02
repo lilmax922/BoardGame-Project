@@ -1,28 +1,26 @@
 <template lang="pug">
-q-page.flex-center.row
-  #register
-    h5.text-center 會員註冊
-    q-form.q-gutter-md(filled @submit="register" @reset="onReset")
-      q-input.dark.outlined.bottom-slots(v-model="registerForm.email" label="請輸入電子信箱" :rules="[rules.email, rules.required]")
-        template(v-slot:prepend)
-          q-icon(name="fa-solid fa-envelope")
-        template(v-slot:append)
-          q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
-      q-input.outlined(v-model="registerForm.phone" label="請輸入手機號碼" :rules="[rules.phone, rules.required]")
-        template(v-slot:prepend)
-          q-icon(name="fa-solid fa-mobile")
-      q-input.dark.outlined(v-model="registerForm.nickname" label="請輸入暱稱" :rules="[rules.nickname, rules.required]")
-        template(v-slot:prepend)
-          q-icon(name="fa-solid fa-signature")
-      q-input.dark.outlined(v-model="registerForm.password" label="請輸入密碼" :rules="[rules.required, rules.length]")
-        template(v-slot:prepend)
-          q-icon(name="fa-solid fa-key")
-      q-input.dark.outlined(v-model="registerForm.confirmPassword" label="請再次確認密碼" :rules="[rules.confirmPassword, rules.required, rules.length]")
-        template(v-slot:prepend)
-          q-icon(name="fa-solid fa-key")
-      q-btn(label="註冊" type="submit" color="primary")
-      q-btn.q-ml-sm(label="重新輸入" type="reset" color="white" flat)
-
+q-card
+  h5.text-center 會員註冊
+  q-form.q-gutter-md(filled @submit="register" @reset="onReset")
+    q-input.dark.outlined.bottom-slots(v-model="registerForm.email" label="請輸入電子信箱" :rules="[rules.email, rules.required]")
+      template(v-slot:prepend)
+        q-icon(name="fa-solid fa-envelope")
+      template(v-slot:append)
+        q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
+    q-input.outlined(v-model="registerForm.phone" label="請輸入手機號碼" :rules="[rules.phone, rules.required]")
+      template(v-slot:prepend)
+        q-icon(name="fa-solid fa-mobile")
+    q-input.dark.outlined(v-model="registerForm.nickname" label="請輸入暱稱" :rules="[rules.nickname, rules.required]")
+      template(v-slot:prepend)
+        q-icon(name="fa-solid fa-signature")
+    q-input.dark.outlined(v-model="registerForm.password" label="請輸入密碼" :rules="[rules.required, rules.length]")
+      template(v-slot:prepend)
+        q-icon(name="fa-solid fa-key")
+    q-input.dark.outlined(v-model="registerForm.confirmPassword" label="請再次確認密碼" :rules="[rules.confirmPassword, rules.required, rules.length]")
+      template(v-slot:prepend)
+        q-icon(name="fa-solid fa-key")
+    q-btn(label="註冊" type="submit" color="primary")
+    q-btn.q-ml-sm(label="重新輸入" type="reset" color="white" flat)
 </template>
 
 <script setup>
