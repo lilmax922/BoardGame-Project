@@ -6,7 +6,7 @@
       .text-subtitle2 by John Doe
     q-tabs.text-teal(v-model='tab')
       q-tab(label='Tab one' name='one')
-        q-tab(label='Tab two' name='two').
+      q-tab(label='Tab two' name='two').
 
     q-separator
       q-tab-panels(v-model='tab' animated)

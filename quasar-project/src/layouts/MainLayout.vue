@@ -28,8 +28,8 @@ q-layout(view='hHh lpR fFf')
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from 'src/stores/user'
-import RegisterDialog from 'src/components/RegisterDialog.vue'
 import LoginDialog from 'src/components/LoginDialog.vue'
+import RegisterDialog from 'src/components/RegisterDialog.vue'
 
 const user = useUserStore()
 const { isLogin } = storeToRefs(user)
