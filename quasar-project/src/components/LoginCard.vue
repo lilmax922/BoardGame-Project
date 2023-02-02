@@ -5,15 +5,20 @@ q-card#loginCard(flat style="width:1000px")
       h5.text-center 會員登入
       q-form(@submit="login" @reset="onReset")
         q-input(filled v-model='loginForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-envelope")
         q-input(filled v-model='loginForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-key")
         q-input(filled v-model='loginForm.confirmPassword' label='確認密碼' :rules="[rules.confirmPassword, rules.required, rules.length]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-check-double")
         q-btn(label="登入" type="submit" color="primary")
 
     q-separator
 
     q-card-section.col-4.flex.flex-center.column
       q-img(src="../assets/MAXXD.png" style="background:#EEE3D2; border-radius:16px")
-
 </template>
 
 <script setup>

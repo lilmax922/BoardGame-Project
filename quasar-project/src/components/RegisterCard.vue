@@ -1,18 +1,32 @@
 <template lang="pug">
-q-card#loginCard(flat style="width:1000px")
-q-card-section(horizontal)
-  q-card-section.col-8
-    h5.text-center 會員登入
-    q-form(@submit="login" @reset="onReset")
-      q-input(filled v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
-      q-input(filled v-model='registerForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]")
-      q-input(filled v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.confirmPassword, rules.required, rules.length]")
-      q-btn(label="登入" type="submit" color="primary")
+q-card#registerCard(flat style="width:1000px")
+  q-card-section(horizontal)
+    q-card-section.col-8
+      h5.text-center 會員註冊
+      q-form(@submit="register" @reset="onReset")
+        q-input.bottom-slots(filled v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-envelope")
+          template(v-slot:append)
+            q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
+        q-input(filled v-model="registerForm.phone" label="手機號碼" :rules="[rules.phone, rules.required]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-mobile")
+        q-input(filled v-model="registerForm.nickname" label="暱稱" :rules="[rules.nickname, rules.required]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-signature")
+        q-input(filled v-model='registerForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-key")
+        q-input(filled v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.confirmPassword, rules.required, rules.length]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-check-double")
+        q-btn(label="註冊" type="submit" color="primary")
 
-  q-separator
+    q-separator
 
-  q-card-section.col-4.flex.flex-center.column
-    q-img(src="../assets/MAXXD.png" style="background:#EEE3D2; border-radius:16px")
+    q-card-section.col-4.flex.flex-center.column
+      q-img(src="../assets/MAXXD.png" style="background:#EEE3D2; border-radius:16px")
 
 //- q-card
 //-   h5.text-center 會員註冊
@@ -22,9 +36,9 @@ q-card-section(horizontal)
 //-         q-icon(name="fa-solid fa-envelope")
 //-       template(v-slot:append)
 //-         q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
-//-     q-input.outlined(v-model="registerForm.phone" label="請輸入手機號碼" :rules="[rules.phone, rules.required]")
-//-       template(v-slot:prepend)
-//-         q-icon(name="fa-solid fa-mobile")
+    //- q-input.outlined(v-model="registerForm.phone" label="請輸入手機號碼" :rules="[rules.phone, rules.required]")
+    //-   template(v-slot:prepend)
+    //-     q-icon(name="fa-solid fa-mobile")
 //-     q-input.dark.outlined(v-model="registerForm.nickname" label="請輸入暱稱" :rules="[rules.nickname, rules.required]")
 //-       template(v-slot:prepend)
 //-         q-icon(name="fa-solid fa-signature")
@@ -48,6 +62,7 @@ import { api } from 'src/boot/axios'
 const $q = useQuasar()
 const router = useRouter()
 
+const text = ref('')
 const accept = ref(false)
 const registerForm = reactive({
   email: '',

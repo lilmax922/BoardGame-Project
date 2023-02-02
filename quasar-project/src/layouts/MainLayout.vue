@@ -22,6 +22,7 @@ q-layout(view='hHh lpR fFf')
 
   q-dialog(v-model="showLogin")
     RegisterCard
+    LoginCard
 </template>
 
 <script setup>
