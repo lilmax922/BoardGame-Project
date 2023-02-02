@@ -12,7 +12,7 @@ q-layout(view='hHh lpR fFf')
         q-tab 揪團組隊
       q-space
       q-btn(icon='fa-solid fa-search')
-      q-btn( icon='fa-solid fa-bell')
+      q-btn(icon='fa-solid fa-bell')
       q-btn(@click="showLogin = true" icon='fa-solid fa-user-plus')
       q-btn(@click="logout" icon='fa-solid fa-right-from-bracket')
 
