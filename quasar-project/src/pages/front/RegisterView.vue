@@ -67,48 +67,50 @@ const onReset = () => {
 </script>
 
 <template>
-  <div id="register" class="q-pa-md">
-    <q-form class="q-gutter-md" @submit="register" @reset="onReset">
-      <q-input
-        v-model="registerForm.email"
-        label="請輸入電子信箱"
-        :rules="[rules.email, rules.required]"
-      />
-
-      <q-input
-        v-model="registerForm.phone"
-        label="請輸入手機號碼"
-        :rules="[rules.phone, rules.required]"
-      />
-
-      <q-input
-        v-model="registerForm.nickname"
-        label="請輸入暱稱"
-        :rules="[rules.nickname, rules.required]"
-      />
-
-      <q-input
-        v-model="registerForm.password"
-        label="請輸入密碼"
-        :rules="[rules.required, rules.length]"
-      />
-
-      <q-input
-        v-model="registerForm.confirmPassword"
-        label="請再次確認密碼"
-        :rules="[rules.confirmPassword, rules.required, rules.length]"
-      />
-
-      <div class="">
-        <q-btn label="註冊" type="submit" color="primary" />
-        <q-btn
-          label="重新輸入"
-          type="reset"
-          color="black"
-          flat
-          class="q-ml-sm"
+  <q-page class="flex-center">
+    <div id="register">
+      <q-form class="q-gutter-md" @submit="register" @reset="onReset">
+        <q-input
+          v-model="registerForm.email"
+          label="請輸入電子信箱"
+          :rules="[rules.email, rules.required]"
         />
-      </div>
-    </q-form>
-  </div>
+
+        <q-input
+          v-model="registerForm.phone"
+          label="請輸入手機號碼"
+          :rules="[rules.phone, rules.required]"
+        />
+
+        <q-input
+          v-model="registerForm.nickname"
+          label="請輸入暱稱"
+          :rules="[rules.nickname, rules.required]"
+        />
+
+        <q-input
+          v-model="registerForm.password"
+          label="請輸入密碼"
+          :rules="[rules.required, rules.length]"
+        />
+
+        <q-input
+          v-model="registerForm.confirmPassword"
+          label="請再次確認密碼"
+          :rules="[rules.confirmPassword, rules.required, rules.length]"
+        />
+
+        <div class="">
+          <q-btn label="註冊" type="submit" color="primary" />
+          <q-btn
+            label="重新輸入"
+            type="reset"
+            color="black"
+            flat
+            class="q-ml-sm"
+          />
+        </div>
+      </q-form>
+    </div>
+  </q-page>
 </template>

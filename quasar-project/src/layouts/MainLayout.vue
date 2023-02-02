@@ -6,15 +6,19 @@ import { useUserStore } from 'src/stores/user'
 const user = useUserStore()
 const { isLogin } = storeToRefs(user)
 const tabs = ref('')
+// const registerDialog = ref(false)
 </script>
 
 <template>
   <div class="q-pa-md">
     <q-layout view="hHh lpR fFf">
-      <q-header elevated>
+      <q-header elevated class="bg-primary text-white">
         <q-toolbar>
-          <q-toolbar-title>0.0</q-toolbar-title>
-          <q-tabs v-model="tabs" shrink>
+          <q-avatar>
+            <img src="../assets/MAXXD.png" />
+          </q-avatar>
+          <q-toolbar-title>差滴滴</q-toolbar-title>
+          <q-tabs v-model="tabs">
             <q-tab>探索桌遊</q-tab>
             <q-tab>本期EVENT</q-tab>
             <q-tab>手刀預約</q-tab>
@@ -44,9 +48,3 @@ const tabs = ref('')
     </q-layout>
   </div>
 </template>
-
-<style lang="scss" scoped>
-q-btn {
-  font-size: 8px;
-}
-</style>
