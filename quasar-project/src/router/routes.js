@@ -1,10 +1,18 @@
+import MainLayout from 'src/layouts/MainLayout.vue'
 
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: MainLayout,
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
+      {
+        path: '',
+        name: 'Home',
+        component: () => import('pages/IndexPage.vue'),
+        meta: {
+          title: '差滴滴'
+        }
+      }
     ]
   },
   {

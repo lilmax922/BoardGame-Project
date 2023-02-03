@@ -1,7 +1,14 @@
 <template lang="pug">
-q-card#registerCard(flat style="width:1000px")
+q-card#register-card(flat style="width:1500px")
   q-card-section(horizontal)
-    q-card-section.col-8
+    q-card-section.col-4.flex-center.column
+      p 已經註冊過了?
+      q-btn(outline label="登入" color="white" @click="emit('showRegisterCard', false)")
+        //- q-img(src="../assets/MAXXD.png" style="background:#EEE3D2; border-radius:16px")
+
+    q-separator
+
+    q-card-section.col-8.text-center
       h5.text-center 會員註冊
       q-form(@submit="register")
         q-input.bottom-slots(filled v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
@@ -22,34 +29,6 @@ q-card#registerCard(flat style="width:1000px")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-check-double")
         q-btn(label="註冊" type="submit" color="primary")
-
-    q-separator
-
-    q-card-section.col-4.flex.flex-center.column
-      q-img(src="../assets/MAXXD.png" style="background:#EEE3D2; border-radius:16px")
-
-//- q-card
-//-   h5.text-center 會員註冊
-//-   q-form.q-gutter-md(filled @submit="register" @reset="onReset")
-//-     q-input.dark.outlined.bottom-slots(v-model="registerForm.email" label="請輸入電子信箱" :rules="[rules.email, rules.required]")
-//-       template(v-slot:prepend)
-//-         q-icon(name="fa-solid fa-envelope")
-//-       template(v-slot:append)
-//-         q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
-    //- q-input.outlined(v-model="registerForm.phone" label="請輸入手機號碼" :rules="[rules.phone, rules.required]")
-    //-   template(v-slot:prepend)
-    //-     q-icon(name="fa-solid fa-mobile")
-//-     q-input.dark.outlined(v-model="registerForm.nickname" label="請輸入暱稱" :rules="[rules.nickname, rules.required]")
-//-       template(v-slot:prepend)
-//-         q-icon(name="fa-solid fa-signature")
-//-     q-input.dark.outlined(v-model="registerForm.password" label="請輸入密碼" :rules="[rules.required, rules.length]")
-//-       template(v-slot:prepend)
-//-         q-icon(name="fa-solid fa-key")
-//-     q-input.dark.outlined(v-model="registerForm.confirmPassword" label="請再次確認密碼" :rules="[rules.confirmPassword, rules.required, rules.length]")
-//-       template(v-slot:prepend)
-//-         q-icon(name="fa-solid fa-key")
-//-     q-btn(label="註冊" type="submit" color="primary")
-//-     q-btn.q-ml-sm(label="重新輸入" type="reset" color="white" flat)
 </template>
 
 <script setup>
@@ -58,6 +37,8 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import validator from 'validator'
 import { api } from 'src/boot/axios'
+
+const emit = defineEmits(['showRegisterCard'])
 
 const $q = useQuasar()
 const router = useRouter()

@@ -13,16 +13,16 @@ q-layout(view='hHh lpR fFf')
       q-space
       q-btn(icon='fa-solid fa-search')
       q-btn(v-if="isLogin" icon='fa-solid fa-bell')
-      q-btn(@click="showLogin = true" icon='fa-solid fa-user-plus')
-      q-btn(v-if="isLogin" @click="logout" icon='fa-solid fa-right-from-bracket')
+      q-btn(v-if="!isLogin" @click="showLoginCard = true" label="會員登入" size="lg")
+      q-btn(v-if="isLogin" @click="logout" icon='fa-solid fa-person-walking-arrow-right')
 
   q-page-container
     q-page
       router-view
 
-  q-dialog(v-if="!isLogin" v-model="showLogin")
-    RegisterCard(v-if="showRegister")
-    LoginCard(v-else)
+  q-dialog(v-model="showLoginCard")
+    LoginCard(v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler")
+    RegisterCard(v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler")
 </template>
 
 <script setup>
@@ -37,6 +37,10 @@ const { isLogin } = storeToRefs(user)
 const { logout } = user
 
 const tabs = ref('')
-const showRegister = ref(false)
-const showLogin = ref(false)
+const showLoginCard = ref(false)
+const showRegisterCard = ref(false)
+
+const toggleRegisterCardHandler = (type) => {
+  showRegisterCard.value = type
+}
 </script>

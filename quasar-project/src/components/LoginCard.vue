@@ -1,7 +1,8 @@
 <template lang="pug">
-q-card#loginCard(flat style="width:1000px")
+q-card#login-card(flat style="width:1000px")
   q-card-section(horizontal)
-    q-card-section.col-8
+    q-card-section.col-8.text-center
+      //- q-img(src="../assets/MAXXD.png" style="max-width:150px; background:#EEE3D2; border-radius:16px")
       h5.text-center 會員登入
       q-form(@submit="login")
         q-input(filled v-model='loginForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
@@ -17,8 +18,9 @@ q-card#loginCard(flat style="width:1000px")
 
     q-separator
 
-    q-card-section.col-4.flex.flex-center.column
-      q-img(src="../assets/MAXXD.png" style="background:#EEE3D2; border-radius:16px")
+    q-card-section.col-4.flex-center.column
+      p 還沒建立帳號嗎?
+      q-btn(outline label="註冊" color="white" @click="emit('showRegisterCard', true)")
 </template>
 
 <script setup>
@@ -29,6 +31,8 @@ import { useUserStore } from 'src/stores/user'
 
 const $q = useQuasar()
 const user = useUserStore()
+
+const emit = defineEmits(['showRegisterCard'])
 
 const loginForm = reactive({
   email: '',
@@ -54,21 +58,6 @@ const rules = {
 }
 
 const login = async () => {
-  try {
-    await user.login(loginForm)
-    $q.notify({
-      color: 'primary',
-      textColor: 'white',
-      icon: 'fa-solid fa-face-laugh-squint',
-      message: '登入成功'
-    })
-  } catch (error) {
-    $q.notify({
-      color: 'negative',
-      textColor: 'white',
-      icon: 'fa-solid fa-face-sad-tear',
-      message: '註冊失敗'
-    })
-  }
+  await user.login(loginForm)
 }
 </script>

@@ -8,14 +8,14 @@ import users from '../models/users.js'
 const LocalStrategy = passportLocal.Strategy
 passport.use('login', new LocalStrategy({
   // 修改 ; 預設帳密欄位是 username 和 password
-  usernameField: 'phone',
+  usernameField: 'email',
   passwordField: 'password'
-}, async (phone, password, done) => {
+}, async (email, password, done) => {
   // done(錯誤, 傳到下一步的資料, 傳到下一步 info 的內容)
   try {
-    const user = await users.findOne({ phone }) // 找使用者手機號碼
+    const user = await users.findOne({ email }) // 找使用者電子信箱
     if (!user) {
-      return done(null, false, { message: '手機號碼不存在' })
+      return done(null, false, { message: '信箱不存在' })
     }
     // 比較使用者密碼跟加密後的密碼是否相同
     if (!bcrypt.compareSync(password, user.password)) {
