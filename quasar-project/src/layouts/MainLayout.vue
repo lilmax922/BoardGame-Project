@@ -6,7 +6,7 @@ q-layout(view='hHh lpR fFf')
         img(src='../assets/MAXXD.png')
       q-toolbar-title 差滴滴
       q-tabs(v-model='tabs')
-        q-tab 探索桌遊
+        q-tab(:to="{ path: '/exploreBG' }") 探索桌遊
         q-tab 本期EVENT
         q-tab 手刀預約
         q-tab 揪團組隊
@@ -18,8 +18,7 @@ q-layout(view='hHh lpR fFf')
       q-btn(v-if="isLogin" @click="logout" icon='fa-solid fa-person-walking-arrow-right')
 
   q-page-container
-    q-page
-      router-view
+    router-view
 
   //- 登入註冊頁面
   q-dialog(v-model="showLoginCard")
