@@ -41,7 +41,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const token = jwt.sign({ _id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '7 days' })
-    req.user.token.push(token)
+    req.user.tokens.push(token)
     await req.user.save()
     res.status(200).json({
       success: true,
@@ -55,6 +55,7 @@ export const login = async (req, res) => {
       }
     })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, message: '未知錯誤' })
   }
 }
