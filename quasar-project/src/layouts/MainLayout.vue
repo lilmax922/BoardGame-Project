@@ -14,12 +14,14 @@ q-layout(view='hHh lpR fFf')
       q-btn(icon='fa-solid fa-search')
       q-btn(v-if="isLogin" icon='fa-solid fa-bell')
       q-btn(v-if="!isLogin" @click="showLoginCard = true" label="會員登入" size="lg")
+      p(v-if="isLogin") {{ user.nickname }}
       q-btn(v-if="isLogin" @click="logout" icon='fa-solid fa-person-walking-arrow-right')
 
   q-page-container
     q-page
       router-view
 
+  //- 登入註冊頁面
   q-dialog(v-model="showLoginCard")
     LoginCard(v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler")
     RegisterCard(v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler")
