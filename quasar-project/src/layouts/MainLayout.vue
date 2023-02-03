@@ -5,11 +5,11 @@ q-layout(view='hHh lpR fFf')
       q-avatar
         img(src='../assets/MAXXD.png')
       q-toolbar-title 差滴滴
-      q-tabs(v-model='tabs')
-        q-tab(:to="{ path: '/exploreBG' }") 探索桌遊
-        q-tab 本期EVENT
-        q-tab 手刀預約
-        q-tab 揪團組隊
+      q-tabs(v-model="tab")
+        q-route-tab(to="/exploreBG") 探索桌遊
+        q-route-tab(to="/event") 本期EVENT
+        q-route-tab(to="/reserve") 手刀預約
+        q-route-tab(to="/teamup") 揪團組隊
       q-space
       q-btn(icon='fa-solid fa-search')
       q-btn(v-if="isLogin" icon='fa-solid fa-bell')
@@ -37,7 +37,7 @@ const user = useUserStore()
 const { isLogin } = storeToRefs(user)
 const { logout } = user
 
-const tabs = ref('')
+const tab = ref('')
 const showLoginCard = ref(false)
 const showRegisterCard = ref(false)
 
