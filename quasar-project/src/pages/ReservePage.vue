@@ -1,10 +1,10 @@
-<template lang="pug">
-#reserve
-</template>
-
 <script setup>
 
 </script>
+
+<template lang="pug">
+q-page#reserve
+</template>
 
 <style>
 

@@ -1,3 +1,23 @@
+<script setup>
+import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from 'src/stores/user'
+import LoginCard from 'src/components/LoginCard.vue'
+import RegisterCard from 'src/components/RegisterCard.vue'
+
+const user = useUserStore()
+const { isLogin } = storeToRefs(user)
+const { logout } = user
+
+const tab = ref('')
+const showLoginCard = ref(false)
+const showRegisterCard = ref(false)
+
+const toggleRegisterCardHandler = (type) => {
+  showRegisterCard.value = type
+}
+</script>
+
 <template lang="pug">
 q-layout(view='hHh lpR fFf')
   q-header.bg-primary.text-white(elevated)
@@ -20,28 +40,8 @@ q-layout(view='hHh lpR fFf')
   q-page-container
     router-view
 
-  //- 登入註冊頁面
+  //- 登入註冊
   q-dialog(v-model="showLoginCard")
     LoginCard(v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler")
     RegisterCard(v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler")
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useUserStore } from 'src/stores/user'
-import LoginCard from 'src/components/LoginCard.vue'
-import RegisterCard from 'src/components/RegisterCard.vue'
-
-const user = useUserStore()
-const { isLogin } = storeToRefs(user)
-const { logout } = user
-
-const tab = ref('')
-const showLoginCard = ref(false)
-const showRegisterCard = ref(false)
-
-const toggleRegisterCardHandler = (type) => {
-  showRegisterCard.value = type
-}
-</script>

@@ -1,36 +1,3 @@
-<template lang="pug">
-q-card#register-card(flat style="width:1500px")
-  q-card-section(horizontal)
-    q-card-section.col-4.flex-center.column
-      p 已經註冊過了?
-      q-btn(outline label="登入" color="white" @click="emit('showRegisterCard', false)")
-        //- q-img(src="../assets/MAXXD.png" style="background:#EEE3D2; border-radius:16px")
-
-    q-separator
-
-    q-card-section.col-8.text-center
-      h5.text-center 會員註冊
-      q-form(@submit="register")
-        q-input.bottom-slots(filled v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
-          template(v-slot:prepend)
-            q-icon(name="fa-solid fa-envelope")
-          template(v-slot:append)
-            q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
-        q-input(filled v-model="registerForm.phone" label="手機號碼" :rules="[rules.phone, rules.required]")
-          template(v-slot:prepend)
-            q-icon(name="fa-solid fa-mobile")
-        q-input(filled v-model="registerForm.nickname" label="暱稱" :rules="[rules.nickname, rules.required]")
-          template(v-slot:prepend)
-            q-icon(name="fa-solid fa-signature")
-        q-input(filled v-model='registerForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]")
-          template(v-slot:prepend)
-            q-icon(name="fa-solid fa-key")
-        q-input(filled v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.confirmPassword, rules.required, rules.length]")
-          template(v-slot:prepend)
-            q-icon(name="fa-solid fa-check-double")
-        q-btn(label="註冊" type="submit" color="primary")
-</template>
-
 <script setup>
 import { useQuasar } from 'quasar'
 import { ref, reactive } from 'vue'
@@ -92,3 +59,36 @@ const register = async () => {
   }
 }
 </script>
+
+<template lang="pug">
+q-card#register-card(flat style="width:1500px")
+  q-card-section(horizontal)
+    q-card-section.col-4.flex-center.column
+      p 已經註冊過了?
+      q-btn(outline label="登入" color="white" @click="emit('showRegisterCard', false)")
+        //- q-img(src="../assets/MAXXD.png" style="background:#EEE3D2; border-radius:16px")
+
+    q-separator
+
+    q-card-section.col-8.text-center
+      h5.text-center 會員註冊
+      q-form(@submit="register")
+        q-input.bottom-slots(filled v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-envelope")
+          template(v-slot:append)
+            q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
+        q-input(filled v-model="registerForm.phone" label="手機號碼" :rules="[rules.phone, rules.required]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-mobile")
+        q-input(filled v-model="registerForm.nickname" label="暱稱" :rules="[rules.nickname, rules.required]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-signature")
+        q-input(filled v-model='registerForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-key")
+        q-input(filled v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.confirmPassword, rules.required, rules.length]")
+          template(v-slot:prepend)
+            q-icon(name="fa-solid fa-check-double")
+        q-btn(label="註冊" type="submit" color="primary")
+</template>
