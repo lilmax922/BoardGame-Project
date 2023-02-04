@@ -7,7 +7,7 @@ q-card.full-height.teamup-card(flat)
   q-img.teamup-img(src="../assets/images/teamup-type/mindset.jpg")
   q-card-section.q-gutter-sm
     .type-tag #策略 #陣營 #心機
-    p.text-h4 3/3 揪揪揪.....
+    p.text-h4 3/3 揪揪揪...
   q-card-section.flex-center(horizontal)
     q-card-section.col-8
       q-list
