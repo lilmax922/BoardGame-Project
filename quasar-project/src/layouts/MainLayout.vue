@@ -37,12 +37,34 @@ q-layout(view='hHh lpR fFf')
       q-btn(v-if="isLogin" icon='fa-solid fa-bell')
         <q-badge color="accent" floating :label="5"></q-badge>
       q-btn(v-if="!isLogin" @click="showLoginCard = true" label="會員登入" size="lg")
-      q-btn-dropdown(icon="person")
-        template
+      q-btn-dropdown(v-if="isLogin" flat)
+        template(#label)
           q-avatar
             q-img(src="https://picsum.photos/150/150")
-      q-btn(v-if="isLogin" @click="logout" icon='fa-solid fa-person-walking-arrow-right')
-
+        q-list.q-pa-xs
+          q-item(v-ripple)
+            q-item-section(avatar)
+              q-avatar
+                q-img(src="https://picsum.photos/500/500")
+            q-item-section NickName
+          q-separator
+          q-item-label.q-pa-sm(overline) 我的主頁
+          q-item(clickable)
+            q-item-section(avatar)
+              q-icon(name="mdi-google-downasaur")
+            q-item-section 我的預約
+          q-item(clickable)
+            q-item-section(avatar)
+              q-icon(name="mdi-account-group")
+            q-item-section 我的揪團
+          q-item(clickable)
+            q-item-section(avatar)
+              q-icon(name="mdi-human-greeting")
+            q-item-section 我的報名
+          q-separator(v-if="isLogin")
+          q-item(v-if="isLogin")
+            q-item-section
+              q-btn(@click="logout" icon='fa-solid fa-person-walking-arrow-right' label="登出")
   q-page-container
     router-view
 

@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
 import TeamupCard from 'src/components/TeamupCard.vue'
+import TestComp from 'src/components/TestComp.vue'
 
 const name = ref('HomePage')
 </script>
@@ -10,6 +11,7 @@ const name = ref('HomePage')
 q-page#home.flex.flex-center
   // q-img(alt="BG hero" src="../assets/images/hero/Mix.jpg" style="max-width: 100%;")
 
-  BoardgameCard
-  TeamupCard
+  TestComp
+  //- BoardgameCard
+  //- TeamupCard
 </template>
