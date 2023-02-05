@@ -1,33 +1,26 @@
-<script setup>
-</script>
-
 <template lang="pug">
-q-btn-dropdown(flat)
-  template(#label)
-    q-avatar
-      q-img(src="https://picsum.photos/150/150")
-  q-list.q-pa-xs
-    q-item(v-ripple)
-      q-item-section(avatar)
-        q-avatar
-          q-img(src="https://picsum.photos/500/500")
-      q-item-section NickName
-    q-separator
-    q-item-label.q-pa-sm(overline) 我的主頁
-    q-item(clickable)
-      q-item-section(avatar)
-        q-icon(name="mdi-google-downasaur")
-      q-item-section 我的預約
-    q-item(clickable)
-      q-item-section(avatar)
-        q-icon(name="mdi-account-group")
-      q-item-section 我的揪團
-    q-item(clickable)
-      q-item-section(avatar)
-        q-icon(name="mdi-human-greeting")
-      q-item-section 我的報名
-    q-separator
-    q-item
-      q-item-section
-        q-btn(@click="logout" icon='fa-solid fa-person-walking-arrow-right' label="登出")
+q-card.bg-card(flat)
+  q-img(src="../assets/images/bg-type/strategy/璀璨寶石/璀璨寶石1.jpg")
+  q-card-section.q-gutter-sm
+    .type-tag #策略 #陣營 #心機
+    .text-h4 璀璨寶石 Splendor
+  q-card-section.flex-center(horizontal)
+    q-card-section.col-8
+      q-list
+        q-item.q-pa-none
+          q-item-section
+            q-icon(name="mdi-account-multiple" size="xs")
+          q-item-section &nbsp;4 ~ 7 人
+        q-item.q-pa-none
+          q-item-section.flex-auto
+            q-icon(name="mdi-clock" size="xs")
+          q-item-section &nbsp;約 30 分鐘
+    q-card-section.col-4.q-pa-none
+      q-btn.more-btn(color="primary") 查看更多
 </template>
+
+<style lang="scss" scoped>
+.q-item__section--main {
+  flex: none;
+}
+</style>

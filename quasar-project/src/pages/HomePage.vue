@@ -11,7 +11,7 @@ const name = ref('HomePage')
 q-page#home.flex.flex-center
   // q-img(alt="BG hero" src="../assets/images/hero/Mix.jpg" style="max-width: 100%;")
 
-  TestComp
-  //- BoardgameCard
+  //- TestComp
+  BoardgameCard
   //- TeamupCard
 </template>
