@@ -2,7 +2,6 @@ import users from '../models/users.js'
 import teamups from '../models/teamups.js'
 import jwt from 'jsonwebtoken'
 
-// 註冊
 export const register = async (req, res) => {
   try {
     await users.create({

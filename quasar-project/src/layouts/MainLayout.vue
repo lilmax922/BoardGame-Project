@@ -6,7 +6,7 @@ import LoginCard from 'src/components/LoginCard.vue'
 import RegisterCard from 'src/components/RegisterCard.vue'
 
 const user = useUserStore()
-const { isLogin } = storeToRefs(user)
+const { isLogin, avatar } = storeToRefs(user)
 const { logout } = user
 
 const tab = ref('')
@@ -35,8 +35,12 @@ q-layout(view='hHh lpR fFf')
       q-space
       q-btn(icon='fa-solid fa-search')
       q-btn(v-if="isLogin" icon='fa-solid fa-bell')
+        <q-badge color="accent" floating :label="5"></q-badge>
       q-btn(v-if="!isLogin" @click="showLoginCard = true" label="會員登入" size="lg")
-      p(v-if="isLogin") {{ user.nickname }}
+      q-btn-dropdown(icon="person")
+        template
+          q-avatar
+            q-img(src="https://picsum.photos/150/150")
       q-btn(v-if="isLogin" @click="logout" icon='fa-solid fa-person-walking-arrow-right')
 
   q-page-container

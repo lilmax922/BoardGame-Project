@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', () => {
     return role.value === 1
   })
   const avatar = computed(() => {
-    return `https://source.boringavatars.com/beam/256/${email.value}?colors=ffabab,ffdaab,ddffab,abe4ff,d9abff`
+    return `https://source.boringavatars.com/beam/256/${email.value}?colors=C4DDD6,D4DDD6,E4DDD6,E4E3CD,ECECDD`
   })
 
   async function login (form) {

@@ -8,8 +8,8 @@ const name = ref('HomePage')
 
 <template lang="pug">
 q-page#home.flex.flex-center
-  //- img(alt='Quasar logo' src='~assets/quasar-logo-vertical.svg' style='width: 200px; height: 200px')
-  //- q-img(alt="BG hero" src="../assets/images/hero/Mix.jpg" style="max-width: 100%;")
+  // q-img(alt="BG hero" src="../assets/images/hero/Mix.jpg" style="max-width: 100%;")
+
   BoardgameCard
   TeamupCard
 </template>
