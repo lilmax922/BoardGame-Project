@@ -13,5 +13,5 @@ q-page#home.flex.flex-center
 
   //- TestComp
   BoardgameCard
-  //- TeamupCard
+  TeamupCard
 </template>

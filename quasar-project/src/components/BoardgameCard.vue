@@ -11,8 +11,9 @@ q-card.bg-card(flat)
   q-card-section.q-gutter-sm
     .type-tag #策略 #陣營 #心機
     .text-h4 璀璨寶石 Splendor
+  q-separator(inset)
   q-card-section.flex-center(horizontal)
-    q-card-section.col-8
+    q-card-section.col-8.q-pt-none
       q-list
         q-item.q-pa-none
           q-item-section
@@ -29,5 +30,6 @@ q-card.bg-card(flat)
 <style lang="scss" scoped>
 .q-item__section--main {
   flex: none;
+  margin-left: 0;
 }
 </style>
