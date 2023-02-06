@@ -27,7 +27,7 @@ q-layout(view='hHh Lpr lff')
           q-item-section 揪團管理
         q-item(clickable v-ripple)
           q-item-section(avatar)
-            q-icon(name='drafts')
+            q-icon(name='mdi-bullhorn')
           q-item-section 活動管理
         q-separator
         q-item-label.q-pa-sm(overline) 前台編輯
@@ -41,7 +41,7 @@ q-layout(view='hHh Lpr lff')
           q-item-section 探索桌遊
         q-item(clickable v-ripple)
           q-item-section(avatar)
-            q-icon(name='mdi-calendar-edit')
+            q-icon(name='mdi-dance-ballroom')
           q-item-section 本期EVENT
         q-item(clickable v-ripple)
           q-item-section(avatar)
