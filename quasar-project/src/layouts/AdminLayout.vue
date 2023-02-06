@@ -13,6 +13,7 @@ q-layout(view='hHh Lpr lff')
   q-drawer(v-model='drawer' show-if-above :width='200' :breakpoint='500')
     q-scroll-area(style='height: calc(100% - 150px); margin-top: 150px;')
       q-list(padding)
+        q-item-label.q-pa-sm(overline) 會員管理
         q-item(clickable v-ripple)
           q-item-section(avatar)
             q-icon(name='mdi-account-edit')
@@ -35,7 +36,7 @@ q-layout(view='hHh Lpr lff')
           q-item-section(avatar)
             q-icon(name='mdi-home-edit')
           q-item-section 首頁
-        q-item(clickable v-ripple)
+        q-item(clickable v-ripple to="/editBoardgames")
           q-item-section(avatar)
             q-icon(name='mdi-puzzle-edit')
           q-item-section 探索桌遊

@@ -17,17 +17,17 @@ const routes = [
         }
       },
       {
-        path: 'exploreBG',
-        name: 'ExploreBG',
-        component: () => import('src/pages/frontPages/ExploreBGPage.vue'),
+        path: 'exploreBoardgames',
+        name: 'ExploreBoardgames',
+        component: () => import('src/pages/frontPages/ExploreBoardgames.vue'),
         meta: {
           title: '差滴滴 | 探索桌遊'
         },
         children: [
           {
-            path: 'BGInfo',
-            name: 'BGInfo',
-            component: () => import('src/pages/frontPages/BGInfoPage.vue'),
+            path: 'BoardgameInfo',
+            name: 'BoardgameInfo',
+            component: () => import('src/pages/frontPages/BoardgameInfoPage.vue'),
             meta: {
               title: '差滴滴 | 桌遊介紹'
             }
@@ -73,9 +73,9 @@ const routes = [
         ]
       },
       {
-        path: 'reserve',
-        name: 'Reserve',
-        component: () => import('src/pages/frontPages/ReservePage.vue'),
+        path: 'reservation',
+        name: 'Reservation',
+        component: () => import('src/pages/frontPages/ReservationPage.vue'),
         meta: {
           title: '差滴滴 | 手刀預約'
         }
@@ -87,15 +87,26 @@ const routes = [
     name: 'Admin',
     component: () => import('src/layouts/AdminLayout.vue'),
     meta: {
-      title: '差滴滴 | 後台管理',
+      title: '差滴滴 | 管理者後台',
       login: true,
       admin: true
     },
     children: [
       {
         path: '',
-        name: 'adminIndex',
-        component: () => import('src/pages/admin/IndexPage.vue')
+        name: 'admin-Index',
+        component: () => import('src/pages/admin/IndexPage.vue'),
+        meta: {
+          title: '差滴滴 | 後台管理'
+        }
+      },
+      {
+        path: '/editBoardgames',
+        name: 'EditBoardgames',
+        component: () => import('src/pages/admin/EditBoardgamesPage.vue'),
+        meta: {
+          title: '差滴滴 | 桌遊編輯'
+        }
       }
     ]
   },

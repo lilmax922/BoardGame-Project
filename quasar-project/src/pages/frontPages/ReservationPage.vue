@@ -3,8 +3,8 @@
 </script>
 
 <template lang="pug">
-q-page#reserve
-  h1 reserve
+q-page#reservation
+  h1 reservation
 </template>
 
 <style>
