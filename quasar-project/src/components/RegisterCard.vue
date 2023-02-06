@@ -84,7 +84,7 @@ q-card#register-card(flat style="width:1500px")
     q-card-section.col-8.text-center
       h5.text-center 會員註冊
       q-form(@submit="register")
-        q-input.bottom-slots(filled counter maxlength="-" v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
+        q-input.bottom-slots(filled counter maxlength="不限" v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-envelope")
           template(v-slot:append)

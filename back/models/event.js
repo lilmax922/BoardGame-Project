@@ -2,6 +2,13 @@ import { Schema, model, ObjectId } from 'mongoose'
 
 const schema = new Schema(
   {
+    image: {
+      type: String
+    },
+    boardgame: {
+      type: ObjectId,
+      ref: 'boardgames'
+    },
     participant: {
       type: [ObjectId],
       ref: 'users',

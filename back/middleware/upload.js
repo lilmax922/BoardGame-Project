@@ -24,8 +24,11 @@ const upload = multer({
   }
 })
 
-export default async (req, res, next) => {
-  upload.single('image')(req, res, error => {
+export const boardgame = async (req, res, next) => {
+  upload.fields([
+    { name: 'images' },
+    { name: 'components' }
+  ])(req, res, error => {
     if (error instanceof multer.MulterError) {
       let message = '上傳錯誤'
       if (error.code === 'LIMIT_FILE_SIZE') {

@@ -1,5 +1,10 @@
 import { Schema, model } from 'mongoose'
 
+const componentsSchema = new Schema({
+  image: String,
+  text: String
+})
+
 const schema = new Schema(
   {
     post: {
@@ -45,7 +50,7 @@ const schema = new Schema(
       type: String
     },
     components: {
-      type: [String],
+      type: [componentsSchema],
       required: [true, '缺少遊戲配件']
     },
     setup: {
@@ -53,7 +58,7 @@ const schema = new Schema(
       required: [true, '缺少遊戲設置']
     },
     gameFlow: {
-      type: String,
+      type: [String],
       required: [true, '缺少遊戲流程']
     },
     endGame: {

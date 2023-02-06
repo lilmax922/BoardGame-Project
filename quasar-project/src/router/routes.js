@@ -83,6 +83,11 @@ const routes = [
     ]
   },
   {
+    path: '/admin',
+    name: 'admin'
+    // component:
+  },
+  {
     path: '/404',
     name: '404',
     component: ErrorNotFound,
