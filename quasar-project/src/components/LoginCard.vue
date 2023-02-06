@@ -47,10 +47,10 @@ q-card#login-card(flat style="width:1000px")
     q-card-section.col-8.text-center
       h5.text-center 會員登入
       q-form(@submit="login")
-        q-input(filled v-model='loginForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
+        q-input(filled counter maxlength="-" v-model='loginForm.email' label='電子信箱' :rules="[rules.required ,rules.email]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-envelope")
-        q-input(filled v-model='loginForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]")
+        q-input(filled counter maxlength="12" v-model='loginForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-key")
         q-btn(label="登入" type="submit" color="primary")

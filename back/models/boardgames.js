@@ -2,6 +2,10 @@ import { Schema, model } from 'mongoose'
 
 const schema = new Schema(
   {
+    post: {
+      type: Boolean,
+      required: [true, '缺少張貼狀態']
+    },
     introduction: {
       type: String,
       required: [true, '缺少桌遊介紹']
@@ -20,7 +24,7 @@ const schema = new Schema(
       type: [String],
       required: [true, '缺少桌遊類型'],
       enum: {
-        value: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
+        values: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
         message: '桌遊類型錯誤'
       },
       default: []
@@ -29,7 +33,7 @@ const schema = new Schema(
       type: String,
       required: [true, '缺少遊玩人數']
     },
-    playingTime: {
+    gameTime: {
       type: Number,
       required: [true, '缺少遊戲時間']
     },
@@ -48,11 +52,11 @@ const schema = new Schema(
       type: String,
       required: [true, '缺少遊戲設置']
     },
-    playingTheGame: {
+    gameFlow: {
       type: String,
       required: [true, '缺少遊戲流程']
     },
-    endingTheGame: {
+    endGame: {
       type: String,
       required: [true, '缺少遊戲結束說明']
     }
