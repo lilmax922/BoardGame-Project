@@ -84,8 +84,8 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'admin'
-    // component:
+    name: 'Admin',
+    component: () => import('src/layouts/AdminLayout.vue')
   },
   {
     path: '/404',

@@ -6,7 +6,7 @@ import LoginCard from 'src/components/LoginCard.vue'
 import RegisterCard from 'src/components/RegisterCard.vue'
 
 const user = useUserStore()
-const { isLogin, avatar } = storeToRefs(user)
+const { isLogin, isAdmin, avatar } = storeToRefs(user)
 const { logout } = user
 
 const tab = ref('')
@@ -40,6 +40,7 @@ q-layout(view='hHh lpR fFf')
       q-btn(v-if="isLogin" icon='fa-solid fa-bell')
         <q-badge color="accent" floating :label="5"></q-badge>
       q-btn(v-if="!isLogin" @click="showLoginCard = true" label="會員登入" size="lg")
+      q-btn(v-if="isLogin && isAdmin" to="/admin" label="後台管理" size="lg")
       q-btn-dropdown(v-if="isLogin" flat)
         template(#label)
           q-avatar
