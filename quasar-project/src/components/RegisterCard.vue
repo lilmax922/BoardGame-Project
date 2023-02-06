@@ -53,7 +53,7 @@ const register = async () => {
       $q.notify({
         color: 'accent',
         textColor: 'white',
-        icon: 'robot-happy',
+        icon: 'mdi-robot-happy',
         message: '註冊成功'
       })
     }, 3000)
