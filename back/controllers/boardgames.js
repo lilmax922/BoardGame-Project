@@ -3,10 +3,11 @@ import boardgames from '../models/boardgames.js'
 export const createBoardgame = async (req, res) => {
   try {
     console.log(req.files)
-    const components = req.body.componentsText.map((comp, i) => {
+    // 用文字陣列去 map 重組一個陣列物件包括 image 跟 text
+    const components = req.body.componentsText.map((compText, i) => {
       return {
         image: req.files.components[i].path,
-        text: comp
+        text: compText
       }
     })
     const result = await boardgames.create({

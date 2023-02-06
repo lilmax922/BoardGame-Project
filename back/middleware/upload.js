@@ -24,10 +24,12 @@ const upload = multer({
   }
 })
 
-export const boardgame = async (req, res, next) => {
+export const boardgameImg = async (req, res, next) => {
+//  .fields 為陣列物件 [{name: '自訂名稱', maxCount: 8}]
+// 可以放多筆資料然後每筆都可以自訂名稱
   upload.fields([
-    { name: 'images' },
-    { name: 'components' }
+    { name: 'mainImages' },
+    { name: 'componentImages' }
   ])(req, res, error => {
     if (error instanceof multer.MulterError) {
       let message = '上傳錯誤'
@@ -44,3 +46,5 @@ export const boardgame = async (req, res, next) => {
     }
   })
 }
+
+// TODO export const eventImg = async(req, res, next) => {}

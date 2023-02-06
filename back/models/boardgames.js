@@ -1,8 +1,14 @@
 import { Schema, model } from 'mongoose'
 
 const componentsSchema = new Schema({
-  image: String,
-  text: String
+  image: {
+    type: String,
+    required: [true, '缺少內容物照片']
+  },
+  text: {
+    type: String,
+    required: [true, '缺少內容物文字']
+  }
 })
 
 const schema = new Schema(

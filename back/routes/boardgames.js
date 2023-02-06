@@ -7,10 +7,10 @@ import { createBoardgame, editBoardgame, getAllBoardgames, getBoardgame, getPost
 
 const router = Router()
 
-router.post('/', content('multipart/form-data'), jwt, admin, upload.boardgame, createBoardgame)
+router.post('/', content('multipart/form-data'), jwt, admin, upload.boardgameImg, createBoardgame)
 router.get('/', getPostBoardgames)
 router.get('/all', jwt, admin, getAllBoardgames)
 router.get('/:id', getBoardgame)
-router.patch('/:id', content('multipart/form-data'), jwt, admin, upload.boardgame, editBoardgame)
+router.patch('/:id', content('multipart/form-data'), jwt, admin, upload.boardgameImg, editBoardgame)
 
 export default router
