@@ -85,7 +85,19 @@ const routes = [
   {
     path: '/admin',
     name: 'Admin',
-    component: () => import('src/layouts/AdminLayout.vue')
+    component: () => import('src/layouts/AdminLayout.vue'),
+    meta: {
+      title: '差滴滴 | 後台管理',
+      login: true,
+      admin: true
+    },
+    children: [
+      {
+        path: '',
+        name: 'adminIndex',
+        component: () => import('src/pages/admin/IndexPage.vue')
+      }
+    ]
   },
   {
     path: '/404',

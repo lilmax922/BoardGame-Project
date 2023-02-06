@@ -3,10 +3,8 @@
 </script>
 
 <template lang="pug">
-#admin
-  .container
-    .row
-      .col
+#adminIndex
+  h1 會員主頁
 </template>
 
 <style scoped>
