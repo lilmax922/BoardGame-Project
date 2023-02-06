@@ -43,11 +43,20 @@ const register = async () => {
   try {
     await api.post('/users', registerForm)
     $q.notify({
-      color: 'secondary',
+      spinner: true,
+      timeout: 1500,
+      color: 'accent',
       textColor: 'white',
-      icon: 'fa-solid fa-face-laugh-squint',
-      message: '註冊成功'
+      message: '請稍等'
     })
+    setTimeout(() => {
+      $q.notify({
+        color: 'accent',
+        textColor: 'white',
+        icon: 'robot-happy',
+        message: '註冊成功'
+      })
+    }, 3000)
     router.push('/')
     emit('closeDialog')
   } catch (error) {
@@ -80,16 +89,16 @@ q-card#register-card(flat style="width:1500px")
             q-icon(name="fa-solid fa-envelope")
           template(v-slot:append)
             q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
-        q-input(filled v-model="registerForm.phone" label="手機號碼" :rules="[rules.phone, rules.required]")
+        q-input(filled v-model="registerForm.phone" label="手機號碼" :rules="[rules.required, rules.phone]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-mobile")
-        q-input(filled v-model="registerForm.nickname" label="暱稱" :rules="[rules.nickname, rules.required]")
+        q-input(filled v-model="registerForm.nickname" label="暱稱" :rules="[rules.required, rules.nickname]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-signature")
-        q-input(filled v-model='registerForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]")
+        q-input(filled v-model='registerForm.password' label='密碼' :rules="[rules.required, rules.password, rules.length]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-key")
-        q-input(filled v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.confirmPassword, rules.required, rules.length]")
+        q-input(filled v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.required, rules.confirmPassword, rules.length]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-check-double")
         q-btn(label="註冊" type="submit" color="primary")

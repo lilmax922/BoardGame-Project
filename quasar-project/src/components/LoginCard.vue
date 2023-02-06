@@ -31,6 +31,12 @@ const rules = {
 
 const login = async () => {
   await user.login(loginForm)
+  $q.notify({
+    color: 'accent',
+    textColor: 'white',
+    icon: 'mdi-robot-happy',
+    message: '登入成功'
+  })
   emit('closeDialog')
 }
 </script>
