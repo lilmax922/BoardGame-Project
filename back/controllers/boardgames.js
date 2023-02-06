@@ -2,10 +2,11 @@ import boardgames from '../models/boardgames.js'
 
 export const createBoardgame = async (req, res) => {
   try {
-    await boardgames.create({
+    const result = await boardgames.create({
       introduction: req.body.introduction,
       name: req.body.name,
-      images: req.body.images,
+      // 如果沒上傳圖片的話 req.file 會是 undefined，undefined 沒有 .path，所以要 ?.
+      images: req.file?.path || '',
       types: req.body.types,
       players: req.body.players,
       playingTime: req.body.playingTime,
@@ -16,7 +17,7 @@ export const createBoardgame = async (req, res) => {
       playingTheGame: req.body.playingTheGame,
       endingTheGame: req.body.endingTheGame
     })
-    res.status(200).json({ success: true, message: 'BoardGame 建立成功' })
+    res.status(200).json({ success: true, message: '桌遊建立成功', result })
   } catch (error) {
     if (error.name === 'ValidationError') {
       console.log(error)

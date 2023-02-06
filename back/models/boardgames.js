@@ -41,7 +41,7 @@ const schema = new Schema(
       type: String
     },
     components: {
-      type: String,
+      type: [String],
       required: [true, '缺少遊戲配件']
     },
     setup: {
