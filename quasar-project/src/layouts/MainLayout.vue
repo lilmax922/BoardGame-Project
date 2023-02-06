@@ -16,12 +16,15 @@ const showRegisterCard = ref(false)
 const toggleRegisterCardHandler = (type) => {
   showRegisterCard.value = type
 }
+const close = () => {
+  showLoginCard.value = false
+}
 </script>
 
 <template lang="pug">
 q-layout(view='hHh lpR fFf')
   q-header.bg-primary.text-white(elevated)
-    q-toolbar
+    q-toolbar(to='/')
       q-avatar
         img(src='../assets/MAXXD.png')
       | &nbsp; 差滴滴
@@ -30,7 +33,7 @@ q-layout(view='hHh lpR fFf')
       q-tabs(v-model="tab")
         q-route-tab(to="/exploreBG") 探索桌遊
         q-route-tab(to="/event") 本期EVENT
-        q-route-tab(to="/teamup") 揪團組隊
+        q-route-tab(to="/searchTeamups") 揪團組隊
         q-route-tab(to="/reserve") 手刀預約
       q-space
       q-btn(icon='fa-solid fa-search')
@@ -40,12 +43,12 @@ q-layout(view='hHh lpR fFf')
       q-btn-dropdown(v-if="isLogin" flat)
         template(#label)
           q-avatar
-            q-img(src="https://picsum.photos/150/150")
+            q-img(:src="avatar")
         q-list.q-pa-xs
           q-item(v-ripple)
             q-item-section(avatar)
               q-avatar
-                q-img(src="https://picsum.photos/500/500")
+                q-img(:src="avatar")
             q-item-section NickName
           q-separator
           q-item-label.q-pa-sm(overline) 我的主頁
@@ -69,7 +72,7 @@ q-layout(view='hHh lpR fFf')
     router-view
 
   //- 登入註冊
-  q-dialog(v-model="showLoginCard")
-    LoginCard(v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler")
-    RegisterCard(v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler")
+  q-dialog(v-model="showLoginCard" persistent)
+    LoginCard(v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close")
+    RegisterCard(v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close")
 </template>

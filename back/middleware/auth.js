@@ -22,12 +22,16 @@ export const jwt = (req, res, next) => {
     if (error || !data) {
       // 如果 JWT 錯誤
       if (info instanceof jsonwebtoken.JsonWebTokenError) {
+        console.log(error)
         if (info.name === 'TokenExpiredError') {
+          console.log(error)
           return res.status(401).json({ success: false, message: 'JWT 過期' })
         } else {
+          console.log(error)
           return res.status(401).json({ success: false, message: 'JWT 錯誤' })
         }
       } else {
+        console.log(error)
         return res.status(401).json({ success: false, message: info.message || error.message })
       }
     }

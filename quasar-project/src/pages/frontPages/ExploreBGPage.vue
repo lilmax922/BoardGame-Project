@@ -1,5 +1,5 @@
 <template lang="pug">
-#exploreBG
+q-page(q-padding)#exploreBG
   h1 0.0
 </template>
 

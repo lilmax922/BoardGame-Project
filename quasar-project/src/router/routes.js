@@ -9,7 +9,7 @@ const routes = [
       {
         path: '',
         name: 'Home',
-        component: () => import('src/pages/HomePage.vue'),
+        component: () => import('src/pages/IndexPage.vue'),
         meta: {
           title: '差滴滴',
           login: false,
@@ -19,33 +19,65 @@ const routes = [
       {
         path: 'exploreBG',
         name: 'ExploreBG',
-        component: () => import('src/pages/ExploreBGPage.vue'),
+        component: () => import('src/pages/frontPages/ExploreBGPage.vue'),
         meta: {
           title: '差滴滴 | 探索桌遊'
-        }
+        },
+        children: [
+          {
+            path: 'BGInfo',
+            name: 'BGInfo',
+            component: () => import('src/pages/frontPages/BGInfoPage.vue'),
+            meta: {
+              title: '差滴滴 | 桌遊介紹'
+            }
+          }
+        ]
       },
       {
         path: 'event',
         name: 'Event',
-        component: () => import('src/pages/EventPage.vue'),
+        component: () => import('src/pages/frontPages/EventPage.vue'),
         meta: {
           title: '差滴滴 | 本期EVENT'
         }
       },
       {
-        path: '/reserve',
-        name: 'Reserve',
-        component: () => import('src/pages/ReservePage.vue'),
-        meta: {
-          title: '差滴滴 | 手刀預約'
-        }
-      },
-      {
-        path: 'teamup',
-        name: 'TeamUp',
-        component: () => import('src/pages/TeamUpPage.vue'),
+        path: 'searchTeamups',
+        name: 'SearchTeamups',
+        component: () => import('src/pages/frontPages/SearchTeamupsPage.vue'),
         meta: {
           title: '差滴滴 | 揪團組隊'
+        },
+        children: [
+          {
+            path: 'joinTeamups',
+            name: 'joinTeamups',
+            component: () => import('src/pages/frontPages/joinTeamupsPage.vue'),
+            meta: [
+              {
+                title: '差滴滴 | 參加揪團'
+              }
+            ]
+          },
+          {
+            path: 'teamup',
+            name: 'teamup',
+            component: () => import('src/pages/frontPages/TeamupPage.vue'),
+            meta: [
+              {
+                title: '差滴滴 | 我要揪團'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'reserve',
+        name: 'Reserve',
+        component: () => import('src/pages/frontPages/ReservePage.vue'),
+        meta: {
+          title: '差滴滴 | 手刀預約'
         }
       }
     ]

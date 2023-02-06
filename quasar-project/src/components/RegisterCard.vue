@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import validator from 'validator'
 import { api } from 'src/boot/axios'
 
-const emit = defineEmits(['showRegisterCard'])
+const emit = defineEmits(['showRegisterCard', 'closeDialog'])
 
 const $q = useQuasar()
 const router = useRouter()
@@ -49,6 +49,7 @@ const register = async () => {
       message: '註冊成功'
     })
     router.push('/')
+    emit('closeDialog')
   } catch (error) {
     $q.notify({
       color: 'negative',
@@ -64,6 +65,7 @@ const register = async () => {
 q-card#register-card(flat style="width:1500px")
   q-card-section(horizontal)
     q-card-section.col-4.flex-center.column
+      q-btn.close-btn(icon="close" flat v-close-popup)
       p 已經註冊過了?
       q-btn(outline label="登入" color="white" @click="emit('showRegisterCard', false)")
         //- q-img(src="../assets/MAXXD.png" style="background:#EEE3D2; border-radius:16px")
@@ -92,3 +94,11 @@ q-card#register-card(flat style="width:1500px")
             q-icon(name="fa-solid fa-check-double")
         q-btn(label="註冊" type="submit" color="primary")
 </template>
+
+<style lang="scss" scoped>
+  .close-btn {
+    top: -38%;
+    left: 275%;
+    z-index: 1;
+  }
+</style>

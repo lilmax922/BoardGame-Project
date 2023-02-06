@@ -3,9 +3,10 @@
 </script>
 
 <template lang="pug">
-q-page#reserve
+q-page#searchTeamups
+  h1 searchTeamups
 </template>
 
-<style>
+<style scoped>
 
 </style>

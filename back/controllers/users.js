@@ -67,6 +67,7 @@ export const logout = async (req, res) => {
     await req.user.save()
     res.status(200).json({ success: true, message: '登出成功' })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, message: '未知錯誤' })
   }
 }

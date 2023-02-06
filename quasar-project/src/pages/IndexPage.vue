@@ -9,9 +9,10 @@ const name = ref('HomePage')
 
 <template lang="pug">
 q-page#home.flex.flex-center
-  // q-img(alt="BG hero" src="../assets/images/hero/Mix.jpg" style="max-width: 100%;")
+  q-section
+    q-img(alt="BoardgameHero" src="../assets/images/hero/Mix.jpg")
 
   //- TestComp
-  BoardgameCard
-  TeamupCard
+  //- BoardgameCard
+  //- TeamupCard
 </template>
