@@ -47,7 +47,7 @@ q-card#login-card(flat style="width:1000px")
   q-card-section(horizontal)
     q-card-section.col-8.text-center
       h5.text-center 會員登入
-      q-form(@submit="login")
+      q-form(@submit="login").q-gutter-sm
         q-input(filled v-model='loginForm.email' label='電子信箱' :rules="[rules.required ,rules.email]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-envelope")
