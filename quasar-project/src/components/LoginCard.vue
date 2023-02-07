@@ -12,6 +12,7 @@ const emit = defineEmits(['showRegisterCard', 'closeDialog'])
 const loginForm = reactive({
   email: '',
   password: '',
+  isPwd: true,
   confirmPassword: ''
 })
 
@@ -47,12 +48,14 @@ q-card#login-card(flat style="width:1000px")
     q-card-section.col-8.text-center
       h5.text-center 會員登入
       q-form(@submit="login")
-        q-input(filled counter maxlength="不限" v-model='loginForm.email' label='電子信箱' :rules="[rules.required ,rules.email]")
+        q-input(filled v-model='loginForm.email' label='電子信箱' :rules="[rules.required ,rules.email]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-envelope")
-        q-input(filled counter maxlength="12" v-model='loginForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]")
+        q-input(filled counter maxlength="12" v-model='loginForm.password' label='密碼' :rules="[rules.password, rules.required, rules.length]" :type="loginForm.isPwd ? 'password' : 'text'")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-key")
+          template(v-slot:append)
+            q-icon.cursor-pointer(:name="loginForm.isPwd ? 'visibility_off' : 'visibility'" @click="loginForm.isPwd = !loginForm.isPwd")
         q-btn(label="登入" type="submit" color="primary")
 
     q-separator

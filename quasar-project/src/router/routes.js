@@ -8,7 +8,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
+        name: 'Index',
         component: () => import('src/pages/IndexPage.vue'),
         meta: {
           title: '差滴滴',
@@ -17,17 +17,17 @@ const routes = [
         }
       },
       {
-        path: 'exploreBoardgames',
-        name: 'ExploreBoardgames',
-        component: () => import('src/pages/frontPages/ExploreBoardgames.vue'),
+        path: 'exploreBGs',
+        name: 'exploreBGs',
+        component: () => import('src/pages/frontPages/ExploreBGs.vue'),
         meta: {
           title: '差滴滴 | 探索桌遊'
         },
         children: [
           {
-            path: 'BoardgameInfo',
-            name: 'BoardgameInfo',
-            component: () => import('src/pages/frontPages/BoardgameInfoPage.vue'),
+            path: 'BGInfo',
+            name: 'BGInfo',
+            component: () => import('src/pages/frontPages/BGInfoPage.vue'),
             meta: {
               title: '差滴滴 | 桌遊介紹'
             }
@@ -36,7 +36,7 @@ const routes = [
       },
       {
         path: 'event',
-        name: 'Event',
+        name: 'event',
         component: () => import('src/pages/frontPages/EventPage.vue'),
         meta: {
           title: '差滴滴 | 本期EVENT'
@@ -44,7 +44,7 @@ const routes = [
       },
       {
         path: 'searchTeamups',
-        name: 'SearchTeamups',
+        name: 'searchTeamups',
         component: () => import('src/pages/frontPages/SearchTeamupsPage.vue'),
         meta: {
           title: '差滴滴 | 揪團組隊'
@@ -74,7 +74,7 @@ const routes = [
       },
       {
         path: 'reservation',
-        name: 'Reservation',
+        name: 'reservation',
         component: () => import('src/pages/frontPages/ReservationPage.vue'),
         meta: {
           title: '差滴滴 | 手刀預約'
@@ -101,11 +101,11 @@ const routes = [
         }
       },
       {
-        path: '/editBoardgames',
-        name: 'EditBoardgames',
-        component: () => import('src/pages/admin/EditBoardgamesPage.vue'),
+        path: 'manageBG',
+        name: 'manageBG',
+        component: () => import('src/pages/admin/ManageBG.vue'),
         meta: {
-          title: '差滴滴 | 桌遊編輯'
+          title: '差滴滴 | 桌遊管理'
         }
       }
     ]

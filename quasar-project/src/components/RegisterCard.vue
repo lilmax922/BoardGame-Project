@@ -16,6 +16,7 @@ const registerForm = reactive({
   phone: '',
   nickname: '',
   password: '',
+  isPwd: true,
   confirmPassword: ''
 })
 
@@ -95,12 +96,16 @@ q-card#register-card(flat style="width:1500px")
         q-input(filled counter maxlength="20" v-model="registerForm.nickname" label="暱稱" :rules="[rules.required, rules.nickname]")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-signature")
-        q-input(filled counter maxlength="12" v-model='registerForm.password' label='密碼' :rules="[rules.required, rules.password, rules.length]")
+        q-input(filled counter maxlength="12" v-model='registerForm.password' label='密碼' :rules="[rules.required, rules.password, rules.length]" :type="registerForm.isPwd ? 'password' : 'text'")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-key")
-        q-input(filled counter maxlength="12" v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.required, rules.confirmPassword, rules.length]")
+          template(v-slot:append)
+            q-icon.cursor-pointer(:name="registerForm.isPwd ? 'visibility_off' : 'visibility'" @click="registerForm.isPwd = !registerForm.isPwd")
+        q-input(filled counter maxlength="12" v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.required, rules.confirmPassword, rules.length]" :type="registerForm.isPwd ? 'password' : 'text'")
           template(v-slot:prepend)
             q-icon(name="fa-solid fa-check-double")
+          template(v-slot:append)
+            q-icon.cursor-pointer(:name="registerForm.isPwd ? 'visibility_off' : 'visibility'" @click="registerForm.isPwd = !registerForm.isPwd")
         q-btn(label="註冊" type="submit" color="primary")
 </template>
 
