@@ -1,6 +1,9 @@
 <script setup>
-import { apiAuth } from 'src/boot/axios'
+import { api, apiAuth } from 'src/boot/axios'
 import { ref, reactive } from 'vue'
+import { useQuasar } from 'quasar'
+
+const $q = useQuasar()
 
 const inputText = ref('')
 const files = ref(null)
@@ -24,7 +27,6 @@ const playerRange = ref({
 const boardgames = reactive([])
 const bgForm = reactive({
   _id: '', // 空的代表新增，有東西代表編輯
-  post: false,
   introduction: '',
   name: '',
   images: undefined,
@@ -34,15 +36,17 @@ const bgForm = reactive({
   age: 0,
   ytVideo: '',
   components: '',
-  // components.image
-  // component.text
-  componentsText: '', // ? componentsText 跟 components 都要放嗎?
+  // components.image // ??
+  // component.text // ??
+  // componentsText: '', // ? componentsText 跟 components
   setup: '',
   gameFlow: '',
   endGame: '',
+  post: false,
   valid: false,
   loading: false,
-  dialog: false
+  dialog: false,
+  index: -1
 })
 
 const rules = ({
@@ -54,7 +58,6 @@ const rules = ({
 const openDialog = (index) => {
   // if (index === -1) {
   //   bgForm._id = ''
-  //   bgForm.post = false
   //   bgForm.introduction = ''
   //   bgForm.name = ''
   //   bgForm.images = undefined
@@ -67,8 +70,10 @@ const openDialog = (index) => {
   //   bgForm.setup = ''
   //   bgForm.gameFlow = ''
   //   bgForm.endGame = ''
+  //   bgForm.post = false
   //   bgForm.valid = false
   //   bgForm.loading = false
+  //   bgForm.index = -1
   // } else {
   //   bgForm._id = boardgames[index]._id
   //   bgForm.post = boardgames[index].post
@@ -84,15 +89,78 @@ const openDialog = (index) => {
   //   bgForm.setup = boardgames[index].setup
   //   bgForm.gameFlow = boardgames[index].gameFlow
   //   bgForm.endGame = boardgames[index].endGame
+  //   bgForm.post = boardgames[index].post
   //   bgForm.valid = false
   //   bgForm.loading = false
+  //   bgForm.index = index
   // }
   bgForm.dialog = true
 }
 
 const submit = async () => {
-  // if (!bgForm.valid) return
+  if (!bgForm.valid) return
+
+  bgForm.loading = true
+
+  const fd = new FormData() // fd.append(key, value)
+  fd.append('post', bgForm.post)
+  fd.append('introduction', bgForm.introduction)
+  fd.append('name', bgForm.name)
+  fd.append('images', bgForm.images)
+  fd.append('types', bgForm.types)
+  fd.append('players', bgForm.players)
+  fd.append('gameTime', bgForm.gameTime)
+  fd.append('age', bgForm.age)
+  fd.append('ytVideo', bgForm.ytVideo)
+  fd.append('setup', bgForm.setup)
+  fd.append('gameFlow', bgForm.gameFlow)
+  fd.append('endGame', bgForm.endGame)
+
+  try {
+    if (bgForm._id.length === 0) {
+      const { data } = await apiAuth.post('/manageBG', fd)
+      boardgames.push(data.result)
+      $q.notify({
+        color: 'accent',
+        textColor: 'white',
+        icon: 'mdi-robot-happy',
+        message: '桌遊新增成功'
+      })
+    } else {
+      const { data } = await apiAuth.patch('/manageBG' + bgForm._id, fd)
+      boardgames[bgForm.index] = data.result
+      $q.notify({
+        color: 'accent',
+        textColor: 'white',
+        icon: 'mdi-robot-happy',
+        message: '桌遊編輯成功'
+      })
+      bgForm.loading = false
+    }
+  } catch (error) {
+    $q.notify({
+      color: 'negative',
+      textColor: 'white',
+      icon: 'fa-solid fa-face-sad-tear',
+      message: error?.response?.data?.message || '發生錯誤'
+    })
+  }
+  bgForm.loading = false
 }
+
+// ;(async () => {
+//   try {
+//     const { data } = await apiAuth.get('/manageBG/all')
+//     boardgames.push(...data.result)
+//   } catch (error) {
+//     $q.notify({
+//       color: 'negative',
+//       textColor: 'white',
+//       icon: 'fa-solid fa-face-sad-tear',
+//       message: error?.response?.data?.message || '發生錯誤'
+//     })
+//   }
+// })()
 </script>
 
 <template lang="pug">
@@ -104,13 +172,14 @@ q-page#edit-bgs
         q-btn.add-bg(@click="openDialog()" label="新增桌遊" color="primary")
       .col-12
         q-table
-    q-dialog(v-model="bgForm.dialog" full-width persistent)
+    q-dialog(v-model="bgForm.dialog" full-width full-height persistent)
       q-layout
         q-form(v-model="bgForm.valid" @submit="submit")
           q-card.column(flat)
             q-card-section.flex.justify-end
               q-btn(push)
                 q-icon(name="mdi-close" v-close-popup)
+            .text-h5.text-center {{ bgForm._id.length > 0 ? '編輯桌遊' : '新增桌遊' }}
             q-card-section(horizontal)
               q-card-section.col-6
                 // > 桌遊名稱
@@ -190,8 +259,9 @@ q-page#edit-bgs
                 q-item
                   q-item-section
                     q-checkbox(label="張貼桌遊訊息" v-model="bgForm.post")
-            q-card-action.flex.justify-center.q-mb-md
-              q-btn(label='送出' color='primary' type="submit" @click="bgForm.dialog = false")
+            q-card-action.flex.justify-center.q-mb-md.q-gutter-md
+              q-btn(label='取消' @click="bgForm.dialog = false" :disable="bgForm.loading")
+              q-btn(label='送出' color='primary' type="submit" :disable="bgForm.loading")
 </template>
 
 <style lang="scss" scoped>

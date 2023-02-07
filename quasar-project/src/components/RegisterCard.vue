@@ -65,7 +65,7 @@ const register = async () => {
       color: 'negative',
       textColor: 'white',
       icon: 'fa-solid fa-face-sad-tear',
-      message: '註冊失敗'
+      message: error?.response?.data?.message || '註冊失敗'
     })
   }
 }
