@@ -23,10 +23,6 @@ const playerRange = ref({
   max: 4
 })
 
-const submit = () => {
-  console.log('132')
-}
-
 // > 以上是 dialog區
 
 const boardgames = reactive([])
@@ -88,6 +84,10 @@ const openDialog = (index) => {
   // }
   bgForm.dialog = true
 }
+
+const submit = async () => {
+  if (!bgForm.valid) return
+}
 </script>
 
 <template lang="pug">
@@ -101,7 +101,7 @@ q-page#edit-bgs
         q-table
     q-dialog(v-model="bgForm.dialog" full-width full-height persistent)
       q-layout
-        q-form(@submit="submit")
+        q-form(v-model="bgForm.valid" @submit="submit")
           q-card
             q-card-section
               q-btn(push)
