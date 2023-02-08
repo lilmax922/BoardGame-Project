@@ -35,7 +35,7 @@ const bgForm = reactive({
   gameTime: 0,
   age: 0,
   ytVideo: '',
-  components: [],
+  componentImages: [],
   componentsText: [],
   setup: '',
   gameFlow: [],
@@ -54,44 +54,45 @@ const rules = ({
 })
 
 const openDialog = (index) => {
-  // if (index === -1) {
-  //   bgForm._id = ''
-  //   bgForm.introduction = ''
-  //   bgForm.name = ''
-  //   bgForm.mainImages = undefined
-  //   bgForm.types = ''
-  //   bgForm.players = ''
-  //   bgForm.gameTime = 0
-  //   bgForm.age = 0
-  //   bgForm.ytVideo = ''
-  //   bgForm.components = ''
-  //   bgForm.setup = ''
-  //   bgForm.gameFlow = ''
-  //   bgForm.endGame = ''
-  //   bgForm.post = false
-  //   bgForm.valid = false
-  //   bgForm.loading = false
-  //   bgForm.index = -1
-  // } else {
-  //   bgForm._id = boardgames[index]._id
-  //   bgForm.post = boardgames[index].post
-  //   bgForm.introduction = boardgames[index].introduction
-  //   bgForm.name = boardgames[index].name
-  //   bgForm.mainImages = boardgames[index].images
-  //   bgForm.types = boardgames[index].types
-  //   bgForm.players = boardgames[index].players
-  //   bgForm.gameTime = boardgames[index].gameTime
-  //   bgForm.age = boardgames[index].age
-  //   bgForm.ytVideo = boardgames[index].ytVideo
-  //   bgForm.components = boardgames[index].components
-  //   bgForm.setup = boardgames[index].setup
-  //   bgForm.gameFlow = boardgames[index].gameFlow
-  //   bgForm.endGame = boardgames[index].endGame
-  //   bgForm.post = boardgames[index].post
-  //   bgForm.valid = false
-  //   bgForm.loading = false
-  //   bgForm.index = index
-  // }
+  if (index === -1) {
+    bgForm._id = ''
+    bgForm.introduction = ''
+    bgForm.name = ''
+    bgForm.mainImages = undefined
+    bgForm.types = ''
+    bgForm.players = ''
+    bgForm.gameTime = 0
+    bgForm.age = 0
+    bgForm.ytVideo = ''
+    bgForm.componentImages = ''
+    bgForm.componentsText = ''
+    bgForm.setup = ''
+    bgForm.gameFlow = ''
+    bgForm.endGame = ''
+    bgForm.post = false
+    bgForm.valid = false
+    bgForm.loading = false
+    bgForm.index = -1
+  } else {
+    bgForm._id = boardgames[index]._id
+    bgForm.introduction = boardgames[index].introduction
+    bgForm.name = boardgames[index].name
+    bgForm.mainImages = boardgames[index].images
+    bgForm.types = boardgames[index].types
+    bgForm.players = boardgames[index].players
+    bgForm.gameTime = boardgames[index].gameTime
+    bgForm.age = boardgames[index].age
+    bgForm.ytVideo = boardgames[index].ytVideo
+    bgForm.componentImages = boardgames[index].componentImages
+    bgForm.componentsText = boardgames[index].componentsText
+    bgForm.setup = boardgames[index].setup
+    bgForm.gameFlow = boardgames[index].gameFlow
+    bgForm.endGame = boardgames[index].endGame
+    bgForm.post = boardgames[index].post
+    bgForm.valid = false
+    bgForm.loading = false
+    bgForm.index = index
+  }
   bgForm.dialog = true
 }
 
@@ -110,6 +111,8 @@ const onSubmit = async () => {
   fd.append('gameTime', bgForm.gameTime)
   fd.append('age', bgForm.age)
   fd.append('ytVideo', bgForm.ytVideo)
+  fd.append('componentImages', bgForm.componentImages)
+  fd.append('componentsText', bgForm.componentsText)
   fd.append('setup', bgForm.setup)
   fd.append('gameFlow', bgForm.gameFlow)
   fd.append('endGame', bgForm.endGame)
