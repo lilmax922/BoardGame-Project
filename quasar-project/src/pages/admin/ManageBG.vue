@@ -56,6 +56,7 @@ const rules = ({
 
 const openDialog = (index) => {
   if (index === -1) {
+    // -1 = 新增
     bgForm._id = ''
     bgForm.introduction = ''
     bgForm.name = ''
@@ -70,12 +71,12 @@ const openDialog = (index) => {
     bgForm.setup = ''
     bgForm.gameFlow = ''
     bgForm.endGame = ''
+    playerRange.value.min = 1
+    playerRange.value.max = 4
     bgForm.post = false
     bgForm.valid = false
     bgForm.loading = false
     bgForm.index = -1
-    playerRange.value.min = 1
-    playerRange.value.max = 4
   } else {
     bgForm._id = boardgames[index]._id
     bgForm.introduction = boardgames[index].introduction
