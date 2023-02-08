@@ -1,13 +1,11 @@
 <script setup>
-import { api, apiAuth } from 'src/boot/axios'
+import { apiAuth } from 'src/boot/axios'
 import { ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
 import { isValidUrl, getVideoId } from 'is-youtube-url'
 
 const $q = useQuasar()
 
-const inputText = ref('')
-const files = ref(null)
 const bgTypes = reactive({
   camp: false,
   strategy: false,
@@ -22,9 +20,6 @@ const playerRange = ref({
   min: 1,
   max: 4
 })
-
-// > 以上是 dialog 區域
-
 const boardgames = reactive([])
 const bgForm = reactive({
   _id: '', // 空的代表新增，有東西代表編輯
@@ -48,12 +43,51 @@ const bgForm = reactive({
   index: -1
 })
 
+// > q-table
+const columns = [
+  {
+    name: 'image',
+    label: 'Image',
+    field: 'mainImages',
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'name',
+    label: 'Name',
+    field: 'name',
+    align: 'center',
+    sortable: true
+  },
+  {
+    name: 'types',
+    label: 'Types',
+    field: 'types',
+    align: 'center',
+    sortable: true
+  },
+  {
+    name: 'ytVideo',
+    label: 'YoutubeId',
+    field: 'ytVideo',
+    align: 'center',
+    sortable: true
+  },
+  {
+    name: 'post',
+    label: 'Posted',
+    field: 'post',
+    align: 'center',
+    sortable: true
+  }
+]
+
 const rules = ({
   required (value) {
     return (value && value.length > 0) || '欄位必填'
   },
   isYtUrl (url) {
-    return (!isValidUrl(url) || 'YT 網址錯誤')
+    return (isValidUrl(url) || 'Youtube 網址錯誤')
   }
 })
 
@@ -139,7 +173,7 @@ const onSubmit = async () => {
     if (bgForm._id.length === 0) {
       const { data } = await apiAuth.post('/boardgames', fd)
       console.log(fd.getAll('componentTexts'))
-      // console.log(bgForm)
+      console.log(data.result)
       boardgames.push(data.result)
       $q.notify({
         color: 'accent',
@@ -192,7 +226,10 @@ q-page#edit-bgs
         h4.q-pr-xl 桌遊管理
         q-btn.add-bg(@click="openDialog(-1)" label="新增桌遊" color="primary")
       .col-12
-        q-table
+        // > 桌遊表單
+        q-table(title="Boardgames" :rows="boardgames" :columns="columns" row-key="_id")
+    // > 新增/編輯商品 dialog
+    // ! types 沒吃到，但有成功送出
     q-dialog(v-model="bgForm.dialog" full-width persistent)
       q-layout(container)
         q-card(flat)
@@ -215,6 +252,7 @@ q-page#edit-bgs
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
                 // > YtVideo
+                // ! 影片沒抓到資料 資料庫是 null
                 .text-h6.q-pt-md Youtube教學影片
                 q-input(v-model="bgForm.ytVideo" type="url" filled label="請輸入影片網址" clearable :rules="[rules.isYtUrl]")
                 // > 遊戲時間 & 適合年齡
@@ -267,7 +305,7 @@ q-page#edit-bgs
                 .text-h6 遊戲結束
                 q-input(v-model="bgForm.endGame" filled autogrow label="請輸入遊戲結束說明" clearable :rules="[rules.required]")
                 // > 張貼桌遊
-                q-checkbox.q-mt-md(label="張貼桌遊" v-model="bgForm.post" size="lg")
+                q-checkbox.q-mt-md(label="張貼桌遊" v-model="bgForm.post" size="lg" :rules="[rules.required]")
             q-card-action.flex.justify-center.q-pb-md.q-gutter-md
               q-btn(label='取消' @click="bgForm.dialog = false" :disable="bgForm.loading")
               q-btn(label='送出' color='primary' type="submit" :disable="bgForm.loading")
