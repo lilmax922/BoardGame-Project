@@ -22,9 +22,13 @@ const schema = new Schema(
       required: [true, '缺少桌遊名稱'],
       unique: true
     },
+    // cardImage: {
+    //   type: String,
+    //   required: [true, '缺少桌遊卡片主圖']
+    // },
     mainImages: {
       type: [String],
-      required: [true, '缺少桌遊圖片'],
+      required: [true, '缺少桌遊主圖'],
       default: []
     },
     types: {
@@ -52,8 +56,8 @@ const schema = new Schema(
       type: String
     },
     componentImages: {
-      type: [String]
-      // required: [true, '缺少內容物圖片']
+      type: [String],
+      required: [true, '缺少內容物圖片']
     },
     componentTexts: {
       type: String,
