@@ -2,6 +2,7 @@
 import { api, apiAuth } from 'src/boot/axios'
 import { ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
+import { isValidUrl, getVideoId } from 'is-youtube-url'
 
 const $q = useQuasar()
 
@@ -36,9 +37,9 @@ const bgForm = reactive({
   age: 0,
   ytVideo: '',
   componentImages: [],
-  componentsText: [],
+  componentTexts: '',
   setup: '',
-  gameFlow: [],
+  gameFlow: '',
   endGame: '',
   post: false,
   valid: false,
@@ -58,14 +59,14 @@ const openDialog = (index) => {
     bgForm._id = ''
     bgForm.introduction = ''
     bgForm.name = ''
-    bgForm.mainImages = undefined
-    bgForm.types = ''
+    bgForm.mainImages = []
+    bgForm.types = []
     bgForm.players = ''
     bgForm.gameTime = 0
     bgForm.age = 0
     bgForm.ytVideo = ''
-    bgForm.componentImages = ''
-    bgForm.componentsText = ''
+    bgForm.componentImages = []
+    bgForm.componentTexts = ''
     bgForm.setup = ''
     bgForm.gameFlow = ''
     bgForm.endGame = ''
@@ -73,18 +74,19 @@ const openDialog = (index) => {
     bgForm.valid = false
     bgForm.loading = false
     bgForm.index = -1
+    playerRange.value.min = 1
+    playerRange.value.max = 4
   } else {
     bgForm._id = boardgames[index]._id
     bgForm.introduction = boardgames[index].introduction
     bgForm.name = boardgames[index].name
-    bgForm.mainImages = boardgames[index].images
+    bgForm.mainImages = boardgames[index].mainImages
     bgForm.types = boardgames[index].types
-    bgForm.players = boardgames[index].players
     bgForm.gameTime = boardgames[index].gameTime
     bgForm.age = boardgames[index].age
     bgForm.ytVideo = boardgames[index].ytVideo
     bgForm.componentImages = boardgames[index].componentImages
-    bgForm.componentsText = boardgames[index].componentsText
+    bgForm.componentTexts = boardgames[index].componentTexts
     bgForm.setup = boardgames[index].setup
     bgForm.gameFlow = boardgames[index].gameFlow
     bgForm.endGame = boardgames[index].endGame
@@ -92,6 +94,8 @@ const openDialog = (index) => {
     bgForm.valid = false
     bgForm.loading = false
     bgForm.index = index
+    playerRange.value.min = boardgames[index].players.splice('~')[0]
+    playerRange.value.max = boardgames[index].players.splice('~')[1]
   }
   bgForm.dialog = true
 }
@@ -105,14 +109,23 @@ const onSubmit = async () => {
   // fd.append(key, value)
   fd.append('introduction', bgForm.introduction)
   fd.append('name', bgForm.name)
-  fd.append('mainImages', bgForm.mainImages)
-  fd.append('types', bgForm.types)
-  fd.append('players', bgForm.players)
+  for (const i of bgForm.mainImages) {
+    fd.append('mainImages', i)
+  }
+  for (const i of bgForm.types) {
+    fd.append('types', i)
+  }
+  // fd.append('players', bgForm.players)
+  const players = `${playerRange.value.min} ~ ${playerRange.value.max}`
+  fd.append('players', players)
   fd.append('gameTime', bgForm.gameTime)
   fd.append('age', bgForm.age)
   fd.append('ytVideo', bgForm.ytVideo)
-  fd.append('componentImages', bgForm.componentImages)
-  fd.append('componentsText', bgForm.componentsText)
+  for (const i of bgForm.componentImages) {
+    console.log(i)
+    fd.append('componentImages', i)
+  }
+  fd.append('componentTexts', bgForm.componentTexts)
   fd.append('setup', bgForm.setup)
   fd.append('gameFlow', bgForm.gameFlow)
   fd.append('endGame', bgForm.endGame)
@@ -120,7 +133,9 @@ const onSubmit = async () => {
 
   try {
     if (bgForm._id.length === 0) {
-      const { data } = await apiAuth.post('/manageBG', fd)
+      const { data } = await apiAuth.post('/boardgames', fd)
+      console.log(fd.getAll('componentTexts'))
+      // console.log(bgForm)
       boardgames.push(data.result)
       $q.notify({
         color: 'accent',
@@ -129,7 +144,7 @@ const onSubmit = async () => {
         message: '桌遊新增成功'
       })
     } else {
-      const { data } = await apiAuth.patch('/manageBG' + bgForm._id, fd)
+      const { data } = await apiAuth.patch('/boardgames' + bgForm._id, fd)
       boardgames[bgForm.index] = data.result
       $q.notify({
         color: 'accent',
@@ -198,7 +213,7 @@ q-page#edit-bgs
                 q-item
                   q-item-section
                     .text-h6 桌遊圖片
-                    q-file(filled v-model="bgForm.images" label="請選擇圖片" use-chips multiple)
+                    q-file(filled v-model="bgForm.mainImages" label="請選擇圖片" use-chips multiple)
                       template(v-slot:prepend)
                         q-icon(name="attach_file")
                 // > 桌遊類型
@@ -231,23 +246,32 @@ q-page#edit-bgs
                   q-item-section(avatar)
                     q-icon(name="mdi-account-group" size="md")
                   q-item-section
-                    // ? bgForm.players
                     q-range(v-model="playerRange" :min="1" :max="20" label)
                     p(color="secondary") {{ playerRange.min }} ~ {{ playerRange.max }} 人
+                // > YtVideo
+                q-item
+                  q-item-section
+                    .text-h6 Youtube教學影片
+                    q-input(v-model="bgForm.ytVideo" type="url" filled label="請輸入影片網址" clearable)
               q-card-section.col-6
                 // > 內容物介紹
                 q-item
                   q-item-section
                     .text-h6 內容物介紹
-                    q-input(v-model="bgForm.components" filled autogrow label="請輸入內容物介紹" clearable :rules="[rules.required]")
+                    q-input(v-model="bgForm.componentTexts" filled autogrow label="請輸入內容物介紹" clearable :rules="[rules.required]")
                 // > 內容物圖片
                 q-item
                   q-item-section
                       .text-h6 內容物圖片
-                      q-file(filled v-model="files" label="選擇圖片" use-chips multiple)
+                      q-file(filled v-model="bgForm.componentImages" label="選擇圖片" use-chips multiple)
                         template(v-slot:prepend)
                           q-icon(name="attach_file")
                 q-separator(inset spaced)
+                // > 遊戲配置
+                q-item
+                  q-item-section
+                    .text-h6 遊戲配置
+                    q-input(v-model="bgForm.setup" filled autogrow label="請輸入遊戲配置" clearable :rules="[rules.required]")
                 // > 遊戲流程
                 q-item
                   q-item-section

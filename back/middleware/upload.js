@@ -30,8 +30,8 @@ export const boardgameImg = async (req, res, next) => {
   upload.fields([
     { name: 'mainImages', maxCount: 10 }, { name: 'componentImages', maxCount: 20 }
   ])(req, res, error => {
+    console.log(error)
     if (error instanceof multer.MulterError) {
-      console.log(error)
       let message = '上傳錯誤'
       if (error.code === 'LIMIT_FILE_SIZE') {
         message = '檔案太大'
@@ -40,7 +40,6 @@ export const boardgameImg = async (req, res, next) => {
       }
       res.status(400).json({ success: false, message })
     } else if (error) {
-      console.log(error)
       res.status(500).json({ success: false, message: '未知錯誤' })
     } else {
       next()

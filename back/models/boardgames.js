@@ -1,15 +1,15 @@
 import { Schema, model } from 'mongoose'
 
-const componentsSchema = new Schema({
-  image: {
-    type: String,
-    required: [true, '缺少內容物圖片']
-  },
-  text: {
-    type: String,
-    required: [true, '缺少內容物文字']
-  }
-})
+// const componentsSchema = new Schema({
+//   image: {
+//     type: String,
+//     required: [true, '缺少內容物圖片']
+//   },
+//   text: {
+//     type: String,
+//     required: [true, '缺少內容物文字']
+//   }
+// })
 
 const schema = new Schema(
   {
@@ -51,16 +51,20 @@ const schema = new Schema(
     ytVideo: {
       type: String
     },
-    components: {
-      type: [componentsSchema],
-      required: [true, '缺少遊戲配件']
+    componentImages: {
+      type: [String]
+      // required: [true, '缺少內容物圖片']
+    },
+    componentTexts: {
+      type: String,
+      required: [true, '缺少內容物說明']
     },
     setup: {
       type: String,
       required: [true, '缺少遊戲設置']
     },
     gameFlow: {
-      type: [String],
+      type: String,
       required: [true, '缺少遊戲流程']
     },
     endGame: {
