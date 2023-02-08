@@ -195,46 +195,28 @@ q-page#edit-bgs
         q-table
     q-dialog(v-model="bgForm.dialog" full-width persistent)
       q-layout(container)
-        q-form(v-model="bgForm.valid" @submit="onSubmit")
-          q-card.column(flat)
+        q-card(flat)
+          q-form(v-model="bgForm.valid" @submit="onSubmit")
             q-card-section.flex.justify-end
-              q-btn(push)
-                q-icon(name="mdi-close" v-close-popup)
-            .text-h5.text-center {{ bgForm._id.length > 0 ? '編輯桌遊' : '新增桌遊' }}
-            q-card-section(horizontal)
-              q-card-section.col-6
+              q-btn(push icon="mdi-close" v-close-popup)
+            .text-h4.text-center {{ bgForm._id.length > 0 ? '編輯桌遊' : '新增桌遊' }}
+            //- (horizontal)
+            q-card-section.justify-center()
+              q-card-section.col6
                 // > 桌遊名稱
-                q-item
-                  q-item-section
-                    .text-h6 桌遊名稱
-                    q-input(v-model="bgForm.name" filled label="請輸入桌遊名稱" clearable clear-icon="close" :rules="[rules.required]")
+                .text-h6 桌遊名稱
+                q-input(v-model="bgForm.name" filled label="請輸入桌遊名稱" clearable clear-icon="close" :rules="[rules.required]")
                 // > 桌遊介紹
-                q-item
-                  q-item-section
-                    .text-h6 桌遊介紹
-                    q-input(v-model="bgForm.introduction" filled autogrow label="請輸入桌遊介紹" clearable :rules="[rules.required]")
+                .text-h6 桌遊介紹
+                q-input(v-model="bgForm.introduction" filled autogrow label="請輸入桌遊介紹" clearable :rules="[rules.required]")
                 // > 桌遊圖片
-                q-item
-                  q-item-section
-                    .text-h6 桌遊圖片
-                    q-file(filled v-model="bgForm.mainImages" label="請選擇圖片" use-chips multiple)
-                      template(v-slot:prepend)
-                        q-icon(name="attach_file")
-                // > 桌遊類型
-                q-item
-                  q-item-section
-                    div.row.items-center
-                      .text-h6.q-mr-sm 桌遊類型?
-                      .text-subtitle1 (可複選)
-                    div.q-gutter-lg
-                      q-checkbox(size="lg" v-model="bgTypes.camp" label="陣營")
-                      q-checkbox(size="lg" v-model="bgTypes.strategy" label="策略")
-                      q-checkbox(size="lg" v-model="bgTypes.abstract" label="益智")
-                      q-checkbox(size="lg" v-model="bgTypes.crafty" label="心機")
-                      q-checkbox(size="lg" v-model="bgTypes.card" label="卡牌")
-                      q-checkbox(size="lg" v-model="bgTypes.party" label="派對")
-                      q-checkbox(size="lg" v-model="bgTypes.family" label="家庭")
-                      q-checkbox(size="lg" v-model="bgTypes.children" label="兒童")
+                .text-h6 桌遊圖片
+                q-file(filled v-model="bgForm.mainImages" label="請選擇圖片" use-chips multiple)
+                  template(v-slot:prepend)
+                    q-icon(name="attach_file")
+                // > YtVideo
+                .text-h6.q-pt-md Youtube教學影片
+                q-input(v-model="bgForm.ytVideo" type="url" filled label="請輸入影片網址" clearable :rules="[rules.isYtUrl]")
                 // > 遊戲時間 & 適合年齡
                 q-item
                   q-item-section.items-center
@@ -243,6 +225,19 @@ q-page#edit-bgs
                   q-item-section.items-center
                     .text-h6 適合年齡
                     q-input(v-model="bgForm.age" type="number" filled suffix="歲")
+                // > 桌遊類型
+                div.row.items-center
+                  .text-h6.q-mr-sm 桌遊類型?
+                  .text-subtitle1 (可複選)
+                div.q-gutter-lg
+                  q-checkbox(size="lg" v-model="bgTypes.camp" label="陣營")
+                  q-checkbox(size="lg" v-model="bgTypes.strategy" label="策略")
+                  q-checkbox(size="lg" v-model="bgTypes.abstract" label="益智")
+                  q-checkbox(size="lg" v-model="bgTypes.crafty" label="心機")
+                  q-checkbox(size="lg" v-model="bgTypes.card" label="卡牌")
+                  q-checkbox(size="lg" v-model="bgTypes.party" label="派對")
+                  q-checkbox(size="lg" v-model="bgTypes.family" label="家庭")
+                  q-checkbox(size="lg" v-model="bgTypes.children" label="兒童")
                 // > 遊玩人數
                 q-item
                   .text-h6 遊玩人數
@@ -252,44 +247,28 @@ q-page#edit-bgs
                   q-item-section
                     q-range(v-model="playerRange" :min="1" :max="20" label)
                     p(color="secondary") {{ playerRange.min }} ~ {{ playerRange.max }} 人
-                // > YtVideo
-                q-item
-                  q-item-section
-                    .text-h6 Youtube教學影片
-                    q-input(v-model="bgForm.ytVideo" type="url" filled label="請輸入影片網址" clearable :rules="[rules.isYtUrl]")
               q-card-section.col-6
                 // > 內容物介紹
-                q-item
-                  q-item-section
-                    .text-h6 內容物介紹
-                    q-input(v-model="bgForm.componentTexts" filled autogrow label="請輸入內容物介紹" clearable :rules="[rules.required]")
+                .text-h6 內容物介紹
+                q-input(v-model="bgForm.componentTexts" filled autogrow label="請輸入內容物介紹" clearable :rules="[rules.required]")
                 // > 內容物圖片
-                q-item
-                  q-item-section
-                      .text-h6 內容物圖片
-                      q-file(filled v-model="bgForm.componentImages" label="選擇圖片" use-chips multiple)
-                        template(v-slot:prepend)
-                          q-icon(name="attach_file")
-                q-separator(inset spaced)
+                .text-h6 內容物圖片
+                q-file(filled v-model="bgForm.componentImages" label="選擇圖片" use-chips multiple)
+                  template(v-slot:prepend)
+                    q-icon(name="attach_file")
+                //- q-separator(inset spaced)
                 // > 遊戲配置
-                q-item
-                  q-item-section
-                    .text-h6 遊戲配置
-                    q-input(v-model="bgForm.setup" filled autogrow label="請輸入遊戲配置" clearable :rules="[rules.required]")
+                .text-h6 遊戲配置
+                q-input(v-model="bgForm.setup" filled autogrow label="請輸入遊戲配置" clearable :rules="[rules.required]")
                 // > 遊戲流程
-                q-item
-                  q-item-section
-                    .text-h6 遊戲流程
-                    q-input(v-model="bgForm.gameFlow" filled autogrow label="請輸入遊戲流程" clearable :rules="[rules.required]")
+                .text-h6 遊戲流程
+                q-input(v-model="bgForm.gameFlow" filled autogrow label="請輸入遊戲流程" clearable :rules="[rules.required]")
                 // > 遊戲結束
-                q-item
-                  q-item-section
-                    .text-h6 遊戲結束
-                    q-input(v-model="bgForm.endGame" filled autogrow label="請輸入遊戲結束說明" clearable :rules="[rules.required]")
-                q-item
-                  q-item-section
-                    q-checkbox(label="張貼桌遊訊息" v-model="bgForm.post")
-            q-card-action.flex.justify-center.q-mb-md.q-gutter-md
+                .text-h6 遊戲結束
+                q-input(v-model="bgForm.endGame" filled autogrow label="請輸入遊戲結束說明" clearable :rules="[rules.required]")
+                // > 張貼桌遊
+                q-checkbox.q-mt-md(label="張貼桌遊" v-model="bgForm.post" size="lg")
+            q-card-action.flex.justify-center.q-pb-md.q-gutter-md
               q-btn(label='取消' @click="bgForm.dialog = false" :disable="bgForm.loading")
               q-btn(label='送出' color='primary' type="submit" :disable="bgForm.loading")
 </template>
