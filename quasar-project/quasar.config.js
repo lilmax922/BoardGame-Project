@@ -104,6 +104,7 @@ module.exports = configure(function (/* ctx */) {
       config: {
         dark: 'auto'
       },
+      cssAddon: true,
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
