@@ -193,8 +193,8 @@ q-page#edit-bgs
         q-btn.add-bg(@click="openDialog(-1)" label="新增桌遊" color="primary")
       .col-12
         q-table
-    q-dialog(v-model="bgForm.dialog" full-width full-height persistent)
-      q-layout
+    q-dialog(v-model="bgForm.dialog" full-width persistent)
+      q-layout(container)
         q-form(v-model="bgForm.valid" @submit="onSubmit")
           q-card.column(flat)
             q-card-section.flex.justify-end

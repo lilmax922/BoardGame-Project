@@ -6,7 +6,7 @@ import LoginCard from 'src/components/LoginCard.vue'
 import RegisterCard from 'src/components/RegisterCard.vue'
 
 const user = useUserStore()
-const { isLogin, isAdmin, avatar } = storeToRefs(user)
+const { isLogin, isAdmin, avatar, nickname } = storeToRefs(user)
 const { logout } = user
 
 const tab = ref('')
@@ -22,7 +22,7 @@ const close = () => {
 </script>
 
 <template lang="pug">
-q-layout(view='hHh lpR fFf')
+q-layout(view='hHh lpR fff')
   q-header.bg-primary.text-white(reveal elevated)
     .container
       q-toolbar(to='/')
@@ -51,7 +51,7 @@ q-layout(view='hHh lpR fFf')
               q-item-section(avatar)
                 q-avatar
                   q-img(:src="avatar")
-              q-item-section NickName
+              q-item-section(ref="nickname") {{ nickname }}
             q-separator
             q-item-label.q-pa-sm(overline) 我的主頁
             q-item(clickable)
