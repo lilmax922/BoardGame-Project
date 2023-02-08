@@ -1,9 +1,16 @@
 // app global css in SCSS form
 
+// 變數
+@import './variables';
+
+// mixins
+@import './mixins/rwd';
+
 // 全域設定
 @import './global';
 
+// 繼承樣式
+
 // 區塊結構
-@import './register';
 
 // 功能 

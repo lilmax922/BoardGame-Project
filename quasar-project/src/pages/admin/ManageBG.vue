@@ -29,18 +29,16 @@ const bgForm = reactive({
   _id: '', // 空的代表新增，有東西代表編輯
   introduction: '',
   name: '',
-  images: undefined,
-  types: '',
+  mainImages: [],
+  types: [],
   players: '',
   gameTime: 0,
   age: 0,
   ytVideo: '',
-  components: '',
-  // components.image // ??
-  // component.text // ??
-  // componentsText: '', // ? componentsText 跟 components
+  components: [],
+  componentsText: [],
   setup: '',
-  gameFlow: '',
+  gameFlow: [],
   endGame: '',
   post: false,
   valid: false,
@@ -60,7 +58,7 @@ const openDialog = (index) => {
   //   bgForm._id = ''
   //   bgForm.introduction = ''
   //   bgForm.name = ''
-  //   bgForm.images = undefined
+  //   bgForm.mainImages = undefined
   //   bgForm.types = ''
   //   bgForm.players = ''
   //   bgForm.gameTime = 0
@@ -79,7 +77,7 @@ const openDialog = (index) => {
   //   bgForm.post = boardgames[index].post
   //   bgForm.introduction = boardgames[index].introduction
   //   bgForm.name = boardgames[index].name
-  //   bgForm.images = boardgames[index].images
+  //   bgForm.mainImages = boardgames[index].images
   //   bgForm.types = boardgames[index].types
   //   bgForm.players = boardgames[index].players
   //   bgForm.gameTime = boardgames[index].gameTime
@@ -97,16 +95,16 @@ const openDialog = (index) => {
   bgForm.dialog = true
 }
 
-const submit = async () => {
-  if (!bgForm.valid) return
+const onSubmit = async () => {
+  // if (!bgForm.valid) return
 
   bgForm.loading = true
 
-  const fd = new FormData() // fd.append(key, value)
-  fd.append('post', bgForm.post)
+  const fd = new FormData()
+  // fd.append(key, value)
   fd.append('introduction', bgForm.introduction)
   fd.append('name', bgForm.name)
-  fd.append('images', bgForm.images)
+  fd.append('mainImages', bgForm.mainImages)
   fd.append('types', bgForm.types)
   fd.append('players', bgForm.players)
   fd.append('gameTime', bgForm.gameTime)
@@ -115,6 +113,7 @@ const submit = async () => {
   fd.append('setup', bgForm.setup)
   fd.append('gameFlow', bgForm.gameFlow)
   fd.append('endGame', bgForm.endGame)
+  fd.append('post', bgForm.post)
 
   try {
     if (bgForm._id.length === 0) {
@@ -169,12 +168,12 @@ q-page#edit-bgs
     .row
       .col-12.flex.items-center
         h4.q-pr-xl 桌遊管理
-        q-btn.add-bg(@click="openDialog()" label="新增桌遊" color="primary")
+        q-btn.add-bg(@click="openDialog(-1)" label="新增桌遊" color="primary")
       .col-12
         q-table
     q-dialog(v-model="bgForm.dialog" full-width full-height persistent)
       q-layout
-        q-form(v-model="bgForm.valid" @submit="submit")
+        q-form(v-model="bgForm.valid" @submit="onSubmit")
           q-card.column(flat)
             q-card-section.flex.justify-end
               q-btn(push)

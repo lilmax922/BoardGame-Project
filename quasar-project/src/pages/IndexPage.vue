@@ -8,11 +8,8 @@ const name = ref('HomePage')
 </script>
 
 <template lang="pug">
-q-page#home.flex.flex-center
+q-page#index
   q-section
     q-img(alt="BoardgameHero" src="../assets/images/hero/Mix.jpg")
-
-  //- TestComp
-  //- BoardgameCard
-  //- TeamupCard
+  q-section
 </template>
