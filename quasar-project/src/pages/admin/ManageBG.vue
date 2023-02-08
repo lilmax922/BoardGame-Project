@@ -166,19 +166,19 @@ const onSubmit = async () => {
   bgForm.loading = false
 }
 
-// ;(async () => {
-//   try {
-//     const { data } = await apiAuth.get('/manageBG/all')
-//     boardgames.push(...data.result)
-//   } catch (error) {
-//     $q.notify({
-//       color: 'negative',
-//       textColor: 'white',
-//       icon: 'fa-solid fa-face-sad-tear',
-//       message: error?.response?.data?.message || '發生錯誤'
-//     })
-//   }
-// })()
+;(async () => {
+  try {
+    const { data } = await apiAuth.get('/boardgames/all')
+    boardgames.push(...data.result)
+  } catch (error) {
+    $q.notify({
+      color: 'negative',
+      textColor: 'white',
+      icon: 'fa-solid fa-face-sad-tear',
+      message: error?.response?.data?.message || '發生錯誤'
+    })
+  }
+})()
 </script>
 
 <template lang="pug">
