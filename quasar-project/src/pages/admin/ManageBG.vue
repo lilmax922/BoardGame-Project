@@ -51,6 +51,9 @@ const bgForm = reactive({
 const rules = ({
   required (value) {
     return (value && value.length > 0) || '欄位必填'
+  },
+  isYtUrl (url) {
+    return (!isValidUrl(url) || 'YT 網址錯誤')
   }
 })
 
@@ -121,7 +124,7 @@ const onSubmit = async () => {
   fd.append('players', players)
   fd.append('gameTime', bgForm.gameTime)
   fd.append('age', bgForm.age)
-  fd.append('ytVideo', bgForm.ytVideo)
+  fd.append('ytVideo', getVideoId(bgForm.ytVideo))
   for (const i of bgForm.componentImages) {
     console.log(i)
     fd.append('componentImages', i)
@@ -253,7 +256,7 @@ q-page#edit-bgs
                 q-item
                   q-item-section
                     .text-h6 Youtube教學影片
-                    q-input(v-model="bgForm.ytVideo" type="url" filled label="請輸入影片網址" clearable)
+                    q-input(v-model="bgForm.ytVideo" type="url" filled label="請輸入影片網址" clearable :rules="[rules.isYtUrl]")
               q-card-section.col-6
                 // > 內容物介紹
                 q-item

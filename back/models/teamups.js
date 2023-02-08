@@ -42,6 +42,10 @@ const schema = new Schema(
       },
       default: []
     },
+    image: {
+      type: String,
+      required: [true, '缺少主要遊玩類型圖片']
+    },
     interesting: {
       type: [String],
       enum: {
