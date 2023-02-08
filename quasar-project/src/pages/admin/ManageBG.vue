@@ -228,6 +228,9 @@ q-page#edit-bgs
       .col-12
         // > 桌遊表單
         q-table(title="Boardgames" :rows="boardgames" :columns="columns" row-key="_id")
+          //- template(v-slot:body-cell-image="props")
+          //-   pre {{ props }}
+          //-   q-img(:src="props.row.mainImages.children")
     // > 新增/編輯商品 dialog
     // ! types 沒吃到，但有成功送出
     q-dialog(v-model="bgForm.dialog" full-width persistent)
