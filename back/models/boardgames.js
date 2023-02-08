@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose'
 const componentsSchema = new Schema({
   image: {
     type: String,
-    required: [true, '缺少內容物照片']
+    required: [true, '缺少內容物圖片']
   },
   text: {
     type: String,
@@ -13,10 +13,6 @@ const componentsSchema = new Schema({
 
 const schema = new Schema(
   {
-    post: {
-      type: Boolean,
-      required: [true, '缺少張貼狀態']
-    },
     introduction: {
       type: String,
       required: [true, '缺少桌遊介紹']
@@ -26,7 +22,7 @@ const schema = new Schema(
       required: [true, '缺少桌遊名稱'],
       unique: true
     },
-    images: {
+    mainImages: {
       type: [String],
       required: [true, '缺少桌遊圖片'],
       default: []
@@ -70,6 +66,10 @@ const schema = new Schema(
     endGame: {
       type: String,
       required: [true, '缺少遊戲結束說明']
+    },
+    post: {
+      type: Boolean,
+      required: [true, '缺少張貼狀態']
     }
   }, { versionKey: false })
 

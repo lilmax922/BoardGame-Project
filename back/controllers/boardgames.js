@@ -6,16 +6,15 @@ export const createBoardgame = async (req, res) => {
     // 用文字陣列去 map 重組一個陣列物件包括 image 跟 text
     const components = req.body.componentsText.map((compText, i) => {
       return {
-        image: req.files.components[i].path,
+        image: req.files.componentImages[i].path,
         text: compText
       }
     })
     const result = await boardgames.create({
-      post: req.body.post,
       introduction: req.body.introduction,
       name: req.body.name,
       // 如果沒上傳圖片的話 req.file 會是 undefined，undefined 沒有 .path，所以要 ?.
-      images: req.files.images.map(file => file.path),
+      mainImages: req.files.mainImages.map(file => file.path),
       types: req.body.types,
       players: req.body.players,
       gameTime: req.body.gameTime,
@@ -24,7 +23,8 @@ export const createBoardgame = async (req, res) => {
       components,
       setup: req.body.setup,
       gameFlow: req.body.gameFlow,
-      endGame: req.body.endGame
+      endGame: req.body.endGame,
+      post: req.body.post
     })
     res.status(200).json({ success: true, message: '桌遊建立成功', result })
   } catch (error) {
@@ -83,10 +83,9 @@ export const getPostBoardgames = async (req, res) => {
 export const editBoardgame = async (req, res) => {
   try {
     const result = await boardgames.findByIdAndUpdate(req.params.id, {
-      post: req.body.post,
       introduction: req.body.introduction,
       name: req.body.name,
-      images: req.files.map(file => file.path),
+      mainImages: req.files.map(file => file.path),
       types: req.body.types,
       players: req.body.players,
       gameTime: req.body.gameTime,
@@ -95,7 +94,8 @@ export const editBoardgame = async (req, res) => {
       components: req.body.components,
       setup: req.body.setup,
       gameFlow: req.body.gameFlow,
-      endGame: req.body.endGame
+      endGame: req.body.endGame,
+      post: req.body.post
     }, { new: true })
     if (!result) {
       res.status(404).json({ success: false, message: '找不到' })

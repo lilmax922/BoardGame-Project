@@ -28,10 +28,10 @@ export const boardgameImg = async (req, res, next) => {
 //  .fields 為陣列物件 [{name: '自訂名稱', maxCount: 8}]
 // 可以放多筆資料然後每筆都可以自訂名稱
   upload.fields([
-    { name: 'mainImages' },
-    { name: 'componentImages' }
+    { name: 'mainImages', maxCount: 10 }, { name: 'componentImages', maxCount: 20 }
   ])(req, res, error => {
     if (error instanceof multer.MulterError) {
+      console.log(error)
       let message = '上傳錯誤'
       if (error.code === 'LIMIT_FILE_SIZE') {
         message = '檔案太大'
@@ -40,6 +40,7 @@ export const boardgameImg = async (req, res, next) => {
       }
       res.status(400).json({ success: false, message })
     } else if (error) {
+      console.log(error)
       res.status(500).json({ success: false, message: '未知錯誤' })
     } else {
       next()
