@@ -66,7 +66,7 @@ export const getBoardgame = async (req, res) => {
 
 export const getAllBoardgames = async (req, res) => {
   try {
-    const result = await boardgames.find()
+    const result = await boardgames.find({ status: 0 })
     res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
@@ -84,43 +84,102 @@ export const getPostBoardgames = async (req, res) => {
 
 export const editBoardgame = async (req, res) => {
   try {
+    const cardImage = req.files?.cardImage ? req.files?.cardImage[0].path : req.body.cardImage
+    const mainImages = []
+    const componentImages = []
+
+    if (req.files.mainImages) {
+      req.files.mainImages.forEach((item) => {
+        mainImages.push(item.path)
+      })
+    }
+    if (req.files.componentImages) {
+      req.files.componentImages.forEach((item) => {
+        componentImages.push(item.path)
+      })
+    }
+
+    if (typeof req.body.mainImages === 'string') {
+      mainImages.push(req.body.mainImages)
+    }
+    if (typeof req.body.mainImages === 'object') {
+      req.body.mainImages.forEach((item) => {
+        if (item !== '' && item !== undefined && item !== null) {
+          mainImages.push(item)
+        }
+      })
+    }
+
+    if (typeof req.body.componentImages === 'string') {
+      componentImages.push(req.body.componentImages)
+    }
+    if (typeof req.body.componentImages === 'object') {
+      req.body.componentImages.forEach((item) => {
+        if (item !== '' && item !== undefined && item !== null) {
+          componentImages.push(item)
+        }
+      })
+    }
+
     const result = await boardgames.findByIdAndUpdate(req.params.id, {
       introduction: req.body.introduction,
       name: req.body.name,
-      // cardImage: req.file?.cardImage[0].path,
-      // 如果沒上傳圖片的話 req.file 會是 undefined，undefined 沒有 .path，所以要 ?.
-      mainImages: req.files.mainImages.map(file => file.path),
+      cardImage,
+      mainImages,
       types: req.body.types,
       players: req.body.players,
       gameTime: req.body.gameTime,
       age: req.body.age,
       ytVideo: req.body.ytVideo,
-      componentImages: req.files.componentImages.map(file => file.path),
+      componentImages,
       componentTexts: req.body.componentTexts,
       setup: req.body.setup,
       gameFlow: req.body.gameFlow,
       endGame: req.body.endGame,
       post: req.body.post
     }, { new: true })
+    console.log(result)
     if (!result) {
       res.status(404).json({ success: false, message: '找不到' })
     } else {
       res.status(200).json({ success: true, message: '桌遊建立成功', result })
     }
   } catch (error) {
+    console.log(error)
     if (error.name === 'ValidationError') {
-      console.log(error)
       const key = Object.keys(error.errors)[0]
       const message = error.errors[key].message
       res.status(400).json({ success: false, message })
     } else if (error.name === 'MongoServerError' && error.code === 11000) {
       // 代表重複
-      console.log(error)
       res.status(400).json({ success: false, message: '桌遊名稱重複' })
     } else if (error.name === 'CastError') {
       res.status(400).json({ success: false, message: 'ID 格式錯誤' })
     } else {
-      console.log(error)
+      res.status(500).json({ success: false, message: '未知錯誤' })
+    }
+  }
+}
+
+export const deleteBoardgame = async (req, res) => {
+  try {
+    const result = await boardgames.findByIdAndUpdate(req.params.id, {
+      status: req.body.status
+    }, { new: true })
+
+    console.log(result)
+    res.status(200).json({ success: true, message: '' })
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      const key = Object.keys(error.errors)[0]
+      const message = error.errors[key].message
+      res.status(400).json({ success: false, message })
+    } else if (error.name === 'MongoServerError' && error.code === 11000) {
+    // 代表重複
+      res.status(400).json({ success: false, message: '桌遊名稱重複' })
+    } else if (error.name === 'CastError') {
+      res.status(400).json({ success: false, message: 'ID 格式錯誤' })
+    } else {
       res.status(500).json({ success: false, message: '未知錯誤' })
     }
   }

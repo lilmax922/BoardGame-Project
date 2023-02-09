@@ -78,6 +78,12 @@ const schema = new Schema(
     post: {
       type: Boolean,
       required: [true, '缺少張貼狀態']
+    },
+    // 0 : 未刪除
+    // 1 : 刪除
+    status: {
+      type: Number,
+      default: 0
     }
   }, { versionKey: false })
 
