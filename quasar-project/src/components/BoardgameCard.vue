@@ -28,7 +28,7 @@ defineProps({
 q-card.bg-card(flat)
   q-img(:src="cardImage")
   q-card-section.q-gutter-sm
-    .type-tag {{ types }}
+    span.type-tag(v-for="(type,idx) in types" :key="idx") &#35;{{ type }}
     .text-h4 {{ name }}
   q-separator(inset)
   q-card-section.flex-center(horizontal)
