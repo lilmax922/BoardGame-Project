@@ -28,7 +28,7 @@ export const boardgameImg = async (req, res, next) => {
   //  .fields 為陣列物件 [{name: '自訂名稱', maxCount: 8}]
   // 可以放多筆資料然後每筆都可以自訂名稱
   upload.fields([
-    // { name: 'cardImage', maxCount: 1 },
+    { name: 'cardImage', maxCount: 1 },
     { name: 'mainImages', maxCount: 10 },
     { name: 'componentImages', maxCount: 20 }
   ])(req, res, (error) => {

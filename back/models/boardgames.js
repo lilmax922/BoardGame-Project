@@ -22,10 +22,10 @@ const schema = new Schema(
       required: [true, '缺少桌遊名稱'],
       unique: true
     },
-    // cardImage: {
-    //   type: String,
-    //   required: [true, '缺少桌遊卡片主圖']
-    // },
+    cardImage: {
+      type: String,
+      required: [true, '缺少桌遊卡片主圖']
+    },
     mainImages: {
       type: [String],
       required: [true, '缺少桌遊主圖'],

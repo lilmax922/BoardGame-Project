@@ -2,8 +2,8 @@ import boardgames from '../models/boardgames.js'
 
 export const createBoardgame = async (req, res) => {
   try {
-    // console.log(req.body)
     console.log(req.files, 'files')
+    console.log(req.body)
     // 用文字陣列去 map 重組一個陣列物件包括 image 跟 text
     // const components = req.body.componentsText.map((compText, i) => {
     //   return {
@@ -15,8 +15,8 @@ export const createBoardgame = async (req, res) => {
     const result = await boardgames.create({
       introduction: req.body.introduction,
       name: req.body.name,
-      // cardImage: req.file?.cardImage[0].path,
       // 如果沒上傳圖片的話 req.file 會是 undefined，undefined 沒有 .path，所以要 ?.
+      cardImage: req.files?.CardImage[0].path || '',
       mainImages: req.files.mainImages.map(file => file.path),
       types: req.body.types,
       players: req.body.players,
