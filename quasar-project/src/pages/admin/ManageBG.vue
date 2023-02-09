@@ -1,15 +1,12 @@
 <script setup>
-import { apiAuth } from 'src/boot/axios'
 import { ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useQuasar } from 'quasar'
 import { isValidUrl, getVideoId } from 'is-youtube-url'
 import { useBoardgameStore } from 'stores/boardgame'
 
 const boardgameStore = useBoardgameStore()
 const { deleteBoardgame, submitBoardgames } = boardgameStore
 const { boardgames } = storeToRefs(boardgameStore)
-const $q = useQuasar()
 
 const bgTypes = reactive({
   camp: {
@@ -128,9 +125,9 @@ const rules = ({
 })
 
 const openDialog = (index) => {
-  // 被 Pinia 引用的值要加 value
+  // 被 pinia 引用的值要加 value
   const idx = boardgames.value.findIndex((boardgame) => boardgame._id === index)
-
+  console.log(idx)
   if (index === -1) {
     // -1 = 新增
     bgForm._id = ''
@@ -200,15 +197,9 @@ const onSubmit = async () => {
   })
   const players = `${playerRange.value.min} ~ ${playerRange.value.max}`
   fd.append('players', players)
-  const minPlayer = playerRange.value.min
-  const maxPlayer = playerRange.value.max
-  fd.append('minPlayer', minPlayer)
-  fd.append('maxPlayer', maxPlayer)
-
   fd.append('gameTime', bgForm.gameTime)
   fd.append('age', bgForm.age)
   fd.append('ytVideo', getVideoId(bgForm.ytVideo))
-  // fd.append('ytVideo', bgForm.ytVideo)
   for (const i of bgForm.componentImages) {
     fd.append('componentImages', i)
   }
@@ -221,7 +212,6 @@ const onSubmit = async () => {
   bgForm.loading = false
   bgForm.dialog = false
 }
-
 </script>
 
 <template lang="pug">
@@ -241,7 +231,7 @@ q-page#edit-bgs
                 q-icon(name="search")
 
           template(v-slot:body-cell-image="props")
-            img(:src="props.row.cardImage" width="150")
+            q-img(:src="props.row.cardImage")
 
           template(v-slot:body-cell-post="props")
             q-td.text-center
@@ -337,8 +327,4 @@ q-page#edit-bgs
 </template>
 
 <style lang="scss" scoped>
-// .add-bg {
-//   width: 100px;
-//   height: 35px;
-// }
 </style>
