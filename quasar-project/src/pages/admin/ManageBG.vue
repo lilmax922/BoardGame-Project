@@ -7,14 +7,39 @@ import { isValidUrl, getVideoId } from 'is-youtube-url'
 const $q = useQuasar()
 
 const bgTypes = reactive({
-  camp: false,
-  strategy: false,
-  abstract: false,
-  crafty: false,
-  card: false,
-  party: false,
-  family: false,
-  children: false
+  camp: {
+    type: false,
+    label: '陣營'
+  },
+  strategy: {
+    type: false,
+    label: '策略'
+  },
+  abstract: {
+    type: false,
+    label: '抽象'
+  },
+  crafty: {
+    type: false,
+    label: '心機'
+  },
+  card: {
+    type: false,
+    label: '卡牌'
+  },
+  party: {
+    type: false,
+    label: '派對'
+  },
+  family: {
+    type: false,
+    label: '家庭'
+  },
+  children: {
+    type: false,
+    label: '兒童'
+  }
+
 })
 const playerRange = ref({
   min: 1,
@@ -44,6 +69,7 @@ const bgForm = reactive({
 })
 
 // > q-table
+const filter = ref('')
 const columns = [
   {
     name: 'image',
@@ -150,17 +176,20 @@ const onSubmit = async () => {
   for (const i of bgForm.mainImages) {
     fd.append('mainImages', i)
   }
-  for (const i of bgForm.types) {
-    fd.append('types', i)
-  }
-  // fd.append('players', bgForm.players)
+  const typesArray = Object.entries(bgTypes)
+  console.log(typesArray)
+  typesArray.forEach((item) => {
+    console.log(item[1].type, item[1].label, 'forEach')
+    if (item[1].type) {
+      fd.append('types', item[1].label)
+    }
+  })
   const players = `${playerRange.value.min} ~ ${playerRange.value.max}`
   fd.append('players', players)
   fd.append('gameTime', bgForm.gameTime)
   fd.append('age', bgForm.age)
   fd.append('ytVideo', getVideoId(bgForm.ytVideo))
   for (const i of bgForm.componentImages) {
-    console.log(i)
     fd.append('componentImages', i)
   }
   fd.append('componentTexts', bgForm.componentTexts)
@@ -169,6 +198,7 @@ const onSubmit = async () => {
   fd.append('endGame', bgForm.endGame)
   fd.append('post', bgForm.post)
 
+  // console.log(fd.getAll('types'))
   try {
     if (bgForm._id.length === 0) {
       const { data } = await apiAuth.post('/boardgames', fd)
@@ -227,12 +257,16 @@ q-page#edit-bgs
         q-btn.add-bg(@click="openDialog(-1)" label="新增桌遊" color="primary")
       .col-12
         // > 桌遊表單
-        q-table(title="Boardgames" :rows="boardgames" :columns="columns" row-key="_id")
+        q-table(title="Boardgames" :rows="boardgames" :columns="columns" row-key="_id" :filter="filter")
+          template(v-slot:top-right)
+            q-input(debounce="300" v-model="filter" placeholder="Search")
+              template(v-slot:append)
+                q-icon(name="search")
           //- template(v-slot:body-cell-image="props")
           //-   pre {{ props }}
           //-   q-img(:src="props.row.mainImages.children")
     // > 新增/編輯商品 dialog
-    // ! types 沒吃到，但有成功送出
+    // ! types 沒吃到
     q-dialog(v-model="bgForm.dialog" full-width persistent)
       q-layout(container)
         q-card(flat)
@@ -271,14 +305,14 @@ q-page#edit-bgs
                   .text-h6.q-mr-sm 桌遊類型?
                   .text-subtitle1 (可複選)
                 div.q-gutter-lg
-                  q-checkbox(size="lg" v-model="bgTypes.camp" label="陣營")
-                  q-checkbox(size="lg" v-model="bgTypes.strategy" label="策略")
-                  q-checkbox(size="lg" v-model="bgTypes.abstract" label="益智")
-                  q-checkbox(size="lg" v-model="bgTypes.crafty" label="心機")
-                  q-checkbox(size="lg" v-model="bgTypes.card" label="卡牌")
-                  q-checkbox(size="lg" v-model="bgTypes.party" label="派對")
-                  q-checkbox(size="lg" v-model="bgTypes.family" label="家庭")
-                  q-checkbox(size="lg" v-model="bgTypes.children" label="兒童")
+                  q-checkbox(size="lg" v-model="bgTypes.camp.type" :label="bgTypes.camp.label")
+                  q-checkbox(size="lg" v-model="bgTypes.strategy.type" :label="bgTypes.strategy.label")
+                  q-checkbox(size="lg" v-model="bgTypes.abstract.type" :label="bgTypes.abstract.label")
+                  q-checkbox(size="lg" v-model="bgTypes.crafty.type" :label="bgTypes.crafty.label")
+                  q-checkbox(size="lg" v-model="bgTypes.card.type" :label="bgTypes.card.label")
+                  q-checkbox(size="lg" v-model="bgTypes.party.type" :label="bgTypes.party.label")
+                  q-checkbox(size="lg" v-model="bgTypes.family.type" :label="bgTypes.family.label")
+                  q-checkbox(size="lg" v-model="bgTypes.children.type" :label="bgTypes.children.label")
                 // > 遊玩人數
                 q-item
                   .text-h6 遊玩人數
