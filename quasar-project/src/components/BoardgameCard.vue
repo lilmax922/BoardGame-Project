@@ -20,6 +20,9 @@ defineProps({
   },
   gameTime: {
     type: Number
+  },
+  post: {
+    type: Boolean
   }
 })
 </script>
