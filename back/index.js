@@ -4,7 +4,7 @@ import express from 'express'
 import cors from 'cors'
 import userRoute from './routes/users.js'
 import './passport/passport.js'
-import boardgameRouter from './routes/boardgames.js'
+import boardgameRoute from './routes/boardgames.js'
 
 mongoose.connect(process.env.DB_URL)
 mongoose.set('sanitizeFilter', true) // 塞進 mongoose 的資料有特殊字元時，自動過濾
@@ -35,7 +35,7 @@ app.use((_, req, res, next) => {
 
 // routes
 app.use('/users', userRoute)
-app.use('/boardgames', boardgameRouter)
+app.use('/boardgames', boardgameRoute)
 
 // '*' 任意路徑的所有請求
 app.all('*', (req, res) => {
