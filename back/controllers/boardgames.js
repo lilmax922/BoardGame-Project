@@ -16,7 +16,7 @@ export const createBoardgame = async (req, res) => {
       introduction: req.body.introduction,
       name: req.body.name,
       // 如果沒上傳圖片的話 req.file 會是 undefined，undefined 沒有 .path，所以要 ?.
-      cardImage: req.files?.CardImage[0].path || '',
+      cardImage: req.files?.cardImage[0].path || '',
       mainImages: req.files.mainImages.map(file => file.path),
       types: req.body.types,
       players: req.body.players,
