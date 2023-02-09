@@ -90,7 +90,7 @@ export const useUserStore = defineStore('user', () => {
   }
 }, {
   persist: {
-    key: '20230103',
+    key: 'user',
     paths: ['token']
   }
 })

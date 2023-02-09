@@ -36,9 +36,9 @@ export const boardgameImg = async (req, res, next) => {
     if (error instanceof multer.MulterError) {
       let message = '上傳錯誤'
       if (error.code === 'LIMIT_FILE_SIZE') {
-        message = '檔案太大'
+        message = '圖片檔案太大'
       } else if (error.code === 'LIMIT_FILE_FORMAT') {
-        message = '檔案格式錯誤'
+        message = '圖片檔案格式錯誤'
       }
       res.status(400).json({ success: false, message })
     } else if (error) {
