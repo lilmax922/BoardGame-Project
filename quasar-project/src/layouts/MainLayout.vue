@@ -9,6 +9,8 @@ const user = useUserStore()
 const { isLogin, isAdmin, avatar, nickname } = storeToRefs(user)
 const { logout } = user
 
+// TODO: nickname 是空值@@?
+
 const tab = ref('')
 const showLoginCard = ref(false)
 const showRegisterCard = ref(false)
@@ -50,7 +52,8 @@ q-layout(view='hHh lpR fff')
               q-item-section(avatar)
                 q-avatar
                   q-img(:src="avatar")
-              q-item-section(ref="nickname") {{ nickname }}
+              q-item-section(ref="nickname")
+              | {{ nickname }}
             q-separator
             q-item-label.q-pa-sm(overline) 我的主頁
             q-item(clickable v-if="isLogin && isAdmin" to="/admin")
