@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
+import VImageInput from 'vue3-img-input'
 import { isValidUrl, getVideoId } from 'is-youtube-url'
 import { useBoardgameStore } from 'stores/boardgame'
 
@@ -127,7 +128,6 @@ const rules = ({
 const openDialog = (index) => {
   // 被 pinia 引用的值要加 value
   const idx = boardgames.value.findIndex((boardgame) => boardgame._id === index)
-  console.log(idx)
   if (index === -1) {
     // -1 = 新增
     bgForm._id = ''
@@ -157,8 +157,7 @@ const openDialog = (index) => {
     bgForm.introduction = boardgames.value[idx].introduction
     bgForm.name = boardgames.value[idx].name
     bgForm.cardImage = boardgames.value[idx].cardImage
-    console.log(bgForm.cardImage)
-    console.log(boardgames.value[idx].cardImage)
+    console.log(bgForm.cardImage) // 回傳 https://res.cloudinary.com/dyvwqnaip/image/upload/v1675944044/rlnpcele9hgjivk9azon.jpg
     bgForm.mainImages = boardgames.value[idx].mainImages
     bgForm.types = boardgames.value[idx].types
     bgForm.gameTime = boardgames.value[idx].gameTime
@@ -306,10 +305,10 @@ q-page#edit-bgs
                 q-input(v-model="bgForm.componentTexts" filled autogrow label="請輸入內容物介紹" clearable :rules="[rules.required]")
                 // > 內容物圖片
                 .text-h6 內容物圖片
+                //- VImageInput(v-model="bgForm.componentImages")
                 q-file(filled v-model="bgForm.componentImages" label="選擇圖片(可複選)" use-chips multiple)
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
-                //- q-separator(inset spaced)
                 // > 遊戲配置
                 .text-h6 遊戲配置
                 q-input(v-model="bgForm.setup" filled autogrow label="請輸入遊戲配置" clearable :rules="[rules.required]")
