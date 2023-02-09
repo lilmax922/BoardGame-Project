@@ -48,7 +48,6 @@ const playerRange = ref({
   min: 1,
   max: 4
 })
-// const boardgames = reactive([])
 const bgForm = reactive({
   _id: '', // 空的代表新增，有東西代表編輯
   introduction: '',

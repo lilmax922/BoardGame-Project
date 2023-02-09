@@ -25,9 +25,9 @@ const close = () => {
 q-layout(view='hHh lpR fff')
   q-header.bg-primary.text-white(reveal elevated)
     .container
-      q-toolbar(to='/')
+      q-toolbar
         q-avatar
-          img(src='../assets/MAXXD.png')
+          img(src='../assets/MAXXD.png' to="/")
         | &nbsp; 差滴滴
         //- q-toolbar-title 差滴滴
         q-space
@@ -41,28 +41,31 @@ q-layout(view='hHh lpR fff')
         q-btn(v-if="isLogin" icon='fa-solid fa-bell')
           <q-badge color="accent" floating :label="5"></q-badge>
         q-btn(v-if="!isLogin" @click="showLoginCard = true" label="會員登入" size="lg")
-        q-btn(v-if="isLogin && isAdmin" to="/admin" label="後台管理" size="lg")
         q-btn-dropdown(v-if="isLogin" flat)
           template(#label)
             q-avatar
               q-img(:src="avatar")
           q-list.q-pa-xs
-            q-item(v-ripple)
+            q-item
               q-item-section(avatar)
                 q-avatar
                   q-img(:src="avatar")
               q-item-section(ref="nickname") {{ nickname }}
             q-separator
             q-item-label.q-pa-sm(overline) 我的主頁
-            q-item(clickable)
+            q-item(clickable v-if="isLogin && isAdmin" to="/admin")
+              q-item-section(avatar)
+                q-icon(name="mdi-account-cog")
+              q-item-section 管理者後台
+            q-item(clickable v-if="!isAdmin")
               q-item-section(avatar)
                 q-icon(name="mdi-google-downasaur")
               q-item-section 我的預約
-            q-item(clickable)
+            q-item(clickable v-if="!isAdmin")
               q-item-section(avatar)
                 q-icon(name="mdi-account-group")
               q-item-section 我的揪團
-            q-item(clickable)
+            q-item(clickable v-if="!isAdmin")
               q-item-section(avatar)
                 q-icon(name="mdi-human-greeting")
               q-item-section 我的報名

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 export const useBoardgameStore = defineStore('boardgame', () => {
   const boardgames = reactive([])
 
+  // 取所有桌遊
   const getAllBoardgames = async () => {
     try {
       const { data } = await apiAuth.get('/boardgames/all')
@@ -18,6 +19,8 @@ export const useBoardgameStore = defineStore('boardgame', () => {
       })
     }
   }
+
+  // 刪除桌遊
   const deleteBoardgame = async (_id) => {
     try {
       await apiAuth.patch('/boardgames/delete/' + _id, {
@@ -39,6 +42,7 @@ export const useBoardgameStore = defineStore('boardgame', () => {
     }
   }
 
+  // 上傳桌遊
   const submitBoardgames = async (fd, _id) => {
     try {
       if (_id === '') {

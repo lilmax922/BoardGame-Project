@@ -1,15 +1,28 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
+import { api } from 'src/boot/axios'
+import Swal from 'sweetalert2'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
 import TeamupCard from 'src/components/TeamupCard.vue'
 import TestComp from 'src/components/TestComp.vue'
 
-const name = ref('HomePage')
 </script>
 
 <template lang="pug">
 q-page#index
-  q-section
-    q-img(alt="BoardgameHero" src="../assets/images/hero/Mix.jpg")
-  q-section
+  section.q-mb-md
+    q-img#hero(alt="BoardgameHero" src="../assets/images/hero/Mix.jpg")
+  .container
+    section#everyone-play
+      .text-h4 大家都在玩
+        BoardgameCard
 </template>
+
+<style lang="scss" scoped>
+#index {
+  #hero {
+    width: 100vw;
+    height: 70vh;
+  }
+}
+</style>

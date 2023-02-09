@@ -21,15 +21,19 @@ const routes = [
         name: 'exploreBGs',
         component: () => import('src/pages/frontPages/ExploreBGs.vue'),
         meta: {
-          title: '差滴滴 | 探索桌遊'
+          title: '差滴滴 | 探索桌遊',
+          login: false,
+          admin: false
         },
         children: [
           {
-            path: 'BGInfo',
+            path: 'BGInfo/:id',
             name: 'BGInfo',
             component: () => import('src/pages/frontPages/BGInfoPage.vue'),
             meta: {
-              title: '差滴滴 | 桌遊介紹'
+              title: '差滴滴 | 桌遊介紹',
+              login: false,
+              admin: false
             }
           }
         ]
@@ -39,7 +43,9 @@ const routes = [
         name: 'event',
         component: () => import('src/pages/frontPages/EventPage.vue'),
         meta: {
-          title: '差滴滴 | 本期EVENT'
+          title: '差滴滴 | 本期EVENT',
+          login: false,
+          admin: false
         }
       },
       {
@@ -77,7 +83,9 @@ const routes = [
         name: 'reservation',
         component: () => import('src/pages/frontPages/ReservationPage.vue'),
         meta: {
-          title: '差滴滴 | 手刀預約'
+          title: '差滴滴 | 手刀預約',
+          login: false,
+          admin: false
         }
       }
     ]
@@ -97,7 +105,9 @@ const routes = [
         name: 'admin-Index',
         component: () => import('src/pages/admin/IndexPage.vue'),
         meta: {
-          title: '差滴滴 | 後台管理'
+          title: '差滴滴 | 後台管理',
+          login: true,
+          admin: true
         }
       },
       {
@@ -105,7 +115,9 @@ const routes = [
         name: 'manageBG',
         component: () => import('src/pages/admin/ManageBG.vue'),
         meta: {
-          title: '差滴滴 | 桌遊管理'
+          title: '差滴滴 | 桌遊管理',
+          login: true,
+          admin: true
         }
       }
     ]
