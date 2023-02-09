@@ -3,7 +3,7 @@ import content from '../middleware/content.js'
 import admin from '../middleware/admin.js'
 import * as upload from '../middleware/upload.js'
 import { jwt } from '../middleware/auth.js'
-import { createBoardgame, editBoardgame, getAllBoardgames, getBoardgame, getPostBoardgames } from '../controllers/boardgames.js'
+import { createBoardgame, editBoardgame, getAllBoardgames, getBoardgame, getPostBoardgames, deleteBoardgame } from '../controllers/boardgames.js'
 
 const router = Router()
 
@@ -11,6 +11,7 @@ router.post('/', content('multipart/form-data'), jwt, admin, upload.boardgameImg
 router.get('/', getPostBoardgames)
 router.get('/all', jwt, admin, getAllBoardgames)
 router.get('/:id', getBoardgame)
+router.patch('/delete/:id', jwt, admin, deleteBoardgame)
 router.patch('/:id', content('multipart/form-data'), jwt, admin, upload.boardgameImg, editBoardgame)
 
 export default router

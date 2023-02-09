@@ -1,9 +1,14 @@
 <script setup>
 import { apiAuth } from 'src/boot/axios'
 import { ref, reactive } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useQuasar } from 'quasar'
 import { isValidUrl, getVideoId } from 'is-youtube-url'
+import { useBoardgameStore } from 'stores/boardgame'
 
+const boardgameStore = useBoardgameStore()
+const { deleteBoardgame, submitBoardgames } = boardgameStore
+const { boardgames } = storeToRefs(boardgameStore)
 const $q = useQuasar()
 
 const bgTypes = reactive({
@@ -45,11 +50,12 @@ const playerRange = ref({
   min: 1,
   max: 4
 })
-const boardgames = reactive([])
+// const boardgames = reactive([])
 const bgForm = reactive({
   _id: '', // 空的代表新增，有東西代表編輯
   introduction: '',
   name: '',
+  cardImage: undefined,
   mainImages: [],
   types: [],
   players: '',
@@ -62,7 +68,6 @@ const bgForm = reactive({
   gameFlow: '',
   endGame: '',
   post: false,
-  valid: false,
   loading: false,
   dialog: false,
   index: -1
@@ -73,38 +78,43 @@ const filter = ref('')
 const columns = [
   {
     name: 'image',
-    label: 'Image',
-    field: 'mainImages',
-    align: 'left',
-    sortable: true
+    label: '圖片',
+    field: 'cardImage',
+    align: 'center'
   },
   {
     name: 'name',
-    label: 'Name',
+    label: '桌遊名稱',
     field: 'name',
     align: 'center',
     sortable: true
   },
   {
     name: 'types',
-    label: 'Types',
+    label: '類型',
     field: 'types',
     align: 'center',
     sortable: true
   },
   {
     name: 'ytVideo',
-    label: 'YoutubeId',
+    label: 'YT影片ID',
     field: 'ytVideo',
     align: 'center',
     sortable: true
   },
   {
     name: 'post',
-    label: 'Posted',
+    label: '張貼',
     field: 'post',
     align: 'center',
     sortable: true
+  },
+  {
+    name: 'edit',
+    label: '編輯',
+    field: 'edit',
+    align: 'center'
   }
 ]
 
@@ -118,11 +128,15 @@ const rules = ({
 })
 
 const openDialog = (index) => {
+  // 被 Pinia 引用的值要加 value
+  const idx = boardgames.value.findIndex((boardgame) => boardgame._id === index)
+
   if (index === -1) {
     // -1 = 新增
     bgForm._id = ''
     bgForm.introduction = ''
     bgForm.name = ''
+    bgForm.cardImage = undefined
     bgForm.mainImages = []
     bgForm.types = []
     bgForm.players = ''
@@ -141,54 +155,60 @@ const openDialog = (index) => {
     bgForm.loading = false
     bgForm.index = -1
   } else {
-    bgForm._id = boardgames[index]._id
-    bgForm.introduction = boardgames[index].introduction
-    bgForm.name = boardgames[index].name
-    bgForm.mainImages = boardgames[index].mainImages
-    bgForm.types = boardgames[index].types
-    bgForm.gameTime = boardgames[index].gameTime
-    bgForm.age = boardgames[index].age
-    bgForm.ytVideo = boardgames[index].ytVideo
-    bgForm.componentImages = boardgames[index].componentImages
-    bgForm.componentTexts = boardgames[index].componentTexts
-    bgForm.setup = boardgames[index].setup
-    bgForm.gameFlow = boardgames[index].gameFlow
-    bgForm.endGame = boardgames[index].endGame
-    bgForm.post = boardgames[index].post
-    bgForm.valid = false
+    // ! 卡片圖
+    bgForm._id = boardgames.value[idx]._id
+    bgForm.introduction = boardgames.value[idx].introduction
+    bgForm.name = boardgames.value[idx].name
+    bgForm.cardImage = boardgames.value[idx].cardImage
+    console.log(bgForm.cardImage)
+    console.log(boardgames.value[idx].cardImage)
+    bgForm.mainImages = boardgames.value[idx].mainImages
+    bgForm.types = boardgames.value[idx].types
+    bgForm.gameTime = boardgames.value[idx].gameTime
+    bgForm.age = boardgames.value[idx].age
+    bgForm.ytVideo = `https://www.youtube.com/watch?v=${boardgames.value[idx].ytVideo}`
+    bgForm.componentImages = boardgames.value[idx].componentImages
+    bgForm.componentTexts = boardgames.value[idx].componentTexts
+    bgForm.setup = boardgames.value[idx].setup
+    bgForm.gameFlow = boardgames.value[idx].gameFlow
+    bgForm.endGame = boardgames.value[idx].endGame
+    bgForm.post = boardgames.value[idx].post
     bgForm.loading = false
-    bgForm.index = index
-    playerRange.value.min = boardgames[index].players.splice('~')[0]
-    playerRange.value.max = boardgames[index].players.splice('~')[1]
+    bgForm.idx = idx
+    playerRange.value.min = boardgames.value[idx].players.split('~')[0]
+    playerRange.value.max = boardgames.value[idx].players.split('~')[1]
   }
   bgForm.dialog = true
 }
 
 const onSubmit = async () => {
-  // if (!bgForm.valid) return
-
   bgForm.loading = true
 
   const fd = new FormData()
   // fd.append(key, value)
   fd.append('introduction', bgForm.introduction)
   fd.append('name', bgForm.name)
+  fd.append('cardImage', bgForm.cardImage)
   for (const i of bgForm.mainImages) {
     fd.append('mainImages', i)
   }
   const typesArray = Object.entries(bgTypes)
-  console.log(typesArray)
   typesArray.forEach((item) => {
-    console.log(item[1].type, item[1].label, 'forEach')
     if (item[1].type) {
       fd.append('types', item[1].label)
     }
   })
   const players = `${playerRange.value.min} ~ ${playerRange.value.max}`
   fd.append('players', players)
+  const minPlayer = playerRange.value.min
+  const maxPlayer = playerRange.value.max
+  fd.append('minPlayer', minPlayer)
+  fd.append('maxPlayer', maxPlayer)
+
   fd.append('gameTime', bgForm.gameTime)
   fd.append('age', bgForm.age)
   fd.append('ytVideo', getVideoId(bgForm.ytVideo))
+  // fd.append('ytVideo', bgForm.ytVideo)
   for (const i of bgForm.componentImages) {
     fd.append('componentImages', i)
   }
@@ -197,55 +217,11 @@ const onSubmit = async () => {
   fd.append('gameFlow', bgForm.gameFlow)
   fd.append('endGame', bgForm.endGame)
   fd.append('post', bgForm.post)
-
-  // console.log(fd.getAll('types'))
-  try {
-    if (bgForm._id.length === 0) {
-      const { data } = await apiAuth.post('/boardgames', fd)
-      console.log(fd.getAll('componentTexts'))
-      console.log(data.result)
-      boardgames.push(data.result)
-      $q.notify({
-        color: 'accent',
-        textColor: 'white',
-        icon: 'mdi-robot-happy',
-        message: '桌遊新增成功'
-      })
-    } else {
-      const { data } = await apiAuth.patch('/boardgames' + bgForm._id, fd)
-      boardgames[bgForm.index] = data.result
-      $q.notify({
-        color: 'accent',
-        textColor: 'white',
-        icon: 'mdi-robot-happy',
-        message: '桌遊編輯成功'
-      })
-      bgForm.loading = false
-    }
-  } catch (error) {
-    $q.notify({
-      color: 'negative',
-      textColor: 'white',
-      icon: 'fa-solid fa-face-sad-tear',
-      message: error?.response?.data?.message || '發生錯誤'
-    })
-  }
+  await submitBoardgames(fd, bgForm._id)
   bgForm.loading = false
+  bgForm.dialog = false
 }
 
-;(async () => {
-  try {
-    const { data } = await apiAuth.get('/boardgames/all')
-    boardgames.push(...data.result)
-  } catch (error) {
-    $q.notify({
-      color: 'negative',
-      textColor: 'white',
-      icon: 'fa-solid fa-face-sad-tear',
-      message: error?.response?.data?.message || '發生錯誤'
-    })
-  }
-})()
 </script>
 
 <template lang="pug">
@@ -254,19 +230,28 @@ q-page#edit-bgs
     .row
       .col-12.flex.items-center
         h4.q-pr-xl 桌遊管理
-        q-btn.add-bg(@click="openDialog(-1)" label="新增桌遊" color="primary")
+        q-btn(@click="openDialog(-1)" label="新增桌遊" color="primary")
       .col-12
         // > 桌遊表單
         q-table(title="Boardgames" :rows="boardgames" :columns="columns" row-key="_id" :filter="filter")
+
           template(v-slot:top-right)
             q-input(debounce="300" v-model="filter" placeholder="Search")
               template(v-slot:append)
                 q-icon(name="search")
-          //- template(v-slot:body-cell-image="props")
-          //-   pre {{ props }}
-          //-   q-img(:src="props.row.mainImages.children")
+
+          template(v-slot:body-cell-image="props")
+            img(:src="props.row.cardImage" width="150")
+
+          template(v-slot:body-cell-post="props")
+            q-td.text-center
+              q-toggle(v-model="props.row.post" color="accent")
+
+          template(v-slot:body-cell-edit="props")
+            q-td.text-center.q-gutter-sm
+              q-btn(icon="edit" color="info" fab-mini unelevated size="sm" @click="openDialog(props.row._id)")
+              q-btn(icon="delete" color="secondary" fab-mini unelevated @click="deleteBoardgame(props.row._id)")
     // > 新增/編輯商品 dialog
-    // ! types 沒吃到
     q-dialog(v-model="bgForm.dialog" full-width persistent)
       q-layout(container)
         q-card(flat)
@@ -274,8 +259,7 @@ q-page#edit-bgs
             q-card-section.flex.justify-end
               q-btn(push icon="mdi-close" v-close-popup)
             .text-h4.text-center {{ bgForm._id.length > 0 ? '編輯桌遊' : '新增桌遊' }}
-            //- (horizontal)
-            q-card-section.justify-center()
+            q-card-section.justify-center
               q-card-section.col6
                 // > 桌遊名稱
                 .text-h6 桌遊名稱
@@ -283,13 +267,17 @@ q-page#edit-bgs
                 // > 桌遊介紹
                 .text-h6 桌遊介紹
                 q-input(v-model="bgForm.introduction" filled autogrow label="請輸入桌遊介紹" clearable :rules="[rules.required]")
-                // > 桌遊圖片
-                .text-h6 桌遊圖片
-                q-file(filled v-model="bgForm.mainImages" label="請選擇圖片" use-chips multiple)
+                // > 桌遊卡片圖
+                .text-h6 桌遊卡片圖
+                q-file(filled v-model="bgForm.cardImage" label="請選擇卡片圖(單選)")
+                  template(v-slot:prepend)
+                    q-icon(name="attach_file")
+                // > 桌遊主圖
+                .text-h6 桌遊主圖
+                q-file(filled v-model="bgForm.mainImages" label="請選擇主圖片(可複選)" use-chips multiple)
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
                 // > YtVideo
-                // ! 影片沒抓到資料 資料庫是 null
                 .text-h6.q-pt-md Youtube教學影片
                 q-input(v-model="bgForm.ytVideo" type="url" filled label="請輸入影片網址" clearable :rules="[rules.isYtUrl]")
                 // > 遊戲時間 & 適合年齡
@@ -328,7 +316,7 @@ q-page#edit-bgs
                 q-input(v-model="bgForm.componentTexts" filled autogrow label="請輸入內容物介紹" clearable :rules="[rules.required]")
                 // > 內容物圖片
                 .text-h6 內容物圖片
-                q-file(filled v-model="bgForm.componentImages" label="選擇圖片" use-chips multiple)
+                q-file(filled v-model="bgForm.componentImages" label="選擇圖片(可複選)" use-chips multiple)
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
                 //- q-separator(inset spaced)
@@ -343,7 +331,7 @@ q-page#edit-bgs
                 q-input(v-model="bgForm.endGame" filled autogrow label="請輸入遊戲結束說明" clearable :rules="[rules.required]")
                 // > 張貼桌遊
                 q-checkbox.q-mt-md(label="張貼桌遊" v-model="bgForm.post" size="lg" :rules="[rules.required]")
-            q-card-action.flex.justify-center.q-pb-md.q-gutter-md
+            q-card-section.flex.justify-center.q-pb-md.q-gutter-md
               q-btn(label='取消' @click="bgForm.dialog = false" :disable="bgForm.loading")
               q-btn(label='送出' color='primary' type="submit" :disable="bgForm.loading")
 </template>
