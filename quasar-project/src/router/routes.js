@@ -84,7 +84,7 @@ const routes = [
         component: () => import('src/pages/frontPages/ReservationPage.vue'),
         meta: {
           title: '差滴滴 | 手刀預約',
-          login: false,
+          login: true,
           admin: false
         }
       }
