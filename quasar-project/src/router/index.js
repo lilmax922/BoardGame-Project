@@ -39,7 +39,8 @@ export default route(async function (/* { store, ssrContext } */) {
     if (user.isLogin && (to.path === '/register' || to.path === '/login')) {
       next('/')
     } else if (to.meta.login && !user.isLogin) {
-      next('/login')
+      user.showLoginCard = true
+      next('/')
     } else if (to.meta.admin && !user.isAdmin) {
       next('/')
     } else next()

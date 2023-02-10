@@ -9,6 +9,7 @@ export const useUserStore = defineStore('user', () => {
   const nickname = ref('')
   const token = ref('')
   const role = ref(0)
+  const showLoginCard = ref(false)
 
   const isLogin = computed(() => {
     return token.value.length > 0
@@ -86,7 +87,8 @@ export const useUserStore = defineStore('user', () => {
     getMyself,
     isLogin,
     isAdmin,
-    avatar
+    avatar,
+    showLoginCard
   }
 }, {
   persist: {

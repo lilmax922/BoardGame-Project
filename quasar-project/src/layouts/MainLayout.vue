@@ -6,13 +6,12 @@ import LoginCard from 'src/components/LoginCard.vue'
 import RegisterCard from 'src/components/RegisterCard.vue'
 
 const user = useUserStore()
-const { isLogin, isAdmin, avatar, nickname } = storeToRefs(user)
+const { isLogin, isAdmin, avatar, nickname, showLoginCard } = storeToRefs(user)
 const { logout } = user
 
 // TODO: nickname 是空值@@?
 
 const tab = ref('')
-const showLoginCard = ref(false)
 const showRegisterCard = ref(false)
 
 const toggleRegisterCardHandler = (type) => {
