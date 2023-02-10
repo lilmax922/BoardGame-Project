@@ -11,7 +11,7 @@ router.post('/', content('multipart/form-data'), jwt, admin, upload.boardgameImg
 router.get('/', getPostBoardgames)
 router.get('/all', jwt, admin, getAllBoardgames)
 router.get('/:id', getBoardgame)
-router.patch('/delete/:id', jwt, admin, deleteBoardgame)
+router.patch('/delete/:id', content('application/json'), jwt, admin, deleteBoardgame)
 router.patch('/:id', content('multipart/form-data'), jwt, admin, upload.boardgameImg, editBoardgame)
 
 export default router
