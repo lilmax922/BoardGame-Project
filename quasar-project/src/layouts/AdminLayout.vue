@@ -42,7 +42,7 @@ q-layout(view='hHh Lpr lff')
           q-item-section 桌遊管理
         q-separator
         q-item-label.q-pa-sm(overline) 前台編輯
-        q-item(clickable v-ripple)
+        q-item(clickable v-ripple to="/")
           q-item-section(avatar)
             q-icon(name='mdi-home-edit')
           q-item-section 首頁

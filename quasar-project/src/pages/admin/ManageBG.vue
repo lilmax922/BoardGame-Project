@@ -76,41 +76,41 @@ const columns = [
   {
     name: 'image',
     label: '圖片',
-    field: 'cardImage',
+    field: row => row.cardImage,
     align: 'center'
   },
   {
     name: 'name',
     label: '桌遊名稱',
-    field: 'name',
+    field: row => row.name,
     align: 'center',
     sortable: true
   },
   {
     name: 'types',
     label: '類型',
-    field: 'types',
+    field: row => row.types,
     align: 'center',
     sortable: true
   },
   {
     name: 'ytVideo',
     label: 'YT影片ID',
-    field: 'ytVideo',
+    field: row => row.ytVideo,
     align: 'center',
     sortable: true
   },
   {
     name: 'post',
     label: '張貼',
-    field: 'post',
+    field: row => row.post,
     align: 'center',
     sortable: true
   },
   {
     name: 'edit',
     label: '編輯',
-    field: 'edit',
+    field: row => row.edit,
     align: 'center'
   }
 ]
@@ -273,10 +273,10 @@ q-page#edit-bgs
                 q-item
                   q-item-section.items-center
                     .text-h6 遊戲時間
-                    q-input(v-model="bgForm.gameTime" type="number" filled suffix="分鐘")
+                    q-input(v-model.number="bgForm.gameTime" type="number" filled suffix="分鐘")
                   q-item-section.items-center
                     .text-h6 適合年齡
-                    q-input(v-model="bgForm.age" type="number" filled suffix="歲")
+                    q-input(v-model.number="bgForm.age" type="number" filled suffix="歲")
                 // > 桌遊類型
                 div.row.items-center
                   .text-h6.q-mr-sm 桌遊類型?
@@ -320,7 +320,7 @@ q-page#edit-bgs
                 q-input(v-model="bgForm.endGame" filled autogrow label="請輸入遊戲結束說明" clearable :rules="[rules.required]")
                 // > 張貼桌遊
                 q-checkbox.q-mt-md(label="張貼桌遊" v-model="bgForm.post" size="lg" :rules="[rules.required]")
-            q-card-section.flex.justify-center.q-pb-md.q-gutter-md
+            q-card-actions.flex.justify-center.q-pb-md.q-gutter-md
               q-btn(label='取消' @click="bgForm.dialog = false" :disable="bgForm.loading")
               q-btn(label='送出' color='primary' type="submit" :disable="bgForm.loading")
 </template>

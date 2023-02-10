@@ -29,7 +29,7 @@ q-layout(view='hHh lpR fff')
       q-toolbar
         q-avatar
           img(src='../assets/MAXXD.png' to="/")
-        | &nbsp; 差滴滴
+        | &nbsp; 桌遊列國
         //- q-toolbar-title 差滴滴
         q-space
         q-tabs(v-model="tab")

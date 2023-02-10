@@ -166,7 +166,6 @@ export const deleteBoardgame = async (req, res) => {
     const result = await boardgames.findByIdAndUpdate(req.params.id, {
       status: req.body.status
     }, { new: true })
-
     console.log(result)
     res.status(200).json({ success: true, message: '' })
   } catch (error) {

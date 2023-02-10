@@ -17,7 +17,7 @@ q-page#exploreBGs(padding)
   section.q-mx-auto
     .container
       .row.q-gutter-md
-       .col-4(v-for="boardgame in boardgames" :key="boardgame._id")
+       .col-3(v-for="boardgame in boardgames" :key="boardgame._id")
         BoardgameCard(v-bind="boardgame")
         p {{ types }}
 </template>
