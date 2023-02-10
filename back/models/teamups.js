@@ -23,7 +23,7 @@ const schema = new Schema(
       default: Date.now,
       required: [true, '缺少結束時間']
     },
-    totalPerson: {
+    totalPeople: {
       type: Number,
       required: [true, '缺少總人數']
     },

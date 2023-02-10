@@ -104,21 +104,21 @@ export const getMyself = (req, res) => {
 }
 
 // 發起揪團
-export const teamup = async (req, res) => {
-  try {
-    await teamups.create({
-      organizer: req.body.organizer,
-      startDate: req.body.startDate,
-      endDate: req.body.endDate,
-      totalPerson: req.body.totalPerson,
-      type: req.body.type,
-      interesting: req.body.interesting,
-      title: req.body.title,
-      content: req.body.content
-    })
-    res.status(200).json({ success: true, message: '' })
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({ success: false, message: '未知錯誤' })
-  }
-}
+// export const teamup = async (req, res) => {
+//   try {
+//     await teamups.create({
+//       organizer: req.body.organizer,
+//       startDate: req.body.startDate,
+//       endDate: req.body.endDate,
+//       totalPeople: req.body.totalPeople,
+//       type: req.body.type,
+//       interesting: req.body.interesting,
+//       title: req.body.title,
+//       content: req.body.content
+//     })
+//     res.status(200).json({ success: true, message: '' })
+//   } catch (error) {
+//     console.log(error)
+//     res.status(500).json({ success: false, message: '未知錯誤' })
+//   }
+// }
