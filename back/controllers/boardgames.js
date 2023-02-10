@@ -49,11 +49,11 @@ export const createBoardgame = async (req, res) => {
 export const getBoardgame = async (req, res) => {
   try {
     // req.params.id => 路由的 id 參數
-    const result = await boardgames.findById(req.params.id)
+    const result = await boardgames.find({ _id: req.params.id, status: 0 })
     if (!result) {
       res.status(404).json({ success: false, message: '找不到' })
     } else {
-      res.status(200).json({ success: true, message: '', result })
+      res.status(200).json({ success: true, message: '', result: result[0] })
     }
   } catch (error) {
     if (error.name === 'CastError') {
