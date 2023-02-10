@@ -15,14 +15,12 @@ q-page#index
   .container
     section#everyone-play
       .text-h4 大家都在玩
-        BoardgameCard
 </template>
 
 <style lang="scss" scoped>
 #index {
   #hero {
-    width: 100vw;
-    height: 70vh;
+    height: 60vh;
   }
 }
 </style>

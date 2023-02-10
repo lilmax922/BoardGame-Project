@@ -262,6 +262,7 @@ q-page#edit-bgs
                     q-icon(name="attach_file")
                 // > 桌遊主圖
                 .text-h6 桌遊主圖
+                //- q-uploader(auto-upload multiple batch  label="請選擇主圖片(可複選)" accept=".jpg, image/*")
                 q-file(filled v-model="bgForm.mainImages" label="請選擇主圖片(可複選)" use-chips multiple)
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
