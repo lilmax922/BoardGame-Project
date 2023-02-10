@@ -8,8 +8,6 @@ const reservationForm = reactive({
   selectedPeriod: 1,
   selectedPeople: 1
 })
-// const selectedPeriod = ref(1)
-const reserveOptions = reactive(['一小時', '兩小時', '三小時', '四小時', '五小時', '六小時', '七小時', '八小時', '九小時', '十小時', '十一小時', '十二小時'])
 
 const mask = 'YYYY-MM-DD HH:mm'
 
@@ -61,10 +59,10 @@ q-page#reservation(padding)
             //-     q-icon(name="event")
             // > 選擇時數
             .text-h6 預約時數
-              span.text-subtitle2 (小時)
             q-slider(v-model="reservationForm.selectedPeriod" markers marker-labels thumb-color="secondary" label-always :min="1" :max="10")
             .text-h6 預約人數
             q-slider(v-model="reservationForm.selectedPeople" markers marker-labels thumb-color="secondary" label-always :min="1" :max="20")
+          q-card-section.col-6.q-gutter-md
 </template>
 
 <style>
