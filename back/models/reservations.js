@@ -42,7 +42,8 @@ const schema = new Schema(
       default: 1,
       required: [true, '缺少預約人數']
     }
-  }
+  },
+  { versionKey: false }
 )
 
 export default model('reservations', schema)
