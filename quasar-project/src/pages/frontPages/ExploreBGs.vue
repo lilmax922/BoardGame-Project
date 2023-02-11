@@ -1,8 +1,8 @@
 <script setup>
 import { reactive } from 'vue'
-import { storeToRefs } from 'pinia'
-import { api } from 'src/boot/axios'
 import Swal from 'sweetalert2'
+import { api } from 'src/boot/axios'
+import { storeToRefs } from 'pinia'
 import { useBoardgameStore } from 'src/stores/boardgame'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
 

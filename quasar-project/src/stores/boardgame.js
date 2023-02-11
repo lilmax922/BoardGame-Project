@@ -43,7 +43,7 @@ export const useBoardgameStore = defineStore('boardgame', () => {
   }
 
   // 上傳桌遊
-  const submitBoardgames = async (fd, _id) => {
+  const submitBoardgame = async (fd, _id) => {
     try {
       if (_id === '') {
         const { data } = await apiAuth.post('/boardgames', fd)
@@ -78,6 +78,6 @@ export const useBoardgameStore = defineStore('boardgame', () => {
     boardgames,
     getAllBoardgames,
     deleteBoardgame,
-    submitBoardgames
+    submitBoardgame
   }
 })

@@ -1,5 +1,5 @@
 import users from '../models/users.js'
-import teamups from '../models/teamups.js'
+// import teamups from '../models/teamups.js'
 import jwt from 'jsonwebtoken'
 
 export const register = async (req, res) => {

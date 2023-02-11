@@ -6,7 +6,7 @@ import { isValidUrl, getVideoId } from 'is-youtube-url'
 import { useBoardgameStore } from 'stores/boardgame'
 
 const boardgameStore = useBoardgameStore()
-const { deleteBoardgame, submitBoardgames } = boardgameStore
+const { deleteBoardgame, submitBoardgame } = boardgameStore
 const { boardgames } = storeToRefs(boardgameStore)
 
 const bgTypes = reactive({
@@ -147,7 +147,6 @@ const openDialog = (index) => {
     playerRange.value.min = 1
     playerRange.value.max = 4
     bgForm.post = false
-    bgForm.valid = false
     bgForm.loading = false
     bgForm.index = -1
   } else {
@@ -206,7 +205,7 @@ const onSubmit = async () => {
   fd.append('gameFlow', bgForm.gameFlow)
   fd.append('endGame', bgForm.endGame)
   fd.append('post', bgForm.post)
-  await submitBoardgames(fd, bgForm._id)
+  await submitBoardgame(fd, bgForm._id)
   bgForm.loading = false
   bgForm.dialog = false
 }
@@ -221,7 +220,7 @@ q-page#edit-bgs
         q-btn(@click="openDialog(-1)" label="新增桌遊" color="primary")
       .col-12
         // > 桌遊表單
-        q-table(title="Boardgames" :rows="boardgames" :columns="columns" row-key="_id" :filter="filter")
+        q-table(title="Boardgames" :rows="boardgames" :columns="columns" row-key="_id" :filter="filter" :rows-per-page-options="[5,10,15,0]")
 
           template(v-slot:top-right)
             q-input(debounce="300" v-model="filter" placeholder="Search")
@@ -243,12 +242,12 @@ q-page#edit-bgs
     q-dialog(v-model="bgForm.dialog" full-width persistent)
       q-layout(container)
         q-card(flat)
-          q-form(v-model="bgForm.valid" @submit="onSubmit")
+          q-form(@submit="onSubmit")
             q-card-section.flex.justify-end
               q-btn(push icon="mdi-close" v-close-popup)
             .text-h4.text-center {{ bgForm._id.length > 0 ? '編輯桌遊' : '新增桌遊' }}
             q-card-section.justify-center
-              q-card-section.col6
+              q-card-section
                 // > 桌遊名稱
                 .text-h6 桌遊名稱
                 q-input(v-model="bgForm.name" filled label="請輸入桌遊名稱" clearable clear-icon="close" :rules="[rules.required]")
@@ -299,7 +298,7 @@ q-page#edit-bgs
                   q-item-section
                     q-range(v-model="playerRange" :min="1" :max="20" label)
                     p(color="secondary") {{ playerRange.min }} ~ {{ playerRange.max }} 人
-              q-card-section.col-6
+              q-card-section
                 // > 內容物介紹
                 .text-h6 內容物介紹
                 q-input(v-model="bgForm.componentTexts" filled autogrow label="請輸入內容物介紹" clearable :rules="[rules.required]")
