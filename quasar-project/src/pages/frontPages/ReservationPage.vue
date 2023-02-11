@@ -1,11 +1,8 @@
 <script setup>
-import { ref, reactive } from 'vue'
-import { date } from 'quasar'
+import { reactive } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useUserStore } from 'src/stores/user'
 import { useReservationStore } from 'stores/reservation.js'
 
-// const useReservationStore = useUserStore()
 const reservationStore = useReservationStore()
 const { submitReservation } = reservationStore
 const { reservations } = storeToRefs(reservationStore)
@@ -18,17 +15,19 @@ const reservationForm = reactive({
   selectedPeriod: 1,
   selectedPeople: 1,
   reserver: '',
+  _id: reservations._id || '',
   loading: false
 })
 
 const onSubmit = async () => {
   reservationForm.loading = true
 
-  const fd = new FormData()
-  fd.append('startDate', reservationForm.selectedDate)
-  fd.append('period', reservationForm.selectedPeriod)
-  fd.append('totalPeople', reservationForm.selectedPeople)
-  await submitReservation(fd, reservationForm._id)
+  await submitReservation({
+    _id: reservationForm._id,
+    startDate: reservationForm.selectedDate,
+    period: reservationForm.selectedPeriod,
+    totalPeople: reservationForm.selectedPeople
+  })
   reservationForm.loading = false
 }
 </script>
