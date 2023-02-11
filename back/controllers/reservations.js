@@ -3,6 +3,7 @@ import reservations from '../models/reservations.js'
 export const createReservation = async (req, res) => {
   try {
     const result = await reservations.create({
+      reserver: req.user._id,
       startDate: req.body.startDate,
       period: req.body.period,
       totalPeople: req.body.totalPeople
@@ -21,3 +22,5 @@ export const createReservation = async (req, res) => {
     }
   }
 }
+
+// TODO: getReservation,getAllReservations,deleteReservation,editReservation
