@@ -44,11 +44,11 @@ const onSubmit = async () => {
 
 <template lang="pug">
 q-page#reservation(padding)
+  div.q-ma-lg
+    q-breadcrumbs
+      q-breadcrumbs-el(icon='home' to='/')
+      q-breadcrumbs-el(label='手刀預約' icon='mdi-calendar')
   .container.q-gutter-md
-    section
-      q-breadcrumbs
-        q-breadcrumbs-el(icon='home' to='/')
-        q-breadcrumbs-el(label='手刀預約' icon='mdi-calendar')
     section.q-mt-lg
       .text-h3 預約須知
       div Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, vitae, eum eveniet aliquid illum explicabo vero doloremque reiciendis eius minus tempore incidunt odit commodi nostrum quam necessitatibus provident molestias. Iure!
