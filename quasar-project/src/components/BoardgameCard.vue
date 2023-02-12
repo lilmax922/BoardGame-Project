@@ -29,9 +29,9 @@ defineProps({
 
 <template lang="pug">
 q-card.bg-card(flat)
-  q-img(:src="cardImage")
-  q-card-section.q-gutter-sm
-    span.type-tag(v-for="(type,idx) in types" :key="idx") &#35;{{ type }}
+  q-img(:src="cardImage" ratio=4/3)
+  q-card-section
+    span.type-tag(v-for="(type,idx) in types" :key="idx")  &#35;{{ type }}
     .text-h4 {{ name }}
   q-separator(inset)
   q-card-section.flex-center(horizontal)
@@ -40,7 +40,7 @@ q-card.bg-card(flat)
         q-item.q-pa-none
           q-item-section
             q-icon(name="mdi-account-multiple" size="xs")
-          q-item-section &nbsp;{{ players }} 人
+          q-item-section(style="fontSize:18px") &nbsp;{{ players }} 人
         q-item.q-pa-none
           q-item-section.flex-auto
             q-icon(name="mdi-clock" size="xs")
@@ -49,9 +49,19 @@ q-card.bg-card(flat)
       q-btn.getmore(color="primary" to="/BGInfo/:id") 查看更多
 </template>
 
-<style lang="scss" scoped>
-.q-item__section--main {
-  flex: none;
-  margin-left: 0;
+<style lang="scss">
+.bg-card {
+  width: 300px;
+  & {
+    font-size: 16px;
+  }
+  .q-item__section--main {
+    flex: none;
+    margin-left: 0;
+  }
+  .type-tag {
+    font-size: 14px;
+    color: #ccc;
+  }
 }
 </style>
