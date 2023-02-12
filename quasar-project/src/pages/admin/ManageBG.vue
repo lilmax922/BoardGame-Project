@@ -259,12 +259,17 @@ q-page#edit-bgs
                 q-file(filled v-model="bgForm.cardImage" label="請選擇卡片圖(單選)")
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
+                div.row.q-pa-md
+                  q-card
+                    q-img(v-if="bgForm.cardImage" :src="bgForm.cardImage" width="100px")
                 // > 桌遊主圖
                 .text-h6 桌遊主圖
-                //- q-uploader(auto-upload multiple batch  label="請選擇主圖片(可複選)" accept=".jpg, image/*")
                 q-file(filled v-model="bgForm.mainImages" label="請選擇主圖片(可複選)" use-chips multiple)
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
+                div.row.q-pa-md
+                  q-card.q-mr-sm(v-for="mainImage in bgForm.mainImages" :key="mainImage")
+                    q-img(:src="mainImage" width="100px")
                 // > YtVideo
                 .text-h6.q-pt-md Youtube教學影片
                 q-input(v-model="bgForm.ytVideo" type="url" filled label="請輸入影片網址" clearable :rules="[rules.isYtUrl]")
@@ -308,6 +313,9 @@ q-page#edit-bgs
                 q-file(filled v-model="bgForm.componentImages" label="選擇圖片(可複選)" use-chips multiple)
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
+                div.row.q-pa-md
+                  q-card.q-mr-sm(v-for="componentImages in bgForm.componentImages" :key="componentImages")
+                    q-img(:src="componentImages" width="100px")
                 // > 遊戲配置
                 .text-h6 遊戲配置
                 q-input(v-model="bgForm.setup" filled autogrow label="請輸入遊戲配置" clearable :rules="[rules.required]")
