@@ -4,7 +4,7 @@ export const createReservation = async (req, res) => {
   try {
     const result = await reservations.create({
       reserver: req.user._id,
-      startDate: req.body.startDate,
+      selectedDate: req.body.selectedDate,
       period: req.body.period,
       totalPeople: req.body.totalPeople
     })
