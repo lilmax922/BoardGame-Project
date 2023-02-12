@@ -4,5 +4,4 @@
 
 <template lang="pug">
 q-page#teamup
-
 </template>

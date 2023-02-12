@@ -7,17 +7,57 @@ import { useBoardgameStore } from 'src/stores/boardgame'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
 
 const boardgameStore = useBoardgameStore()
-const { getAllBoardgames } = boardgameStore
 const { boardgames } = storeToRefs(boardgameStore)
-console.log(boardgames.value)
 </script>
 
-<template lang="pug">
-q-page#exploreBGs(padding)
-  section.q-mx-auto
-    .container
-      .row.q-gutter-md
-       .col-3(v-for="boardgame in boardgames" :key="boardgame._id")
-        BoardgameCard(v-bind="boardgame")
-        p {{ types }}
+<!-- <template lang="pug">
+q-page#exploreBGs
+  .container
+    .flex.items-center
+      .text-h3.q-pr-md(style="display:inline-block") 探索桌遊
+      q-btn(label="我要預約" to="/reservation" color="primary")
+    div.q-mt-lg.flex.column
+      div.q-gutter-md(v-for="boardgame in boardgames" :key="boardgame._id")
+        BoardgameCard.col-8(v-bind="boardgame")
+      div
+        q-input(name="search")
+</template> -->
+
+<template>
+  <q-page id="exploreBGs" padding>
+    <div class="container">
+      <section class="flex items-center">
+        <div class="text-h3 q-pr-lg" style="display: inline-block">
+          探索桌遊
+        </div>
+        <q-btn label="我要預約" to="/reservation" color="primary" />
+      </section>
+      <section id="page-body" class="flex">
+        <div id="cards-container">
+          <div v-for="boardgame in boardgames" :key="boardgame._id">
+            <BoardgameCard v-bind="boardgame" />
+          </div>
+        </div>
+        <div id="search-container">
+          <q-input name="search" placeholder="搜尋" rounded outlined>
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </div>
+      </section>
+    </div>
+  </q-page>
 </template>
+
+<style lang="scss">
+#page-body {
+  width: 100%;
+  #cards-container {
+    width: 85%;
+  }
+  #search-container {
+    width: 15%;
+  }
+}
+</style>
