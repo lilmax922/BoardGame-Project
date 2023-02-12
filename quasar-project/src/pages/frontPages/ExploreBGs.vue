@@ -8,6 +8,17 @@ import BoardgameCard from 'src/components/BoardgameCard.vue'
 
 const boardgameStore = useBoardgameStore()
 const { boardgames } = storeToRefs(boardgameStore)
+const filterTypes = reactive([
+  '陣營',
+  '策略',
+  '心機',
+  '派對',
+  '家庭',
+  '兒童',
+  '抽象',
+  '卡牌'
+])
+console.log(boardgames.value)
 </script>
 
 <!-- <template lang="pug">
@@ -24,9 +35,15 @@ q-page#exploreBGs
 </template> -->
 
 <template>
-  <q-page id="exploreBGs" padding>
+  <q-page id="explore-boardgames" padding>
+    <div class="q-ma-lg">
+      <q-breadcrumbs>
+        <q-breadcrumbs-el icon="mdi-home" to="/" />
+        <q-breadcrumbs-el label="探索桌遊" />
+      </q-breadcrumbs>
+    </div>
     <div class="container">
-      <section class="flex items-center">
+      <section class="header flex items-center">
         <div class="text-h3 q-pr-lg" style="display: inline-block">
           探索桌遊
         </div>
@@ -39,11 +56,60 @@ q-page#exploreBGs
           </div>
         </div>
         <div id="search-container">
-          <q-input name="search" placeholder="搜尋" rounded outlined>
+          <q-input name="search" placeholder="搜尋" outlined>
             <template v-slot:append>
               <q-icon name="search" />
             </template>
           </q-input>
+          <div id="filter-area" class="q-mt-md q-py-md">
+            <div id="game-types">
+              <div class="flex items-center">
+                <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
+                <span class="text-h6 q-pa-md">桌遊類型</span>
+              </div>
+              <div class="flex flex-center q-gutter-sm">
+                <q-btn
+                  v-model="filterTypes"
+                  v-for="(type, idx) in filterTypes"
+                  :key="idx"
+                  :label="type"
+                  color="primary"
+                />
+              </div>
+            </div>
+            <div id="players">
+              <div class="flex items-center">
+                <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
+                <div class="text-h6 q-pa-md">遊玩人數</div>
+                <q-range
+                  class="q-px-lg"
+                  :min="0"
+                  :max="20"
+                  markers
+                  marker-labels
+                  thumb-color="secondary"
+                  label-always
+                  :step="4"
+                />
+              </div>
+            </div>
+            <div id="game-time">
+              <div class="flex items-center">
+                <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
+                <div class="text-h6 q-pa-md">遊戲時間</div>
+                <q-range
+                  class="q-px-lg"
+                  :min="0"
+                  :max="20"
+                  markers
+                  marker-labels
+                  thumb-color="secondary"
+                  label-always
+                  :step="5"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -51,13 +117,31 @@ q-page#exploreBGs
 </template>
 
 <style lang="scss">
-#page-body {
-  width: 100%;
-  #cards-container {
-    width: 85%;
+#explore-boardgames {
+  .header {
+    padding-bottom: 55px;
   }
-  #search-container {
-    width: 15%;
+  #page-body {
+    width: 100%;
+    #cards-container {
+      width: 85%;
+    }
+    #search-container {
+      width: 15%;
+      .q-field__control {
+        border-radius: 16px;
+      }
+      #search-bar {
+        position: sticky;
+        top: 0;
+      }
+      #filter-area {
+        position: sticky;
+        top: 0;
+        border: 1px solid #fff;
+        border-radius: 16px;
+      }
+    }
   }
 }
 </style>
