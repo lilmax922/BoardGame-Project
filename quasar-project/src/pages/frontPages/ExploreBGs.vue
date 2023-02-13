@@ -1,12 +1,11 @@
 <script setup>
 import { reactive } from 'vue'
-import Swal from 'sweetalert2'
-import { api } from 'src/boot/axios'
 import { storeToRefs } from 'pinia'
 import { useBoardgameStore } from 'src/stores/boardgame'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
 
 const boardgameStore = useBoardgameStore()
+const { getPostBoardgames } = boardgameStore
 const { boardgames } = storeToRefs(boardgameStore)
 const filterTypes = reactive([
   '陣營',
@@ -18,7 +17,7 @@ const filterTypes = reactive([
   '抽象',
   '卡牌'
 ])
-console.log(boardgames.value)
+getPostBoardgames()
 </script>
 
 <!-- <template lang="pug">
@@ -51,8 +50,10 @@ q-page#exploreBGs
       </section>
       <section id="page-body" class="flex">
         <div id="cards-container">
-          <div v-for="boardgame in boardgames" :key="boardgame._id">
-            <BoardgameCard v-bind="boardgame" />
+          <div class="row q-gutter-md">
+            <div class="col-12 col-md-3" v-for="boardgame in boardgames" :key="boardgame._id">
+              <BoardgameCard v-bind="boardgame" />
+            </div>
           </div>
         </div>
         <div id="search-container">
