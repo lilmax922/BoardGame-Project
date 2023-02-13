@@ -1,32 +1,64 @@
 <script setup>
-import { reactive, computed } from 'vue'
+import { reactive, watch, ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useReservationStore } from 'stores/reservation.js'
+import { apiAuth } from 'src/boot/axios'
 
 const reservationStore = useReservationStore()
 const { submitReservation } = reservationStore
 const { reservations } = storeToRefs(reservationStore)
 
 const mask = 'YYYY-MM-DD'
+const availableTime = ref([])
 const reservationForm = reactive({
   hours: [10, 11, 12, 13, 14, 15, 16, 17, 18],
   minutes: [0, 15, 30, 45],
   selectedDate: '',
   selectedTime: '',
-  selectedPeriod: 1,
+  selectedHour: 1,
   selectedPeople: 1,
   reserver: '',
   _id: reservations._id || '',
   loading: false
 })
 
-const availableTimeSlots = computed(() => {
-  return [reservationForm.selectedTime]
+const availableTimeBtn = ['10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM', '07:00 PM', '08:00 PM']
+
+watch(() => reservationForm.selectedDate, async (val) => {
+  try {
+    const { data } = await apiAuth.post('/reservations/getdate', { selectedDate: val })
+    availableTime.value = []
+
+    const TimeAndHours = []
+    data.result.forEach(time => {
+      TimeAndHours.push({
+        time: time.selectedTime,
+        hours: time.hours
+      })
+    })
+
+    console.log(TimeAndHours)
+    TimeAndHours.forEach((item) => {
+      const index = availableTimeBtn.findIndex((btn) =>
+        btn === item.time
+      )
+      console.log(item.hours, 'hours')
+      for (let i = index; i <= index + item.hours; i++) {
+        availableTime.value.push(availableTimeBtn[i])
+        if (availableTimeBtn[i] === availableTimeBtn[availableTimeBtn.length - 1]) {
+          return
+        }
+      }
+    })
+    console.log(availableTime.value)
+  } catch (error) {
+    console.log(error)
+  }
 })
 
-const showReservationTime = computed(() => {
-  return `${reservationForm.selectedDate} ${availableTimeSlots.value}`
-})
+const isDisableBtn = (time) => {
+  return availableTime.value.includes(time)
+}
 
 const onSubmit = async () => {
   reservationForm.loading = true
@@ -34,7 +66,7 @@ const onSubmit = async () => {
   await submitReservation({
     _id: reservationForm._id,
     selectedDate: reservationForm.selectedDate,
-    // selectedTime: reservationForm.selectedTime,  // TODO: 選擇預約時間
+    selectedTime: reservationForm.selectedTime,
     period: reservationForm.selectedPeriod,
     totalPeople: reservationForm.selectedPeople
   })
@@ -67,28 +99,17 @@ q-page#reservation(padding)
                 navigation-min-year-month="2023/02"
                 navigation-max-year-month="2023/12"
               )
-              q-radio(
-                color="secondary"
-                v-model="reservationForm.selectedTime"
-                :val="reservationForm.selectedTime"
-                v-for="timeSlot in availableTimeSlots"
-                :key="timeSlot"
-                checked-icon="task_alt"
-                unchecked-icon="panorama_fish_eye"
-              )
-                | {{ timeSlot }}
-                //- .row.items-center.justify-end
-                //-   q-btn(v-close-popup label="Close" color="primary" flat)
-                //- template(v-slot:append)
-                //-   q-icon.cursor-pointer(name="access_time")
-                //-     q-popup-proxy(cover transition-show="scale" transition-hide="scale")
-                //-       q-time(
-                //-         v-model="reservationForm.selectedDate"
-                //-         :hour-options="reservationForm.hours" :minute-options="reservationForm.minutes"
-                //-         :mask="mask"
-                //-       )
-                //-         .row.items-center.justify-end
-                //-           q-btn(v-close-popup label="Close" color="primary" flat)
+              div(v-if="reservationForm.selectedDate !== ''")
+                q-btn(
+                  color="secondary"
+                  @click="reservationForm.selectedTime = timeBtn"
+                  v-for="timeBtn in availableTimeBtn"
+                  :disable="isDisableBtn(timeBtn)"
+                  :key="timeBtn"
+                  checked-icon="task_alt"
+                  unchecked-icon="panorama_fish_eye"
+                )
+                  | {{ timeBtn }}
               // > 選擇時數
               .text-h6 預約時數
               q-slider(v-model="reservationForm.selectedPeriod" markers marker-labels thumb-color="secondary" label-always :min="1" :max="10")
@@ -97,7 +118,7 @@ q-page#reservation(padding)
             q-card-section(style="width:400px").col-4.q-gutter-md.flex.flex-center.column
               .text-h4.text-center.q-pb-xl 預約確認
               .flex.items-start.column
-                p.text-h6 時間: {{ showReservationTime }}
+                p.text-h6 時間: {{ reservationForm.selectedDate }} {{ reservationForm.selectedTime }}
                 p.text-h6 時數: {{ reservationForm.selectedPeriod }} 小時
                 p.text-h6 人數: {{ reservationForm.selectedPeople }} 人
                 q-card-section
@@ -131,10 +152,9 @@ q-page#reservation(padding)
       </q-btn>
     </q-form>
   </q-card>
-</template>
+</template> -->
 
 <script>
-import { ref, computed } from 'vue'
 
 export default {
   setup () {
@@ -156,4 +176,4 @@ export default {
     return { selectedDate, selectedTime, availableTimeSlots, bookAppointment }
   }
 }
-</script> -->
+</script>

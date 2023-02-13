@@ -1,14 +1,17 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import VImageInput from 'vue3-img-input'
 import { isValidUrl, getVideoId } from 'is-youtube-url'
 import { useBoardgameStore } from 'stores/boardgame'
 
 const boardgameStore = useBoardgameStore()
-const { deleteBoardgame, submitBoardgame } = boardgameStore
+const { deleteBoardgame, submitBoardgame, getAllBoardgames } = boardgameStore
 const { boardgames } = storeToRefs(boardgameStore)
-
+getAllBoardgames()
+const playerRange = ref({
+  min: 1,
+  max: 4
+})
 const bgTypes = reactive({
   camp: {
     type: false,
@@ -42,12 +45,10 @@ const bgTypes = reactive({
     type: false,
     label: '兒童'
   }
-
 })
-const playerRange = ref({
-  min: 1,
-  max: 4
-})
+const cardImage = ref('')
+const mainImages = ref([])
+const componentImages = ref([]) // 存所有圖片，用來預覽圖片用
 const bgForm = reactive({
   _id: '', // 空的代表新增，有東西代表編輯
   introduction: '',
@@ -69,6 +70,49 @@ const bgForm = reactive({
   dialog: false,
   index: -1
 })
+
+watch(() => bgForm.cardImage, (value) => {
+  cardImage.value = ''
+  previewUrlHandler(value, cardImage.value)
+  // console.log(value)
+})
+
+watch(() => bgForm.mainImages, (value) => {
+  mainImages.value = []
+
+  value.forEach((img) => {
+    previewUrlHandler(img, mainImages.value)
+    // console.log(mainImages.value)
+  })
+})
+watch(() => bgForm.componentImages, (value) => {
+  componentImages.value = []
+
+  value.forEach((img) => {
+    previewUrlHandler(img, componentImages.value)
+  })
+})
+
+const previewUrlHandler = (file, data) => {
+  if (file && typeof file !== 'string' && file.type.startsWith('image/')) {
+    const reader = new FileReader()
+    reader.addEventListener('load', (event) => {
+      if (typeof data === 'object') {
+        data.push(event.target.result)
+      } else {
+        // string
+        cardImage.value = event.target.result
+      }
+    })
+    reader.readAsDataURL(file)
+  } else {
+    if (typeof data === 'object') {
+      data.push(file)
+    } else {
+      cardImage.value = file
+    }
+  }
+}
 
 // > q-table
 const filter = ref('')
@@ -155,7 +199,6 @@ const openDialog = (index) => {
     bgForm.introduction = boardgames.value[idx].introduction
     bgForm.name = boardgames.value[idx].name
     bgForm.cardImage = boardgames.value[idx].cardImage
-    console.log(bgForm.cardImage) // 回傳 https://res.cloudinary.com/dyvwqnaip/image/upload/v1675944044/rlnpcele9hgjivk9azon.jpg
     bgForm.mainImages = boardgames.value[idx].mainImages
     bgForm.types = boardgames.value[idx].types
     bgForm.gameTime = boardgames.value[idx].gameTime
@@ -256,19 +299,19 @@ q-page#edit-bgs
                 q-input(v-model="bgForm.introduction" filled autogrow label="請輸入桌遊介紹" clearable :rules="[rules.required]")
                 // > 桌遊卡片圖
                 .text-h6 桌遊卡片圖
-                q-file(filled v-model="bgForm.cardImage" label="請選擇卡片圖(單選)")
+                q-file(filled v-model="bgForm.cardImage" use-chips label="請選擇卡片圖(單選)")
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
                 div.row.q-pa-md
                   q-card
-                    q-img(v-if="bgForm.cardImage" :src="bgForm.cardImage" width="100px")
+                    q-img(v-if="bgForm.cardImage" :src="cardImage" width="100px")
                 // > 桌遊主圖
                 .text-h6 桌遊主圖
                 q-file(filled v-model="bgForm.mainImages" label="請選擇主圖片(可複選)" use-chips multiple)
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
                 div.row.q-pa-md
-                  q-card.q-mr-sm(v-for="mainImage in bgForm.mainImages" :key="mainImage")
+                  q-card.q-mr-sm(v-for="mainImage in mainImages" :key="mainImage")
                     q-img(:src="mainImage" width="100px")
                 // > YtVideo
                 .text-h6.q-pt-md Youtube教學影片
@@ -314,8 +357,8 @@ q-page#edit-bgs
                   template(v-slot:prepend)
                     q-icon(name="attach_file")
                 div.row.q-pa-md
-                  q-card.q-mr-sm(v-for="componentImages in bgForm.componentImages" :key="componentImages")
-                    q-img(:src="componentImages" width="100px")
+                  q-card.q-mr-sm(v-for="componentImage in componentImages" :key="componentImage")
+                    q-img(:src="componentImage" width="100px")
                 // > 遊戲配置
                 .text-h6 遊戲配置
                 q-input(v-model="bgForm.setup" filled autogrow label="請輸入遊戲配置" clearable :rules="[rules.required]")
