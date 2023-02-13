@@ -5,7 +5,6 @@ import { apiAuth } from 'src/boot/axios'
 
 export const useReservationStore = defineStore('reservation', () => {
   const reservations = reactive([])
-
   const submitReservation = async (form) => {
     try {
       if (form._id === '') {
