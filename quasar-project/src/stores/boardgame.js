@@ -6,6 +6,20 @@ import Swal from 'sweetalert2'
 export const useBoardgameStore = defineStore('boardgame', () => {
   const boardgames = reactive([])
 
+  // 取張貼桌遊
+  const getPostBoardgames = async () => {
+    try {
+      const { data } = await apiAuth.get('/boardgames')
+      boardgames.push(...data.result)
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   // 取所有桌遊
   const getAllBoardgames = async () => {
     try {
@@ -72,10 +86,11 @@ export const useBoardgameStore = defineStore('boardgame', () => {
     }
   }
 
-  getAllBoardgames()
+  // getAllBoardgames()
 
   return {
     boardgames,
+    getPostBoardgames,
     getAllBoardgames,
     deleteBoardgame,
     submitBoardgame
