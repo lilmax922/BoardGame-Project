@@ -29,7 +29,7 @@ const schema = new Schema(
     },
     selectedTime: {
       type: String,
-      enum: ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '01:00 PM', '01:30 PM', '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM', '05:30 PM', '06:00 PM', '06:30 PM', '07:00 PM', '07:30 PM', '08:00 PM']
+      enum: ['10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM', '07:00 PM', '08:00 PM']
       // required: [true, '缺少預約時間']
     },
     // endDate: {
@@ -46,12 +46,6 @@ const schema = new Schema(
       type: Number,
       default: 1,
       required: [true, '缺少預約人數']
-    },
-    // 0 : 可預約
-    // 1 : 不可預約
-    status: {
-      type: Number,
-      default: 0
     }
   },
   { versionKey: false }
