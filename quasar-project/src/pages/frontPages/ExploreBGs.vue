@@ -6,18 +6,21 @@ import BoardgameCard from 'src/components/BoardgameCard.vue'
 
 const boardgameStore = useBoardgameStore()
 const { getPostBoardgames } = boardgameStore
-const { boardgames } = storeToRefs(boardgameStore)
-const filterTypes = reactive([
-  '陣營',
-  '策略',
-  '心機',
-  '派對',
-  '家庭',
-  '兒童',
-  '抽象',
-  '卡牌'
-])
 getPostBoardgames()
+const { boardgames } = storeToRefs(boardgameStore)
+
+const filterTypes = ['陣營', '策略', '心機', '派對', '家庭', '兒童', '抽象', '卡牌']
+const form = reactive({
+  players: {
+    min: 1,
+    max: 15
+  },
+  gameTime: {
+    min: 10,
+    max: 60
+  }
+})
+
 </script>
 
 <!-- <template lang="pug">
@@ -79,16 +82,16 @@ q-page#exploreBGs
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
                 <div class="text-h6 q-pa-md">遊玩人數</div>
-                <q-range class="q-px-lg" :min="0" :max="20" markers marker-labels thumb-color="secondary" label-always
-                  :step="4" />
+                <q-range v-model="form.players" class="q-px-lg" :min="1" :max="15" markers marker-labels
+                  thumb-color="secondary" label-always :step="2"  />
               </div>
             </div>
             <div id="game-time">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
                 <div class="text-h6 q-pa-md">遊戲時間</div>
-                <q-range class="q-px-lg" :min="0" :max="20" markers marker-labels thumb-color="secondary" label-always
-                  :step="5" />
+                <q-range v-model="form.gameTime" class="q-px-lg" :min="10" :max="60" markers marker-labels
+                  thumb-color="secondary" label-always :step="10" />
               </div>
             </div>
           </div>
