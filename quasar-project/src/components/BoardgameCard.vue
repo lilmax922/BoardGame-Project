@@ -22,7 +22,8 @@ defineProps({
     type: Number
   },
   post: {
-    type: Boolean
+    type: Boolean,
+    default: false
   }
 })
 </script>
@@ -31,7 +32,7 @@ defineProps({
 q-card.bg-card(flat)
   q-img(:src="cardImage" ratio=4/3)
   q-card-section
-    span.type-tag(v-for="(type,idx) in types" :key="idx")  &#35;{{ type }}
+    span.type-tag(v-for="(type,idx) in types" :key="idx") &#35;{{ type }}
     .text-h4 {{ name }}
   q-separator(inset)
   q-card-section.flex-center(horizontal)
@@ -51,7 +52,6 @@ q-card.bg-card(flat)
 
 <style lang="scss">
 .bg-card {
-  width: 300px;
   & {
     font-size: 16px;
   }

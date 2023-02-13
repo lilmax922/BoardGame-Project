@@ -5,13 +5,12 @@ import Swal from 'sweetalert2'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
 import TeamupCard from 'src/components/TeamupCard.vue'
 import TestComp from 'src/components/TestComp.vue'
-
 </script>
 
 <template lang="pug">
 q-page#index
   section.q-mb-md
-    q-img#hero(alt="BoardgameHero" src="../assets/images/hero/mix.jpg")
+    q-img#hero(alt="BoardgameHero" src="../assets/images/hero/mix1.png")
   .container
     section#everyone-play
       .text-h4 大家都在玩
