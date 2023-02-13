@@ -48,20 +48,22 @@ q-page#exploreBGs
         </div>
         <q-btn label="我要預約" to="/reservation" color="primary" />
       </section>
-      <section id="page-body" class="flex">
+      <section class="page-body flex">
         <div id="cards-container">
-          <div class="row q-gutter-md">
-            <div class="col-12 col-md-3" v-for="boardgame in boardgames" :key="boardgame._id">
-              <BoardgameCard v-bind="boardgame" />
+          <div class="row ">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3" v-for="boardgame in boardgames" :key="boardgame._id">
+              <BoardgameCard class="bg-card q-mb-lg" v-bind="boardgame" />
             </div>
           </div>
         </div>
         <div id="search-container">
-          <q-input name="search" placeholder="搜尋" outlined>
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
+          <div id="search-bar">
+            <q-input name="search" placeholder="搜尋" outlined>
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </div>
           <div id="filter-area" class="q-mt-md q-py-md">
             <div id="game-types">
               <div class="flex items-center">
@@ -69,49 +71,31 @@ q-page#exploreBGs
                 <span class="text-h6 q-pa-md">桌遊類型</span>
               </div>
               <div class="flex flex-center q-gutter-sm">
-                <q-btn
-                  v-model="filterTypes"
-                  v-for="(type, idx) in filterTypes"
-                  :key="idx"
-                  :label="type"
-                  color="primary"
-                />
+                <q-btn v-model="filterTypes" v-for="(type, idx) in filterTypes" :key="idx" :label="type"
+                  color="primary" />
               </div>
             </div>
             <div id="players">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
                 <div class="text-h6 q-pa-md">遊玩人數</div>
-                <q-range
-                  class="q-px-lg"
-                  :min="0"
-                  :max="20"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  label-always
-                  :step="4"
-                />
+                <q-range class="q-px-lg" :min="0" :max="20" markers marker-labels thumb-color="secondary" label-always
+                  :step="4" />
               </div>
             </div>
             <div id="game-time">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
                 <div class="text-h6 q-pa-md">遊戲時間</div>
-                <q-range
-                  class="q-px-lg"
-                  :min="0"
-                  :max="20"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  label-always
-                  :step="5"
-                />
+                <q-range class="q-px-lg" :min="0" :max="20" markers marker-labels thumb-color="secondary" label-always
+                  :step="5" />
               </div>
             </div>
           </div>
         </div>
+      </section>
+      <section id="">
+
       </section>
     </div>
   </q-page>
@@ -122,23 +106,28 @@ q-page#exploreBGs
   .header {
     padding-bottom: 55px;
   }
-  #page-body {
+
+  .page-body {
     width: 100%;
+
     #cards-container {
       width: 85%;
+
+      .bg-card {
+        width: 80%;
+      }
     }
+
     #search-container {
       width: 15%;
+      // position: sticky;
+      // top: 0;
+
       .q-field__control {
         border-radius: 16px;
       }
-      #search-bar {
-        position: sticky;
-        top: 0;
-      }
+
       #filter-area {
-        position: sticky;
-        top: 0;
         border: 1px solid #fff;
         border-radius: 16px;
       }

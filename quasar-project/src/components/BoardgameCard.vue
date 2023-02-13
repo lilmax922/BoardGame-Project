@@ -32,7 +32,7 @@ defineProps({
 q-card.bg-card(flat)
   q-img(:src="cardImage" ratio=4/3)
   q-card-section
-    span.type-tag(v-for="(type,idx) in types" :key="idx") &#35;{{ type }}
+    span.type-tag(v-for="(type,idx) in types" :key="idx") &#35;{{ type }}&nbsp;
     .text-h4 {{ name }}
   q-separator(inset)
   q-card-section.flex-center(horizontal)
@@ -47,7 +47,7 @@ q-card.bg-card(flat)
             q-icon(name="mdi-clock" size="xs")
           q-item-section &nbsp;約 {{ gameTime }} 分鐘
     q-card-section.col-4.q-pa-none.flex.justify-center
-      q-btn.getmore(color="primary" to="/BGInfo/:id") 查看更多
+      q-btn.moreBtn(color="primary" to="/BGInfo/:id") 查看更多
 </template>
 
 <style lang="scss">
@@ -62,6 +62,13 @@ q-card.bg-card(flat)
   .type-tag {
     font-size: 14px;
     color: #ccc;
+  }
+  .moreBtn {
+    padding: 4px 6px;
+    border-radius: 16px;
+    &{
+      font-size: 12px;
+    }
   }
 }
 </style>
