@@ -12,6 +12,7 @@ const date = new Date()
 const mask = 'YYYY-MM-DD'
 const unavailableTime = ref([])
 const reservationForm = reactive({
+  // Bug: 第一次進頁面不會disable當天預約的btn
   selectedDate: `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`,
   selectedTime: '',
   selectedHour: 1,
@@ -35,44 +36,40 @@ const availableTimeBtn = [
   '08:00 PM'
 ]
 
-watch(
-  () => reservationForm.selectedDate,
-  async (value) => {
-    try {
-      // 取得使用者選擇的當天日期
-      const { data } = await apiAuth.post('/reservations/getdate', {
-        selectedDate: value
+watch(() => reservationForm.selectedDate, async (value) => {
+  try {
+    // 取得使用者選擇的當天日期
+    const { data } = await apiAuth.post('/reservations/getdate', { selectedDate: value })
+
+    // 已被預約
+    unavailableTime.value = []
+
+    // 被預訂的時間與時數
+    const reservedTimeAndHours = []
+
+    // info 會是 controller 傳進來的 result
+    data.result.forEach((info) => {
+      reservedTimeAndHours.push({
+        reservedTime: info.time,
+        reservedHours: info.hour
       })
-
-      // 已被預約
-      unavailableTime.value = []
-
-      // 被預訂的時間與時數
-      const reservedTimeAndHours = []
-
-      // info 會是 controller 傳進來的 result
-      data.result.forEach((info) => {
-        reservedTimeAndHours.push({
-          reservedTime: info.time,
-          reservedHours: info.hour
-        })
-      })
-      reservedTimeAndHours.forEach((info) => {
-        const index = availableTimeBtn.findIndex(
-          (availableTime) => availableTime === info.reservedTime
-        )
-        for (let i = index; i <= index + info.reservedHours; i++) {
-          unavailableTime.value.push(availableTimeBtn[i])
-          if (
-            availableTimeBtn[i] ===
+    })
+    reservedTimeAndHours.forEach((info) => {
+      const index = availableTimeBtn.findIndex(
+        (availableTime) => availableTime === info.reservedTime
+      )
+      for (let i = index; i <= index + info.reservedHours; i++) {
+        unavailableTime.value.push(availableTimeBtn[i])
+        if (
+          availableTimeBtn[i] ===
             availableTimeBtn[availableTimeBtn.length - 1]
-          ) { return }
-        }
-      })
-    } catch (error) {
-      console.log(error)
-    }
+        ) { return }
+      }
+    })
+  } catch (error) {
+    console.log(error)
   }
+}
 )
 
 const isDisableBtn = (time) => {
