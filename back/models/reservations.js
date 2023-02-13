@@ -37,7 +37,7 @@ const schema = new Schema(
     //   default: Date.now,
     //   required: [true, '缺少預計結束時間']
     // },
-    period: {
+    hours: {
       type: Number,
       default: 1,
       required: [true, '缺少預約時數']

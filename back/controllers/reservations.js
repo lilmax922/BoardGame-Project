@@ -6,7 +6,7 @@ export const createReservation = async (req, res) => {
       reserver: req.user._id,
       selectedDate: req.body.selectedDate,
       selectedTime: req.body.selectedTime,
-      period: req.body.period,
+      hours: req.body.hours,
       totalPeople: req.body.totalPeople
     })
     res.status(200).json({ success: true, message: '預約成功', result })
@@ -28,7 +28,7 @@ export const createReservation = async (req, res) => {
 
 export const getReservation = async (req, res) => {
   try {
-    const result = await reservations.find({ selectedDate: req.body.selectedDate }).select('selectedTime period')
+    const result = await reservations.find({ selectedDate: req.body.selectedDate }).select('selectedTime hours')
     // req.body.selectedDate 撈 整筆資料
     res.status(200).json({ success: true, message: '查詢成功', result })
   } catch (error) {
