@@ -27,8 +27,8 @@ q-layout(view='hHh lpR fff')
   q-header.bg-primary.text-white(reveal elevated)
     q-toolbar
       q-avatar
-        img(src='../assets/MAXXD.png' to="/")
-      | &nbsp; 桌遊列國
+        img(src='../assets/MAXXD.png')
+      | &nbsp; 桌遊哩狗
       //- q-toolbar-title 差滴滴
       q-space
       q-tabs(v-model="tab")
