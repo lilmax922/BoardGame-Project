@@ -5,17 +5,18 @@ import { apiAuth } from 'src/boot/axios'
 
 export const useReservationStore = defineStore('reservation', () => {
   const reservations = reactive([])
-  const submitReservation = async (form) => {
+  async function submitReservation (form) {
     try {
       if (form._id === '') {
         const { data } = await apiAuth.post('/reservations', form)
         reservations.push(data.result)
-        Swal.fire({
+        await Swal.fire({
           icon: 'success',
           title: '成功',
-          text: '預約成功'
+          text: '預約成功，帶你回首頁~'
         })
       }
+      this.router.push('/')
     } catch (error) {
       Swal.fire({
         icon: 'error',
