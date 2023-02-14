@@ -75,7 +75,7 @@ export const getAllBoardgames = async (req, res) => {
 
 export const getPostBoardgames = async (req, res) => {
   try {
-    const result = await boardgames.find({ post: true })
+    const result = await boardgames.find({ post: true, status: 0 })
     res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
