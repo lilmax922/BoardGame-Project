@@ -135,13 +135,6 @@ const columns = [
     sortable: true,
     format: val => val.join(' ')
   },
-  // {
-  //   name: 'ytVideo',
-  //   label: 'YT影片ID',
-  //   field: row => row.ytVideo,
-  //   align: 'center',
-  //   sortable: true
-  // },
   {
     name: 'post',
     label: '張貼',
@@ -163,6 +156,12 @@ const rules = ({
   },
   isYtUrl (url) {
     return (isValidUrl(url) || 'Youtube 網址錯誤')
+  },
+  gameTime (time) {
+    return (time && time >= 10) || '不得小於 10'
+  },
+  age (age) {
+    return (age && age >= 5) || '不得小於 5'
   }
 })
 
@@ -192,7 +191,6 @@ const openDialog = (index) => {
     bgForm.loading = false
     bgForm.index = -1
   } else {
-    // ! 卡片圖
     bgForm._id = boardgames.value[idx]._id
     bgForm.introduction = boardgames.value[idx].introduction
     bgForm.name = boardgames.value[idx].name
@@ -253,7 +251,7 @@ const onSubmit = async () => {
 </script>
 
 <template lang="pug">
-q-page#edit-bgs
+q-page#manage-boardgames
   .container.q-mx-xl
     .row
       .col-12.flex.items-center
@@ -281,8 +279,8 @@ q-page#edit-bgs
               q-btn(icon="edit" color="info" fab-mini unelevated size="sm" @click="openDialog(props.row._id)")
               q-btn(icon="delete" color="secondary" fab-mini unelevated @click="deleteBoardgame(props.row._id)")
     // > 新增/編輯商品 dialog
-    q-dialog(v-model="bgForm.dialog" persistent )
-      q-layout(container)
+    q-dialog(v-model="bgForm.dialog" persistent)
+      q-layout.edit(container)
         q-card(flat)
           q-form(@submit="onSubmit")
             q-card-section.flex.justify-end
@@ -326,10 +324,19 @@ q-page#edit-bgs
                 q-item
                   q-item-section.items-center
                     .text-h6 遊戲時間
-                    q-input(v-model.number="bgForm.gameTime" type="number" filled suffix="分鐘")
+                    .count.flex.flex-center.col-12
+                      q-btn.remove(icon='remove' @click='bgForm.gameTime--')
+                      q-input.num(v-model='bgForm.gameTime' :rules="[rules.gameTime]" suffix="分鐘")
+                      q-btn.add(icon='add' @click='bgForm.gameTime++')
+
+                    //- q-input(v-model.number="bgForm.gameTime" type="number" filled suffix="分鐘")
                   q-item-section.items-center
                     .text-h6 適合年齡
-                    q-input(v-model.number="bgForm.age" type="number" filled suffix="歲")
+                    .count.flex.flex-center.col-12
+                      q-btn.remove(icon='remove' @click='bgForm.age--')
+                      q-input.num(v-model='bgForm.age' :rules="[rules.age]" suffix="歲")
+                      q-btn.add(icon='add' @click='bgForm.age++')
+                    //- q-input(v-model.number="bgForm.age" type="number" filled suffix="歲")
                 // > 桌遊類型
                 div.row.items-center
                   .text-h6.q-mr-sm 桌遊類型?
@@ -410,4 +417,23 @@ q-page#edit-bgs
 </template>
 
 <style lang="scss" scoped>
+.edit {
+    max-width: 1000px !important;
+}
+.count{
+  height:10vh;
+.num {
+  width: 50%;
+}
+.add{
+  width: 5vh;
+  height: 2vh;
+  margin: 0 0 1rem 1rem;
+}
+.remove{
+  width: 5vh;
+  height: 2vh;
+  margin: 0 1rem 1rem 0;
+}
+}
 </style>
