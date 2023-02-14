@@ -8,6 +8,14 @@ const { avatar } = storeToRefs(user)
 const { logout } = user
 
 const drawer = ref(false)
+
+const links = [
+  { icon: 'mdi-account-edit', text: '帳號管理', to: '/admin/manageAccount' },
+  { icon: 'mdi-calendar-account', text: '預約管理', to: '/admin/manageReservation' },
+  { icon: 'mdi-account-group', text: '揪團管理', to: '/admin/manageTeamup' },
+  { icon: 'mdi-bullhorn', text: '活動管理', to: '/admin/manageEvent' },
+  { icon: 'mdi-google-downasaur', text: '桌遊管理', to: '/admin/manageBG' }
+]
 </script>
 
 <template lang="pug">
@@ -20,26 +28,15 @@ q-layout(view='hHh Lpr lff')
     q-scroll-area(style='height: calc(100% - 150px); margin-top: 150px;')
       q-list(padding)
         q-item-label.q-pa-sm(overline) 會員管理
-        q-item(clickable v-ripple)
+        q-item(
+          v-for="link in links"
+          :to="link.to"
+          clickable
+          v-ripple
+        )
           q-item-section(avatar)
-            q-icon(name='mdi-account-edit')
-          q-item-section 帳號管理
-        q-item(clickable v-ripple)
-          q-item-section(avatar)
-            q-icon(name='mdi-calendar-account')
-          q-item-section 預約管理
-        q-item(clickable v-ripple)
-          q-item-section(avatar)
-            q-icon(name='mdi-account-group')
-          q-item-section 揪團管理
-        q-item(clickable v-ripple)
-          q-item-section(avatar)
-            q-icon(name='mdi-bullhorn')
-          q-item-section 活動管理
-        q-item(clickable v-ripple to="/admin/manageBG")
-          q-item-section(avatar)
-            q-icon(name='mdi-google-downasaur')
-          q-item-section 桌遊管理
+            q-icon(:name="link.icon")
+          q-item-section {{ link.text }}
         q-separator
         q-item-label.q-pa-sm(overline) 前台編輯
         q-item(clickable v-ripple to="/")
@@ -73,6 +70,3 @@ q-layout(view='hHh Lpr lff')
   q-page-container
     router-view
 </template>
-
-<style scoped>
-</style>
