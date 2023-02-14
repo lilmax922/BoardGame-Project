@@ -12,7 +12,7 @@ defineProps({
     type: String
   },
   types: {
-    type: [String]
+    type: Array
   },
   players: {
     type: String,
