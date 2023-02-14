@@ -10,7 +10,7 @@ export const useBoardgameStore = defineStore('boardgame', () => {
   const getPostBoardgames = async () => {
     try {
       const { data } = await apiAuth.get('/boardgames')
-      boardgames.push(...data.result)
+      boardgames.splice(0, boardgames.length, ...data.result)
     } catch (error) {
       Swal.fire({
         icon: 'error',
