@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useBoardgameStore } from 'src/stores/boardgame'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
@@ -9,18 +9,61 @@ const { getPostBoardgames } = boardgameStore
 getPostBoardgames()
 const { boardgames } = storeToRefs(boardgameStore)
 
-const filterTypes = ['陣營', '策略', '心機', '派對', '家庭', '兒童', '抽象', '卡牌']
+const filterTypes = ref([
+  '陣營',
+  '策略',
+  '抽象',
+  '心機',
+  '卡牌',
+  '派對',
+  '家庭',
+  '兒童'
+])
+// const filterTypes = reactive({
+//   camp: {
+//     type: false,
+//     label: '陣營'
+//   },
+//   strategy: {
+//     type: false,
+//     label: '策略'
+//   },
+//   abstract: {
+//     type: false,
+//     label: '抽象'
+//   },
+//   crafty: {
+//     type: false,
+//     label: '心機'
+//   },
+//   card: {
+//     type: false,
+//     label: '卡牌'
+//   },
+//   party: {
+//     type: false,
+//     label: '派對'
+//   },
+//   family: {
+//     type: false,
+//     label: '家庭'
+//   },
+//   children: {
+//     type: false,
+//     label: '兒童'
+//   }
+// })
+
 const form = reactive({
   players: {
     min: 1,
     max: 15
   },
   gameTime: {
-    min: 10,
+    min: 1,
     max: 60
   }
 })
-
 </script>
 
 <template>
@@ -41,43 +84,78 @@ const form = reactive({
       <section class="page-body">
         <div id="search-container">
           <div id="search-bar">
-            <q-input name="search" placeholder="搜尋" outlined>
-              <template v-slot:prepend>
+            <q-input name="search" placeholder="請輸入關鍵字" borderless>
+              <template v-slot:append>
                 <q-icon name="search" />
               </template>
             </q-input>
           </div>
-          <div id="filter-area" class="q-mt-md q-py-md">
+          <div id="filter-area" class="q-gutter-md">
             <div id="game-types">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
                 <span class="text-h6 q-pa-md">桌遊類型</span>
               </div>
               <div class="flex flex-center q-gutter-md">
-                <!-- <q-btn v-model="filterTypes" v-for="(type, idx) in filterTypes" :key="idx" :label="type" color="primary" size="lg" /> -->
-              </div>
-            </div>
-            <div id="players">
-              <div class="flex items-center">
-                <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
-                <div class="text-h6 q-pa-md">遊玩人數</div>
-                <!-- <q-range v-model="form.players" class="q-px-lg" :min="1" :max="15" markers marker-labels
-                  thumb-color="secondary" label-always :step="2" /> -->
+                <q-checkbox
+                  v-for="(type, idx) in filterTypes"
+                  :key="idx"
+                  v-model="filterTypes"
+                  :label="type"
+                  :val="type"
+                />
+                <!-- <p>{{ filterTypes }}</p> -->
+                <!-- <q-checkbox v-model="filterTypes.camp.type" :label="filterTypes.camp.label" :val="filterTypes.camp.label" />
+                <q-checkbox v-model="filterTypes.strategy.type" :label="filterTypes.strategy.label" :val="filterTypes.strategy.label" />
+                <q-checkbox v-model="filterTypes.abstract.type" :label="filterTypes.abstract.label" :val="filterTypes.abstract.label" />
+                <q-checkbox v-model="filterTypes.crafty.type" :label="filterTypes.crafty.label" :val="filterTypes.crafty.label" />
+                <q-checkbox v-model="filterTypes.card.type" :label="filterTypes.card.label" :val="filterTypes.card.label" />
+                <q-checkbox v-model="filterTypes.party.type" :label="filterTypes.party.label" :val="filterTypes.party.label" />
+                <q-checkbox v-model="filterTypes.family.type" :label="filterTypes.family.label" :val="filterTypes.family.label" />
+                <q-checkbox v-model="filterTypes.children.type" :label="filterTypes.children.label" :val="filterTypes.children.label" /> -->
               </div>
             </div>
             <div id="game-time">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
                 <div class="text-h6 q-pa-md">遊戲時間</div>
-                <!-- <q-range v-model="form.gameTime" class="q-px-lg" :min="10" :max="60" markers marker-labels
-                  thumb-color="secondary" label-always :step="10" /> -->
+                <q-range
+                  v-model="form.gameTime"
+                  class="q-px-lg"
+                  :min="5"
+                  :max="60"
+                  markers
+                  marker-labels
+                  thumb-color="secondary"
+                  :step="10"
+                />
+              </div>
+            </div>
+            <div id="players">
+              <div class="flex items-center">
+                <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
+                <div class="text-h6 q-pa-md">遊玩人數</div>
+                <q-range
+                  v-model="form.players"
+                  class="q-px-lg"
+                  :min="1"
+                  :max="15"
+                  markers
+                  marker-labels
+                  thumb-color="secondary"
+                  :step="2"
+                />
               </div>
             </div>
           </div>
         </div>
         <div id="cards-container">
-          <div class="row q-gutter-xs-sm q-gutter-md-lg">
-            <div class="col-12 col-md-6 col-lg-3" v-for="boardgame in boardgames" :key="boardgame._id">
+          <div class="row flex justify-between">
+            <div
+              class="col-12 col-md-6 col-lg-3 flex flex-center q-mb-lg"
+              v-for="boardgame in boardgames"
+              :key="boardgame._id"
+            >
               <BoardgameCard class="bg-card q-mb-lg" v-bind="boardgame" />
             </div>
           </div>
@@ -97,15 +175,25 @@ const form = reactive({
 
   .page-body {
     width: 100%;
+
     #cards-container {
       padding-top: 55px;
+
+      .bg-card {
+        width: 300px;
+      }
     }
+
     #search-container {
-      .q-field__control {
+      border: 1px solid #fff;
+      border-radius: 16px;
+      padding: 1rem;
+
+      .game-time {
         border-radius: 16px;
       }
+
       #filter-area {
-        border: 1px solid #fff;
         border-radius: 16px;
       }
     }

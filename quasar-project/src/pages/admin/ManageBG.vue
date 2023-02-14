@@ -271,8 +271,8 @@ q-page#manage-boardgames
 
           template(v-slot:body-cell-post="props")
             q-td.text-center
-              //- pre {{ props }}
-              q-toggle(v-model="props.row.post" color="accent")
+              p {{ props.row.post }}
+              //- q-toggle(v-model="props.row.post" color="accent")
 
           template(v-slot:body-cell-edit="props")
             q-td.text-center.q-gutter-sm

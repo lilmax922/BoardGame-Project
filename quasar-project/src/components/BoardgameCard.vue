@@ -30,10 +30,10 @@ defineProps({
 
 <template lang="pug">
 q-card.bg-card(flat)
-  q-img(:src="cardImage" ratio=4/3)
+  q-img(:src="cardImage" ratio=16/9)
   q-card-section
     span.type-tag(v-for="(type,idx) in types" :key="idx") &#35;{{ type }}&nbsp;
-    .text-h4 {{ name }}
+    .text-h4.bg-name {{ name }}
   q-separator(inset)
   q-card-section.flex-center(horizontal)
     q-card-section.col-8.q-pt-none
@@ -55,20 +55,27 @@ q-card.bg-card(flat)
   & {
     font-size: 16px;
   }
+
+  // ? 加了之後縮小就會疊在一起
+  .bg-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .q-item__section--main {
     flex: none;
     margin-left: 0;
   }
+
   .type-tag {
     font-size: 14px;
     color: #ccc;
   }
+
   .moreBtn {
-    padding: 4px 6px;
-    border-radius: 16px;
-    &{
-      font-size: 12px;
-    }
+    padding: 8px 10px;
+    border-radius: 8px;
   }
 }
 </style>

@@ -111,6 +111,46 @@ const routes = [
         }
       },
       {
+        path: 'manageAccount',
+        name: 'manageAccount',
+        component: () => import('src/pages/admin/ManageAccount.vue'),
+        meta: {
+          title: '差滴滴 | 帳號管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'manageReservation',
+        name: 'manageReservation',
+        component: () => import('src/pages/admin/ManageReservation.vue'),
+        meta: {
+          title: '差滴滴 | 預約管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'manageTeamup',
+        name: 'manageTeamup',
+        component: () => import('src/pages/admin/ManageTeamup.vue'),
+        meta: {
+          title: '差滴滴 | 揪團管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'manageEvent',
+        name: 'manageEvent',
+        component: () => import('src/pages/admin/ManageEvent.vue'),
+        meta: {
+          title: '差滴滴 | 活動管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
         path: 'manageBG',
         name: 'manageBG',
         component: () => import('src/pages/admin/ManageBG.vue'),

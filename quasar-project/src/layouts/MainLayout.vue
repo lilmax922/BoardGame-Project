@@ -28,18 +28,19 @@ q-layout(view='hHh lpR fff')
     q-toolbar
       q-avatar
         img(src='../assets/MAXXD.png')
-      | &nbsp; 桌遊哩狗
-      //- q-toolbar-title 差滴滴
-      q-space
+      //- | &nbsp; 桌遊哩狗
+      q-toolbar-title 桌遊哩狗
       q-tabs(v-model="tab")
         q-route-tab(to="/exploreBGs") 探索桌遊
         q-route-tab(to="/event") 本期EVENT
         q-route-tab(to="/searchTeamups") 揪團組隊
         q-route-tab(to="/reservation") 手刀預約
       q-space
-      q-btn(icon='fa-solid fa-search' dense)
-      q-btn(v-if="isLogin" icon='fa-solid fa-bell')
-        <q-badge color="accent" floating :label="5"></q-badge>
+      q-input(name="search" placeholder="search")
+        template(v-slot:prepend)
+          q-icon(name="search")
+      q-btn(v-if="isLogin" icon='mdi-bell')
+        q-badge(color="accent" floating :label="5")
       q-btn(v-if="!isLogin" @click="showLoginCard = true" label="會員登入" size="lg")
       q-btn-dropdown(v-if="isLogin" flat)
         template(#label)
