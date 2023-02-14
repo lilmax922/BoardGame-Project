@@ -76,7 +76,7 @@ const form = reactive({
           </div>
         </div>
         <div id="cards-container">
-          <div class="row q-gutter-sm-md">
+          <div class="row q-gutter-xs-sm q-gutter-md-lg">
             <div class="col-12 col-md-6 col-lg-3" v-for="boardgame in boardgames" :key="boardgame._id">
               <BoardgameCard class="bg-card q-mb-lg" v-bind="boardgame" />
             </div>
@@ -99,9 +99,6 @@ const form = reactive({
     width: 100%;
     #cards-container {
       padding-top: 55px;
-      .bg-card {
-        width:60%;
-      }
     }
     #search-container {
       .q-field__control {
