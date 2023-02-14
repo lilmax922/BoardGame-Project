@@ -10,10 +10,8 @@ const { reservations } = storeToRefs(reservationStore)
 
 const date = new Date()
 const mask = 'YYYY-MM-DD'
-const unavailableTime = ref([])
 const reservationForm = reactive({
-  // Bug: 第一次進頁面不會disable當天預約的btn
-  selectedDate: `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`,
+  selectedDate: '',
   selectedTime: '',
   selectedHour: 1,
   selectedPeople: 1,
@@ -22,31 +20,52 @@ const reservationForm = reactive({
   loading: false
 })
 
-const availableTimeBtn = [
-  '10:00 AM',
-  '11:00 AM',
-  '12:00 PM',
-  '01:00 PM',
-  '02:00 PM',
-  '03:00 PM',
-  '04:00 PM',
-  '05:00 PM',
-  '06:00 PM',
-  '07:00 PM',
-  '08:00 PM'
-]
+const availableTimeBtn = reactive([
+  { time: '10:00 AM', available: true },
+  { time: '11:00 AM', available: true },
+  { time: '12:00 PM', available: true },
+  { time: '01:00 PM', available: true },
+  { time: '02:00 PM', available: true },
+  { time: '03:00 PM', available: true },
+  { time: '04:00 PM', available: true },
+  { time: '05:00 PM', available: true },
+  { time: '06:00 PM', available: true },
+  { time: '07:00 PM', available: true },
+  { time: '08:00 PM', available: true }
+])
+
+const max = computed(() => {
+  const startIdx = availableTimeBtn.findIndex(btn => btn.time === reservationForm.selectedTime)
+  if (startIdx > -1) {
+    let i = startIdx
+    while (availableTimeBtn[i] && availableTimeBtn[i].available) {
+      i++
+    }
+    return (i - startIdx)
+  } else return 11 // 總共 11 個時段
+})
 
 watch(() => reservationForm.selectedDate, async (value) => {
   try {
+    if (!reservationForm.selectedDate) {
+      availableTimeBtn.forEach(btn => {
+        btn.available = false
+        console.log(btn)
+        return btn
+      })
+      return
+    }
+    reservationForm.selectedTime = ''
     // 取得使用者選擇的當天日期
     const { data } = await apiAuth.post('/reservations/getdate', { selectedDate: value })
 
-    // 已被預約
-    unavailableTime.value = []
-
     // 被預訂的時間與時數
     const reservedTimeAndHours = []
-
+    availableTimeBtn.forEach(btn => {
+      btn.available = true
+      return btn
+    })
+    console.log(reservedTimeAndHours)
     // info 會是 controller 傳進來的 result
     data.result.forEach((info) => {
       reservedTimeAndHours.push({
@@ -56,14 +75,14 @@ watch(() => reservationForm.selectedDate, async (value) => {
     })
     reservedTimeAndHours.forEach((info) => {
       const index = availableTimeBtn.findIndex(
-        (availableTime) => availableTime === info.reservedTime
+        (availableTime) => availableTime.time === info.reservedTime
       )
       for (let i = index; i <= index + info.reservedHours; i++) {
-        unavailableTime.value.push(availableTimeBtn[i])
+        availableTimeBtn[i].available = false
+        console.log(availableTimeBtn[i])
         if (
-          availableTimeBtn[i] ===
-            availableTimeBtn[availableTimeBtn.length - 1]
-        ) { return }
+          availableTimeBtn[i] === availableTimeBtn[availableTimeBtn.length - 1]
+        ) return
       }
     })
   } catch (error) {
@@ -71,10 +90,6 @@ watch(() => reservationForm.selectedDate, async (value) => {
   }
 }
 )
-
-const isDisableBtn = (time) => {
-  return unavailableTime.value.includes(time)
-}
 
 const onSubmit = async () => {
   reservationForm.loading = true
@@ -89,6 +104,8 @@ const onSubmit = async () => {
   })
   reservationForm.loading = false
 }
+
+reservationForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
 </script>
 
 <template lang="pug">
@@ -119,20 +136,20 @@ q-page#reservation(padding)
                 )
                 div.col-5.q-gutter-md.flex.justify-around(v-if="reservationForm.selectedDate !== ''")
                   q-btn(
-                    color="secondary"
-                    @click="reservationForm.selectedTime = timeBtn"
+                    :color="timeBtn.time === reservationForm.selectedTime ? 'info' : 'secondary'"
+                    @click="reservationForm.selectedTime = timeBtn.time"
                     v-for="timeBtn in availableTimeBtn"
-                    :key="timeBtn"
-                    :disable="isDisableBtn(timeBtn)"
+                    :key="timeBtn.time"
+                    :disable="!timeBtn.available"
                     checked-icon="task_alt"
                     unchecked-icon="panorama_fish_eye"
                   )
-                    | {{ timeBtn }}
+                    | {{ timeBtn.time }}
               // > 選擇時數
               .text-h6 預約時數
-              q-slider(v-model="reservationForm.selectedHour" markers marker-labels thumb-color="secondary" label-always :min="1" :max="10")
+              q-slider(v-model="reservationForm.selectedHour" markers marker-labels thumb-color="secondary" label-always :min="1" :max="max")
               .text-h6 預約人數
-              q-slider(v-model="reservationForm.selectedPeople" markers marker-labels thumb-color="secondary" label-always :min="1" :max="12")
+              q-slider(v-model="reservationForm.selectedPeople" markers marker-labels thumb-color="secondary" label-always :min="1" :max="10")
             q-card-section.col-4.flex.justify-around.items-center.column
               .text-h4.text-center.q-pb-xl 預約確認
               .flex.items-start.column
