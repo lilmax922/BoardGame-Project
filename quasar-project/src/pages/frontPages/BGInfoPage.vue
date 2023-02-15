@@ -2,12 +2,14 @@
 import { ref, reactive } from 'vue'
 import { api } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 import { Swal } from 'sweetalert2'
 
+const $q = useQuasar()
 const route = useRoute()
 const router = useRouter()
 
-const slide = ref(0) // 它跟 carousel 的 :name 綁定
+const slide = ref(0) // q-carousel，它跟 carousel 的 :name 綁定
 const carouselSlide = ref([0, 0])
 const boardgame = reactive({
   _id: '',
@@ -52,10 +54,10 @@ const boardgame = reactive({
     // 使用者可以看到 title 變更，但對爬蟲沒用
     document.title = '差滴滴 | ' + boardgame.name
   } catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: '失敗',
-      text: '取得商品失敗'
+    $q.notify({
+      position: 'top',
+      message: error?.response?.data?.message || '發生錯誤',
+      color: 'negative'
     })
     router.go(-1)
   }
@@ -67,6 +69,9 @@ const boardgame = reactive({
     <div class="q-ma-lg">
       <q-breadcrumbs>
         <q-breadcrumbs-el icon="mdi-home" to="/" />
+        <template #separator>
+          <q-icon size="1.5em" name="chevron_right" />
+        </template>
         <q-breadcrumbs-el label="探索桌遊" to="/exploreBGs" />
         <q-breadcrumbs-el :label="boardgame.name" />
       </q-breadcrumbs>

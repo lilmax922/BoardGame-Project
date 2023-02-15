@@ -59,7 +59,7 @@ const types = reactive([
 
 const selection = computed(() => {
   return Object.keys(types)
-    .filter(type => types[type] === true)
+    .filter((type) => types[type] === true)
     .join(', ')
 })
 
@@ -80,6 +80,9 @@ const form = reactive({
     <!-- 麵包屑 -->
     <div class="breadcrumb q-ma-lg">
       <q-breadcrumbs>
+        <template #separator>
+          <q-icon size="1.5em" name="chevron_right" />
+        </template>
         <q-breadcrumbs-el icon="mdi-home" to="/" />
         <q-breadcrumbs-el label="探索桌遊" />
       </q-breadcrumbs>
@@ -93,69 +96,73 @@ const form = reactive({
         <q-btn label="我要預約" to="/reservation" color="primary" />
       </section>
       <section class="boardgameList">
-        <div class="search_container">
-          <div class="search-bar">
-            <!-- <div class="flex items-center">
-              <q-icon class="q-pl-md" name="search" size="sm" />
-              <span class="text-h6 q-pa-md">關鍵字/標籤搜尋</span>
-            </div> -->
-            <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
-              <template v-slot:append>
-                <q-btn icon="search" flat rounded />
-                <!-- <q-icon name="search" /> -->
-              </template>
-            </q-input>
+        <!-- <q-expansion-item
+          v-model="expanded"
+          icon="mdi-filter-variant"
+          label="篩選條件"
+        > -->
+          <div class="search_container">
+            <div class="search-bar">
+              <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
+                <template v-slot:append>
+                  <q-btn icon="search" flat rounded />
+                </template>
+              </q-input>
+            </div>
+            <div class="filter-area q-gutter-md">
+              <div class="game-types">
+                <div class="flex items-center">
+                  <q-icon
+                    class="q-pl-md"
+                    name="mdi-google-downasaur"
+                    size="sm"
+                  />
+                  <span class="text-h6 q-pa-md">桌遊類型</span>
+                </div>
+                <div class="flex flex-center">
+                  <q-option-group
+                    v-model="typeGroup"
+                    :options="types"
+                    type="checkbox"
+                    inline
+                    size="lg"
+                  />
+                </div>
+              </div>
+              <div class="game_time">
+                <div class="flex items-center">
+                  <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
+                  <div class="text-h6 q-pa-md">遊戲時間</div>
+                  <q-slider
+                    v-model="form.gameTime"
+                    class="q-px-lg"
+                    :min="1"
+                    :max="60"
+                    markers
+                    marker-labels
+                    thumb-color="secondary"
+                    :step="10"
+                  />
+                </div>
+              </div>
+              <div class="players">
+                <div class="flex items-center">
+                  <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
+                  <div class="text-h6 q-pa-md">遊玩人數</div>
+                  <q-slider
+                    v-model="form.players"
+                    class="q-px-lg"
+                    :min="1"
+                    :max="12"
+                    markers
+                    marker-labels
+                    thumb-color="secondary"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="filter-area q-gutter-md">
-            <div class="game-types">
-              <div class="flex items-center">
-                <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
-                <span class="text-h6 q-pa-md">桌遊類型</span>
-              </div>
-              <div class="flex flex-center">
-                <q-option-group
-                  v-model="typeGroup"
-                  :options="types"
-                  type="checkbox"
-                  inline
-                  size="lg"
-                />
-              </div>
-            </div>
-            <div class="game_time">
-              <div class="flex items-center">
-                <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
-                <div class="text-h6 q-pa-md">遊戲時間</div>
-                <q-range
-                  v-model="form.gameTime"
-                  class="q-px-lg"
-                  :min="5"
-                  :max="60"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  :step="10"
-                />
-              </div>
-            </div>
-            <div class="players">
-              <div class="flex items-center">
-                <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
-                <div class="text-h6 q-pa-md">遊玩人數</div>
-                <q-range
-                  v-model="form.players"
-                  class="q-px-lg"
-                  :min="1"
-                  :max="15"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  :step="2"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- </q-expansion-item> -->
         <div class="cards_container">
           <div class="row flex">
             <div
