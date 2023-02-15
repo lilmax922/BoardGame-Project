@@ -5,10 +5,18 @@ body {
   font-family: "Concert One", "Noto Sans TC", sans-serif;
   .container {
     width: 100%;
-    padding-right: 3.75rem;
-    padding-left: 3.75rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
     margin-right: auto;
     margin-left: auto;
     padding-top: 100px;
   }
+
+  @include lg {
+    .container {
+      padding-right: 8rem;
+      padding-left: 8rem;
+    }
+  }
 }
+
