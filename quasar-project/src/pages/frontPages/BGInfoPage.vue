@@ -136,13 +136,24 @@ const boardgame = reactive({
   .info-area,
   .component-area,
   .gameflow-area,
-  .endgame-area {
+  .endgame-area ,
+  .mainImages-area{
+    width: 98%;
     border: 1px solid #fff;
     border-radius: 16px;
     padding: 1.5rem;
     & {
       font-size: 18px;
     }
+  }
+  .header {
+    color: $accent;
+    border-left: 20px solid $accent;
+    padding-left: 15px;
+  }
+  .mainImages-area {
+    position: sticky;
+    top: 0;
   }
 }
 </style>
