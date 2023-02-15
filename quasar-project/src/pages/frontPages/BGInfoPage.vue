@@ -7,7 +7,7 @@ import { Swal } from 'sweetalert2'
 const route = useRoute()
 const router = useRouter()
 
-const slide = ref(1)
+const slide = ref(0) // 它跟 carousel 的 :name 綁定
 const boardgame = reactive({
   _id: '',
   introduction: '',
@@ -124,7 +124,7 @@ boardgame.types.map((type) => {
               <q-carousel-slide
                 v-for="(boardgame, i) in boardgame.mainImages"
                 :key="i"
-                :name="boardgame"
+                :name="i"
                 :img-src="boardgame"
               />
             </q-carousel>
