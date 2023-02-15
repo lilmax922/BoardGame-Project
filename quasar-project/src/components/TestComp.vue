@@ -1,30 +1,45 @@
 <script setup>
+import { ref } from 'vue'
+
+const mobileData = ref(true)
+const bluetooth = ref(false)
 </script>
 
-<template lang="pug">
-q-card.bg-card(flat)
-  q-img.teamup-img(src="../assets/images/teamup-type/mindset.jpg" ratio=16/9)
-  q-card-section.q-gutter-sm
-    .type-tag #策略 #陣營 #心機
-    .text-h4 3/3 揪揪揪...
-  q-separator(inset)
-  q-card-section.flex-center(horizontal)
-    q-card-section.col-8.q-pt-none
-      q-list
-        q-item.q-pa-none
-          q-item-section
-            q-icon(name="mdi-calendar-clock" size="xs")
-          q-item-section &nbsp;2023/3/03 14:30
-        q-item.q-pa-none
-          q-item-section.flex-auto
-            q-icon(name="mdi-account-multiple" size="xs")
-          q-item-section &nbsp;4 / 7 人 (尚可參加)
-    q-card-section.col-4.q-pa-none
-      q-btn.more-btn(color="primary") 參加揪團
+<template>
+<template>
+  <div class="q-pa-md">
+    <q-btn color="purple" label="Account Settings">
+      <q-menu>
+        <div class="row no-wrap q-pa-md">
+          <div class="column">
+            <div class="text-h6 q-mb-md">Settings</div>
+            <q-toggle v-model="mobileData" label="Use Mobile Data" />
+            <q-toggle v-model="bluetooth" label="Bluetooth" />
+          </div>
+
+          <q-separator vertical inset class="q-mx-lg" />
+
+          <div class="column items-center">
+            <q-avatar size="72px">
+              <img src="https://cdn.quasar.dev/img/avatar4.jpg">
+            </q-avatar>
+
+            <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
+
+            <q-btn
+              color="primary"
+              label="Logout"
+              push
+              size="sm"
+              v-close-popup
+            />
+          </div>
+        </div>
+      </q-menu>
+    </q-btn>
+  </div>
+</template>
 </template>
 
 <style lang="scss" scoped>
-.q-item__section--main {
-  flex: none;
-}
 </style>
