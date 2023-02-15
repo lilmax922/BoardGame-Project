@@ -9,7 +9,8 @@ defineProps({
     default: ''
   },
   cardImage: {
-    type: String
+    type: String,
+    default: ''
   },
   types: {
     type: Array
@@ -19,7 +20,8 @@ defineProps({
     default: ''
   },
   gameTime: {
-    type: Number
+    type: Number,
+    default: 5
   },
   post: {
     type: Boolean,
@@ -47,7 +49,7 @@ q-card.bg-card(flat)
             q-icon(name="mdi-clock" size="xs")
           q-item-section &nbsp;約 {{ gameTime }} 分鐘
     q-card-section.col-4.q-pa-none.flex.justify-center
-      q-btn.moreBtn(color="primary" to="/BGInfo/:id") 查看更多
+      q-btn.moreBtn(color="primary" :to="'/BGInfo/' + _id") 查看更多
 </template>
 
 <style lang="scss">

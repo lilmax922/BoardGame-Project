@@ -24,19 +24,18 @@ const routes = [
           title: '差滴滴 | 探索桌遊',
           login: false,
           admin: false
-        },
-        children: [
-          {
-            path: 'BGInfo/:id',
-            name: 'BGInfo',
-            component: () => import('src/pages/frontPages/BGInfoPage.vue'),
-            meta: {
-              title: '差滴滴 | 桌遊介紹',
-              login: false,
-              admin: false
-            }
-          }
-        ]
+        }
+
+      },
+      {
+        path: 'BGInfo/:id',
+        name: 'BGInfo',
+        component: () => import('src/pages/frontPages/BGInfoPage.vue'),
+        meta: {
+          title: '差滴滴 | 桌遊介紹',
+          login: false,
+          admin: false
+        }
       },
       {
         path: 'event',

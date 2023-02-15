@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useBoardgameStore } from 'src/stores/boardgame'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
@@ -9,17 +9,20 @@ const { getPostBoardgames } = boardgameStore
 getPostBoardgames()
 const { boardgames } = storeToRefs(boardgameStore)
 
-const filterTypes = ref([
-  '陣營',
-  '策略',
-  '抽象',
-  '心機',
-  '卡牌',
-  '派對',
-  '家庭',
-  '兒童'
+const typeGroup = ref(['不限'])
+const types = reactive([
+  { label: '不限', value: '不限' },
+  { label: '陣營', value: '陣營' },
+  { label: '策略', value: '策略' },
+  { label: '抽象', value: '抽象' },
+  { label: '心機', value: '心機' },
+  { label: '卡牌', value: '卡牌' },
+  { label: '派對', value: '派對' },
+  { label: '家庭', value: '家庭' },
+  { label: '兒童', value: '兒童' }
 ])
-// const filterTypes = reactive({
+
+// const types = reactive({
 //   camp: {
 //     type: false,
 //     label: '陣營'
@@ -54,6 +57,12 @@ const filterTypes = ref([
 //   }
 // })
 
+const selection = computed(() => {
+  return Object.keys(types)
+    .filter(type => types[type] === true)
+    .join(', ')
+})
+
 const form = reactive({
   players: {
     min: 1,
@@ -67,7 +76,7 @@ const form = reactive({
 </script>
 
 <template>
-  <q-page id="explore-boardgames" padding>
+  <q-page id="explore" padding>
     <div class="q-ma-lg">
       <q-breadcrumbs>
         <q-breadcrumbs-el icon="mdi-home" to="/" />
@@ -81,41 +90,36 @@ const form = reactive({
         </div>
         <q-btn label="我要預約" to="/reservation" color="primary" />
       </section>
-      <section class="page-body">
-        <div id="search-container">
-          <div id="search-bar">
+      <section class="boardgameList">
+        <div class="search-container">
+          <div class="search-bar">
+            <div class="flex items-center">
+              <q-icon class="q-pl-md" name="search" size="sm" />
+              <span class="text-h6 q-pa-md">關鍵字/標籤搜尋</span>
+            </div>
             <q-input name="search" placeholder="請輸入關鍵字" borderless>
-              <template v-slot:append>
+              <!-- <template v-slot:append>
                 <q-icon name="search" />
-              </template>
+              </template> -->
             </q-input>
           </div>
-          <div id="filter-area" class="q-gutter-md">
-            <div id="game-types">
+          <div class="filter-area q-gutter-md">
+            <div class="game-types">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
                 <span class="text-h6 q-pa-md">桌遊類型</span>
               </div>
-              <div class="flex flex-center q-gutter-md">
-                <q-checkbox
-                  v-for="(type, idx) in filterTypes"
-                  :key="idx"
-                  v-model="filterTypes"
-                  :label="type"
-                  :val="type"
+              <div class="flex flex-center">
+                <q-option-group
+                  v-model="typeGroup"
+                  :options="types"
+                  type="checkbox"
+                  inline
+                  size="lg"
                 />
-                <!-- <p>{{ filterTypes }}</p> -->
-                <!-- <q-checkbox v-model="filterTypes.camp.type" :label="filterTypes.camp.label" :val="filterTypes.camp.label" />
-                <q-checkbox v-model="filterTypes.strategy.type" :label="filterTypes.strategy.label" :val="filterTypes.strategy.label" />
-                <q-checkbox v-model="filterTypes.abstract.type" :label="filterTypes.abstract.label" :val="filterTypes.abstract.label" />
-                <q-checkbox v-model="filterTypes.crafty.type" :label="filterTypes.crafty.label" :val="filterTypes.crafty.label" />
-                <q-checkbox v-model="filterTypes.card.type" :label="filterTypes.card.label" :val="filterTypes.card.label" />
-                <q-checkbox v-model="filterTypes.party.type" :label="filterTypes.party.label" :val="filterTypes.party.label" />
-                <q-checkbox v-model="filterTypes.family.type" :label="filterTypes.family.label" :val="filterTypes.family.label" />
-                <q-checkbox v-model="filterTypes.children.type" :label="filterTypes.children.label" :val="filterTypes.children.label" /> -->
               </div>
             </div>
-            <div id="game-time">
+            <div class="game-time">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
                 <div class="text-h6 q-pa-md">遊戲時間</div>
@@ -131,7 +135,7 @@ const form = reactive({
                 />
               </div>
             </div>
-            <div id="players">
+            <div class="players">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
                 <div class="text-h6 q-pa-md">遊玩人數</div>
@@ -149,7 +153,7 @@ const form = reactive({
             </div>
           </div>
         </div>
-        <div id="cards-container">
+        <div class="cards-container">
           <div class="row flex justify-between">
             <div
               class="col-12 col-md-6 col-lg-3 flex flex-center q-mb-lg"
@@ -166,17 +170,17 @@ const form = reactive({
 </template>
 
 <style lang="scss">
-#explore-boardgames {
+#explore {
   width: 100%;
 
   .header {
     padding-bottom: 55px;
   }
 
-  .page-body {
+  .boardgameList {
     width: 100%;
 
-    #cards-container {
+    .cards-container {
       padding-top: 55px;
 
       .bg-card {
@@ -184,7 +188,7 @@ const form = reactive({
       }
     }
 
-    #search-container {
+    .search-container {
       border: 1px solid #fff;
       border-radius: 16px;
       padding: 1rem;
@@ -193,7 +197,7 @@ const form = reactive({
         border-radius: 16px;
       }
 
-      #filter-area {
+      .filter-area {
         border-radius: 16px;
       }
     }

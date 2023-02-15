@@ -13,7 +13,7 @@ export const useReservationStore = defineStore('reservation', () => {
         await Swal.fire({
           icon: 'success',
           title: '成功',
-          text: '預約成功，帶你回首頁~'
+          text: '預約成功~'
         })
       }
       this.router.push('/')
