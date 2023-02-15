@@ -77,12 +77,14 @@ const form = reactive({
 
 <template>
   <q-page id="explore" padding>
-    <div class="q-ma-lg">
+    <!-- 麵包屑 -->
+    <div class="breadcrumb q-ma-lg">
       <q-breadcrumbs>
         <q-breadcrumbs-el icon="mdi-home" to="/" />
         <q-breadcrumbs-el label="探索桌遊" />
       </q-breadcrumbs>
     </div>
+
     <div class="container">
       <section class="header flex items-center">
         <div class="text-h3 q-pr-lg" style="display: inline-block">
@@ -91,16 +93,17 @@ const form = reactive({
         <q-btn label="我要預約" to="/reservation" color="primary" />
       </section>
       <section class="boardgameList">
-        <div class="search-container">
+        <div class="search_container">
           <div class="search-bar">
-            <div class="flex items-center">
+            <!-- <div class="flex items-center">
               <q-icon class="q-pl-md" name="search" size="sm" />
               <span class="text-h6 q-pa-md">關鍵字/標籤搜尋</span>
-            </div>
-            <q-input name="search" placeholder="請輸入關鍵字">
-              <!-- <template v-slot:append>
-                <q-icon name="search" />
-              </template> -->
+            </div> -->
+            <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
+              <template v-slot:append>
+                <q-btn icon="search" flat rounded />
+                <!-- <q-icon name="search" /> -->
+              </template>
             </q-input>
           </div>
           <div class="filter-area q-gutter-md">
@@ -119,7 +122,7 @@ const form = reactive({
                 />
               </div>
             </div>
-            <div class="game-time">
+            <div class="game_time">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
                 <div class="text-h6 q-pa-md">遊戲時間</div>
@@ -153,14 +156,14 @@ const form = reactive({
             </div>
           </div>
         </div>
-        <div class="cards-container">
-          <div class="row flex justify-between">
+        <div class="cards_container">
+          <div class="row flex">
             <div
-              class="col-12 col-md-6 col-lg-3 flex flex-center q-mb-lg"
+              class="col-12 col-md-6 col-lg-4 col-xl-3 flex flex-center q-mb-lg"
               v-for="boardgame in boardgames"
               :key="boardgame._id"
             >
-              <BoardgameCard class="bg-card q-mb-lg" v-bind="boardgame" />
+              <BoardgameCard class="bg_card q-mb-lg" v-bind="boardgame" />
             </div>
           </div>
         </div>
@@ -180,24 +183,20 @@ const form = reactive({
   .boardgameList {
     width: 100%;
 
-    .cards-container {
+    .cards_container {
       padding-top: 55px;
 
-      .bg-card {
+      .bg_card {
         width: 300px;
       }
     }
 
-    .search-container {
+    .search_container {
       border: 1px solid #fff;
       border-radius: 16px;
       padding: 1rem;
 
-      .game-time {
-        border-radius: 16px;
-      }
-
-      .filter-area {
+      .game_time {
         border-radius: 16px;
       }
     }

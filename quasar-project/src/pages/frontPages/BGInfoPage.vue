@@ -8,6 +8,7 @@ const route = useRoute()
 const router = useRouter()
 
 const slide = ref(0) // 它跟 carousel 的 :name 綁定
+const carouselSlide = ref([0, 0])
 const boardgame = reactive({
   _id: '',
   introduction: '',
@@ -97,7 +98,16 @@ const boardgame = reactive({
           <div class="component-area q-mb-lg">
             <div class="component column">
               <div class="header text-h4 q-pb-md">內容物介紹</div>
-              <div class="carousel">###內容物圖片</div>
+              <div class="component_carousel">
+                <q-carousel swipeable animated v-model="carouselSlide[0]" thumbnails infinite>
+              <q-carousel-slide
+                v-for="(boardgame, i) in boardgame.componentImages"
+                :key="i"
+                :name="i"
+                :img-src="boardgame"
+              />
+            </q-carousel>
+              </div>
               <div v-html="boardgame.componentTexts" />
             </div>
           </div>
@@ -116,7 +126,7 @@ const boardgame = reactive({
         </div>
         <div class="col-4">
           <div class="mainImages-area">
-            <q-carousel swipeable animated v-model="slide" thumbnails infinite>
+            <q-carousel swipeable animated v-model="carouselSlide[1]" thumbnails infinite>
               <q-carousel-slide
                 v-for="(boardgame, i) in boardgame.mainImages"
                 :key="i"
@@ -136,12 +146,12 @@ const boardgame = reactive({
   .info-area,
   .component-area,
   .gameflow-area,
-  .endgame-area,
-  .mainImages-area {
+  .endgame-area {
     width: 98%;
     border: 1px solid #fff;
+    background-color: #303030;
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 1rem;
     & {
       font-size: 18px;
     }
@@ -151,9 +161,24 @@ const boardgame = reactive({
     border-left: 20px solid $accent;
     padding-left: 15px;
   }
+
+  .component_carousel {
+    margin: 1rem 0 1rem 0;
+    border-radius: 16px;
+    width: 80%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
   .mainImages-area {
     position: sticky;
+    width: 98%;
+    border: 1px solid #fff;
+    border-radius: 16px;
     top: 0;
+  }
+  .q-carousel {
+    border-radius: 16px;
   }
 }
 </style>

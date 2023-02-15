@@ -13,7 +13,10 @@ defineProps({
     default: ''
   },
   types: {
-    type: Array
+    type: Array,
+    default () {
+      return []
+    }
   },
   players: {
     type: String,
@@ -21,7 +24,7 @@ defineProps({
   },
   gameTime: {
     type: Number,
-    default: 5
+    default: 0
   },
   post: {
     type: Boolean,
@@ -30,7 +33,7 @@ defineProps({
 })
 </script>
 
-<template lang="pug">
+<!--
 q-card.bg-card(flat)
   q-img(:src="cardImage" ratio=16/9)
   q-card-section
@@ -50,34 +53,45 @@ q-card.bg-card(flat)
           q-item-section &nbsp;約 {{ gameTime }} 分鐘
     q-card-section.col-4.q-pa-none.flex.justify-center
       q-btn.moreBtn(color="primary" :to="'/BGInfo/' + _id") 查看更多
+ -->
+<template>
+  <div id="bg_card">
+    <q-card flat>
+      <div class="image_area">
+        <q-img :src="cardImage" />
+      </div>
+      <q-card-section>
+        <div class="types_area q-mb-sm">
+          <q-chip class="type_tag" v-for="(type, i) in types" :key="i" color="secondary" text-color="white" size="sm">
+            &#35;{{ type }}
+          </q-chip>
+        </div>
+        <div class="text-h5 bg_name">{{ name }}</div>
+      </q-card-section>
+      <q-separator inset />
+      <q-card-section class="flex-center" horizontal>
+        <q-card-section class="col-8 q-pt-none">
+          <q-list>
+            <q-item class="q-pa-none">
+              <q-item-section>
+                <q-icon name="mdi-account-multiple" size="xs" />
+              </q-item-section>
+              <q-item-section style="font-size: 18px">
+                &nbsp;{{ players }} 人
+              </q-item-section>
+            </q-item>
+            <q-item class="q-pa-none">
+              <q-item-section class="flex-auto">
+                <q-icon name="mdi-clock" size="xs" />
+              </q-item-section>
+              <q-item-section> &nbsp;約 {{ gameTime }} 分鐘 </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+        <q-card-section class="col-4 q-pa-none flex justify-center">
+          <q-btn class="more_btn" color="primary" :to="'/BGInfo/' + _id" label="查看更多"></q-btn>
+        </q-card-section>
+      </q-card-section>
+    </q-card>
+  </div>
 </template>
-
-<style lang="scss">
-.bg-card {
-  & {
-    font-size: 16px;
-  }
-
-  // ? 加了之後縮小就會疊在一起
-  .bg-name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .q-item__section--main {
-    flex: none;
-    margin-left: 0;
-  }
-
-  .type-tag {
-    font-size: 14px;
-    color: #ccc;
-  }
-
-  .moreBtn {
-    padding: 8px 10px;
-    border-radius: 8px;
-  }
-}
-</style>
