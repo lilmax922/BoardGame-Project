@@ -36,12 +36,17 @@ q-layout(view='hHh lpR fff')
         q-route-tab(to="/searchTeamups") 揪團組隊
         q-route-tab(to="/reservation") 手刀預約
       q-space
-      q-input(name="search" placeholder="search")
-        template(v-slot:prepend)
-          q-icon(name="search")
-      q-btn(v-if="isLogin" icon='mdi-bell')
+      //- q-input(name="search" placeholder="search")
+      //-   template(v-slot:prepend)
+      //-     q-icon(name="search")
+      q-btn(v-if="isLogin" icon='mdi-bell' rounded flat)
         q-badge(color="accent" floating :label="5")
-      q-btn(v-if="!isLogin" @click="showLoginCard = true" label="會員登入" size="lg")
+        q-menu(fit anchor="bottom left" self="top middle")
+          q-card
+            q-card-section.text-subtitle2 會員通知
+            q-separator
+            q-card-section
+      q-btn(v-if="!isLogin" @click="showLoginCard = true" icon="mdi-account-circle" flat dense size="lg")
       q-btn-dropdown(v-if="isLogin" flat)
         template(#label)
           q-avatar
