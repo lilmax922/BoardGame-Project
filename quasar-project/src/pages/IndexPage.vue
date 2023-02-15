@@ -10,15 +10,15 @@ import TestComp from 'src/components/TestComp.vue'
 <template lang="pug">
 q-page#index
   section.q-mb-md
-    q-img#hero(alt="BoardgameHero" src="../assets/images/hero/mix1.png")
-  .container
-    section#everyone-play
+    q-img.hero(alt="BoardgameHero" src="../assets/images/hero/mix1.png")
+  section#everyone-play
+    .container
       .text-h4 大家都在玩
 </template>
 
 <style lang="scss" scoped>
 #index {
-  #hero {
+  .hero {
     height: 75vh;
   }
 }
