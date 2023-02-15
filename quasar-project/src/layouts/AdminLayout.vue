@@ -14,7 +14,8 @@ const links = [
   { icon: 'mdi-calendar-account', text: '預約管理', to: '/admin/manageReservation' },
   { icon: 'mdi-account-group', text: '揪團管理', to: '/admin/manageTeamup' },
   { icon: 'mdi-bullhorn', text: '活動管理', to: '/admin/manageEvent' },
-  { icon: 'mdi-google-downasaur', text: '桌遊管理', to: '/admin/manageBG' }
+  { icon: 'mdi-google-downasaur', text: '桌遊管理', to: '/admin/manageBG' },
+  { icon: 'mdi-home', text: '回首頁', to: '/' }
 ]
 </script>
 
@@ -27,7 +28,7 @@ q-layout(view='hHh Lpr lff')
   q-drawer(v-model='drawer' show-if-above :width='200' :breakpoint='500')
     q-scroll-area(style='height: calc(100% - 150px); margin-top: 150px;')
       q-list(padding)
-        q-item-label.q-pa-sm(overline) 會員管理
+        q-item-label.q-pa-sm(overline) 後台編輯
         q-item(
           v-for="link in links"
           :to="link.to"
