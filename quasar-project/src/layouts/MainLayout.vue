@@ -8,6 +8,8 @@ import RegisterCard from 'src/components/RegisterCard.vue'
 const user = useUserStore()
 const { isLogin, isAdmin, avatar, nickname, showLoginCard } = storeToRefs(user)
 const { logout } = user
+console.log(avatar.value)
+console.log(nickname.value)
 
 // TODO: nickname 是空值@@?
 
@@ -28,7 +30,6 @@ q-layout(view='hHh lpR fff')
     q-toolbar
       q-avatar
         img(src='../assets/MAXXD.png')
-      //- | &nbsp; 桌遊哩狗
       q-toolbar-title 桌遊哩狗
       q-tabs(v-model="tab")
         q-route-tab(to="/exploreBGs") 探索桌遊
@@ -57,7 +58,7 @@ q-layout(view='hHh lpR fff')
               q-avatar
                 q-img(:src="avatar")
             q-item-section(ref="nickname")
-            | {{ nickname }}
+              q-btn(:label="nickname")
           q-separator
           q-item-label.q-pa-sm(overline) 我的主頁
           q-item(clickable v-if="isLogin && isAdmin" to="/admin")

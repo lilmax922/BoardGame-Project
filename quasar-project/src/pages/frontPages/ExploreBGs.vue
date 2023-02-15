@@ -97,7 +97,7 @@ const form = reactive({
               <q-icon class="q-pl-md" name="search" size="sm" />
               <span class="text-h6 q-pa-md">關鍵字/標籤搜尋</span>
             </div>
-            <q-input name="search" placeholder="請輸入關鍵字" borderless>
+            <q-input name="search" placeholder="請輸入關鍵字">
               <!-- <template v-slot:append>
                 <q-icon name="search" />
               </template> -->

@@ -25,10 +25,10 @@ const boardgame = reactive({
   gameFlow: '',
   endGame: '',
   post: true
-})
+});
 
 // 取桌遊資料
-;(async () => {
+(async () => {
   try {
     const { data } = await api.get('/boardgames/' + route.params.id)
     boardgame._id = data.result._id
@@ -136,8 +136,8 @@ const boardgame = reactive({
   .info-area,
   .component-area,
   .gameflow-area,
-  .endgame-area ,
-  .mainImages-area{
+  .endgame-area,
+  .mainImages-area {
     width: 98%;
     border: 1px solid #fff;
     border-radius: 16px;
