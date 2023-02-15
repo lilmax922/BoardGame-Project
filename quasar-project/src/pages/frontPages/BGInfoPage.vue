@@ -27,12 +27,8 @@ const boardgame = reactive({
   post: true
 })
 
-boardgame.types.map((type) => {
-  return console.log(type)
-});
-
 // 取桌遊資料
-(async () => {
+;(async () => {
   try {
     const { data } = await api.get('/boardgames/' + route.params.id)
     boardgame._id = data.result._id
