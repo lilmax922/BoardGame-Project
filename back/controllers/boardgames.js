@@ -47,6 +47,7 @@ export const getBoardgame = async (req, res) => {
     }
   } catch (error) {
     if (error.name === 'CastError') {
+      console.log(error)
       res.status(400).json({ success: false, message: 'ID 格式錯誤' })
     } else {
       res.status(500).json({ success: false, message: '未知錯誤' })
