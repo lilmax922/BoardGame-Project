@@ -1,67 +1,75 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { storeToRefs } from 'pinia'
+import _ from 'lodash'
 import { useBoardgameStore } from 'src/stores/boardgame'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
+import { filter } from 'compression'
 
 const boardgameStore = useBoardgameStore()
 const { getPostBoardgames } = boardgameStore
 getPostBoardgames()
 const { boardgames } = storeToRefs(boardgameStore)
 
-const typeGroup = ref(['不限'])
-const types = reactive([
-  { label: '不限', value: '不限' },
-  { label: '陣營', value: '陣營' },
-  { label: '策略', value: '策略' },
-  { label: '抽象', value: '抽象' },
-  { label: '心機', value: '心機' },
-  { label: '卡牌', value: '卡牌' },
-  { label: '派對', value: '派對' },
-  { label: '家庭', value: '家庭' },
-  { label: '兒童', value: '兒童' }
-])
+// const typeGroup = ref(['不限'])
+// const types = reactive([
+//   { label: '不限', value: '不限' },
+//   { label: '陣營', value: '陣營' },
+//   { label: '策略', value: '策略' },
+//   { label: '抽象', value: '抽象' },
+//   { label: '心機', value: '心機' },
+//   { label: '卡牌', value: '卡牌' },
+//   { label: '派對', value: '派對' },
+//   { label: '家庭', value: '家庭' },
+//   { label: '兒童', value: '兒童' }
+// ])
 
-// const types = reactive({
-//   camp: {
-//     type: false,
-//     label: '陣營'
-//   },
-//   strategy: {
-//     type: false,
-//     label: '策略'
-//   },
-//   abstract: {
-//     type: false,
-//     label: '抽象'
-//   },
-//   crafty: {
-//     type: false,
-//     label: '心機'
-//   },
-//   card: {
-//     type: false,
-//     label: '卡牌'
-//   },
-//   party: {
-//     type: false,
-//     label: '派對'
-//   },
-//   family: {
-//     type: false,
-//     label: '家庭'
-//   },
-//   children: {
-//     type: false,
-//     label: '兒童'
-//   }
-// })
+const chips = ref([])
+const types = [
+  '不限',
+  '陣營',
+  '策略',
+  '心機',
+  '抽象',
+  '卡牌',
+  '派對',
+  '家庭',
+  '兒童'
+]
 
-const selection = computed(() => {
-  return Object.keys(types)
-    .filter((type) => types[type] === true)
-    .join(', ')
+const filterCondition = reactive({
+  types: ['不限'],
+  gameTime: 0,
+  players: 1
 })
+
+const addChip = () => {
+  chips.value = filterCondition.types.map((type) => type)
+}
+
+const delChip = (i) => {
+  filterCondition.types.splice(i, 1)
+  chips.value.splice(i, 1)
+}
+
+// console.log(boardgames.value[0].types[0])
+const index = boardgames.value.findIndex((item) => {
+  console.log(item.types)
+  return item.types === filterCondition.types
+})
+console.log(index)
+const filterFunc = computed(() => {
+  return boardgames.value.filter((boardgame) => {
+    return boardgame.gameTime >= filterCondition.gameTime &&
+    parseInt(_.intersection(boardgame.types, filterCondition.types)) !== 0
+  })
+})
+
+// const selection = computed(() => {
+//   return Object.keys(types)
+//     .filter((type) => types[type] === true)
+//     .join(', ')
+// })
 
 const form = reactive({
   players: {
@@ -101,74 +109,102 @@ const form = reactive({
           icon="mdi-filter-variant"
           label="篩選條件"
         > -->
-          <div class="search_container">
-            <div class="search-bar">
-              <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
-                <template v-slot:append>
-                  <q-btn icon="search" flat rounded />
-                </template>
-              </q-input>
-            </div>
-            <div class="filter-area q-gutter-md">
-              <div class="game-types">
-                <div class="flex items-center">
-                  <q-icon
-                    class="q-pl-md"
-                    name="mdi-google-downasaur"
-                    size="sm"
-                  />
-                  <span class="text-h6 q-pa-md">桌遊類型</span>
-                </div>
-                <div class="flex flex-center">
-                  <q-option-group
-                    v-model="typeGroup"
+        <div class="search_container">
+          <div class="search-bar">
+            <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
+              <template v-slot:append>
+                <q-btn icon="search" flat rounded />
+              </template>
+            </q-input>
+          </div>
+          <div class="filter-area q-gutter-md">
+            <div class="game-types">
+              <div class="flex items-center">
+                <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
+                <div class="text-h6 q-pa-md">桌遊類型</div>
+              </div>
+              <div class="row flex flex-center">
+                <div class="col-5">
+                  <!-- <q-option-group
+                      v-model="typeGroup"
+                      :options="types"
+                      type="checkbox"
+                      inline
+                      size="lg"
+                    /> -->
+                  <q-select
+                    v-model="filterCondition.types"
+                    filled
+                    multiple
                     :options="types"
-                    type="checkbox"
-                    inline
-                    size="lg"
-                  />
+                    label="新增標籤"
+                    style="width: 250px"
+                    bottom-slots
+                  >
+                    <template #append>
+                      <q-btn round dense flat icon="add" @click="addChip" />
+                    </template>
+                  </q-select>
+                </div>
+                <div class="col-4">
+                  <q-chip
+                    v-for="(chip, i) in chips"
+                    :key="i"
+                    v-model="chips"
+                    color="primary"
+                    text-color="white"
+                    clickable
+                    icon="mdi-close-circle"
+                    icon-color="white"
+                    @click="delChip(i)"
+                  >
+                    {{ chip }}
+                  </q-chip>
                 </div>
               </div>
-              <div class="game_time">
-                <div class="flex items-center">
-                  <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
-                  <div class="text-h6 q-pa-md">遊戲時間</div>
-                  <q-slider
-                    v-model="form.gameTime"
-                    class="q-px-lg"
-                    :min="1"
-                    :max="60"
-                    markers
-                    marker-labels
-                    thumb-color="secondary"
-                    :step="10"
-                  />
-                </div>
+            </div>
+            <div class="game_time">
+              <div class="flex items-center">
+                <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
+                <div class="text-h6 q-pa-md">遊戲時間</div>
+                <q-slider
+                  v-model="filterCondition.gameTime"
+                  class="q-px-lg"
+                  :min="0"
+                  :max="60"
+                  markers
+                  marker-labels
+                  thumb-color="secondary"
+                  :step="10"
+                  snap
+                />
               </div>
-              <div class="players">
-                <div class="flex items-center">
-                  <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
-                  <div class="text-h6 q-pa-md">遊玩人數</div>
-                  <q-slider
-                    v-model="form.players"
-                    class="q-px-lg"
-                    :min="1"
-                    :max="12"
-                    markers
-                    marker-labels
-                    thumb-color="secondary"
-                  />
-                </div>
+            </div>
+            <div class="players">
+              <div class="flex items-center">
+                <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
+                <div class="text-h6 q-pa-md">遊玩人數</div>
+                <q-slider
+                  v-model="filterCondition.players"
+                  class="q-px-lg"
+                  :min="1"
+                  :max="12"
+                  markers
+                  marker-labels
+                  thumb-color="secondary"
+                  snap
+                />
               </div>
             </div>
           </div>
+        </div>
         <!-- </q-expansion-item> -->
         <div class="cards_container">
-          <div class="row flex">
+          <div class="row q-mx-auto">
             <div
               class="col-12 col-md-6 col-lg-4 col-xl-3 flex flex-center q-mb-lg"
-              v-for="boardgame in boardgames"
-              :key="boardgame._id"
+              v-for="(boardgame,i) in filterFunc"
+              :key="i"
             >
               <BoardgameCard class="bg_card q-mb-lg" v-bind="boardgame" />
             </div>
