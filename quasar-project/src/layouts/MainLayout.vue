@@ -7,6 +7,7 @@ import RegisterCard from 'src/components/RegisterCard.vue'
 
 const user = useUserStore()
 const { isLogin, isAdmin, avatar, nickname, showLoginCard } = storeToRefs(user)
+const name = nickname.value
 const { logout } = user
 console.log(avatar.value)
 console.log(nickname.value)
@@ -57,15 +58,15 @@ q-layout(view='hHh lpR fff')
             q-item-section(avatar)
               q-avatar
                 q-img(:src="avatar")
-            q-item-section(ref="nickname")
-              q-btn(:label="nickname")
+            q-item-section.flex-center(ref="nickname")
+              div {{ name }}
           q-separator
           q-item-label.q-pa-sm(overline) 我的主頁
           q-item(clickable v-if="isLogin && isAdmin" to="/admin")
             q-item-section(avatar)
               q-icon(name="mdi-account-cog")
             q-item-section 管理者後台
-          q-item(clickable v-if="!isAdmin")
+          q-item(clickable v-if="!isAdmin" to="/member/myReservation")
             q-item-section(avatar)
               q-icon(name="mdi-google-downasaur")
             q-item-section 我的預約

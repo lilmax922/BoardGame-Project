@@ -53,27 +53,25 @@ const routes = [
         component: () => import('src/pages/frontPages/SearchTeamupsPage.vue'),
         meta: {
           title: '差滴滴 | 揪團組隊'
-        },
-        children: [
+        }
+      },
+      {
+        path: 'joinTeamups/:id',
+        name: 'joinTeamups',
+        component: () => import('src/pages/frontPages/joinTeamupsPage.vue'),
+        meta: [
           {
-            path: 'joinTeamups',
-            name: 'joinTeamups',
-            component: () => import('src/pages/frontPages/joinTeamupsPage.vue'),
-            meta: [
-              {
-                title: '差滴滴 | 參加揪團'
-              }
-            ]
-          },
+            title: '差滴滴 | 參加揪團'
+          }
+        ]
+      },
+      {
+        path: 'teamup',
+        name: 'teamup',
+        component: () => import('src/pages/frontPages/TeamupPage.vue'),
+        meta: [
           {
-            path: 'teamup',
-            name: 'teamup',
-            component: () => import('src/pages/frontPages/TeamupPage.vue'),
-            meta: [
-              {
-                title: '差滴滴 | 我要揪團'
-              }
-            ]
+            title: '差滴滴 | 我要揪團'
           }
         ]
       },
@@ -83,6 +81,28 @@ const routes = [
         component: () => import('src/pages/frontPages/ReservationPage.vue'),
         meta: {
           title: '差滴滴 | 手刀預約',
+          login: true,
+          admin: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/member',
+    name: 'Member',
+    component: () => import('src/layouts/MemberLayout.vue'),
+    meta: {
+      title: '差滴滴 | 我的主頁',
+      login: true,
+      admin: false
+    },
+    children: [
+      {
+        path: 'myReservation',
+        name: 'myReservation',
+        component: () => import('src/pages/member/MyReservation.vue'),
+        meta: {
+          title: '差滴滴 | 我的預約',
           login: true,
           admin: false
         }
