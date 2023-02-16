@@ -4,7 +4,6 @@ import { storeToRefs } from 'pinia'
 import _ from 'lodash'
 import { useBoardgameStore } from 'src/stores/boardgame'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
-import { filter } from 'compression'
 
 const boardgameStore = useBoardgameStore()
 const { getPostBoardgames } = boardgameStore
@@ -26,7 +25,6 @@ const { boardgames } = storeToRefs(boardgameStore)
 
 const chips = ref([])
 const types = [
-  '不限',
   '陣營',
   '策略',
   '心機',
@@ -38,49 +36,40 @@ const types = [
 ]
 
 const filterCondition = reactive({
-  types: ['不限'],
+  types: [],
   gameTime: 0,
-  players: 1
+  players: {
+    min: 1,
+    max: 1
+  }
 })
 
 const addChip = () => {
   chips.value = filterCondition.types.map((type) => type)
 }
-
 const delChip = (i) => {
   filterCondition.types.splice(i, 1)
   chips.value.splice(i, 1)
 }
 
-// console.log(boardgames.value[0].types[0])
-const index = boardgames.value.findIndex((item) => {
-  console.log(item.types)
-  return item.types === filterCondition.types
-})
-console.log(index)
+// for (const i of boardgames.value) {
+//   console.log(i.players.split('~').map(Number))
+// }
+
+console.log(boardgames.value)
+// boardgame.players // ['2 ~ 4']
 const filterFunc = computed(() => {
   return boardgames.value.filter((boardgame) => {
-    return boardgame.gameTime >= filterCondition.gameTime &&
-    parseInt(_.intersection(boardgame.types, filterCondition.types)) !== 0
+    console.log(boardgame.players)
+    return (
+      boardgame.gameTime >= filterCondition.gameTime &&
+      boardgame.players.split('~').map(Number)[0] >=
+        filterCondition.players.min &&
+      boardgame.players.split('~').map(Number)[1] >= filterCondition.players.max
+    )
   })
 })
-
-// const selection = computed(() => {
-//   return Object.keys(types)
-//     .filter((type) => types[type] === true)
-//     .join(', ')
-// })
-
-const form = reactive({
-  players: {
-    min: 1,
-    max: 15
-  },
-  gameTime: {
-    min: 1,
-    max: 60
-  }
-})
+// && parseInt(_.intersection(boardgame.types, filterCondition.types).length) !== 0
 </script>
 
 <template>
@@ -184,9 +173,18 @@ const form = reactive({
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
                 <div class="text-h6 q-pa-md">遊玩人數</div>
-                <q-slider
+                <!-- <q-slider
                   v-model="filterCondition.players"
                   class="q-px-lg"
+                  :min="1"
+                  :max="12"
+                  markers
+                  marker-labels
+                  thumb-color="secondary"
+                  snap
+                /> -->
+                <q-range
+                  v-model="filterCondition.players"
                   :min="1"
                   :max="12"
                   markers
@@ -203,7 +201,7 @@ const form = reactive({
           <div class="row q-mx-auto">
             <div
               class="col-12 col-md-6 col-lg-4 col-xl-3 flex flex-center q-mb-lg"
-              v-for="(boardgame,i) in filterFunc"
+              v-for="(boardgame, i) in filterFunc"
               :key="i"
             >
               <BoardgameCard class="bg_card q-mb-lg" v-bind="boardgame" />
