@@ -1,6 +1,7 @@
 #bg_card {
   .q-card {
     width: 95%;
+    height: 400px;
     margin: auto;
     font-size: 16px;
     border-radius: 16px;
@@ -22,6 +23,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      -webkit-line-clamp: 1;
     }
 
     .q-item__section--main {
