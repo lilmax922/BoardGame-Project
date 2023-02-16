@@ -47,14 +47,15 @@ const max = computed(() => {
 
 watch(() => reservationForm.selectedDate, async (value) => {
   try {
+    // 沒有選擇日期的話按鈕全部為 false
     if (!reservationForm.selectedDate) {
       availableTimeBtn.forEach(btn => {
         btn.available = false
-        console.log(btn)
         return btn
       })
       return
     }
+
     reservationForm.selectedTime = ''
     // 取得使用者選擇的當天日期
     const { data } = await apiAuth.post('/reservations/getdate', { selectedDate: value })
@@ -65,6 +66,7 @@ watch(() => reservationForm.selectedDate, async (value) => {
       btn.available = true
       return btn
     })
+    console.log(availableTimeBtn)
     console.log(reservedTimeAndHours)
     // info 會是 controller 傳進來的 result
     data.result.forEach((info) => {
@@ -73,14 +75,17 @@ watch(() => reservationForm.selectedDate, async (value) => {
         reservedHours: info.hour
       })
     })
+
     reservedTimeAndHours.forEach((info) => {
       const index = availableTimeBtn.findIndex(
         (availableTime) => availableTime.time === info.reservedTime
       )
+
+      console.log(index)
       for (let i = index; i <= index + info.reservedHours; i++) {
         availableTimeBtn[i].available = false
-        console.log(availableTimeBtn[i])
         if (
+          // disabled後，選的時間 btn = 最後一個時間 btn 的話
           availableTimeBtn[i] === availableTimeBtn[availableTimeBtn.length - 1]
         ) return
       }
