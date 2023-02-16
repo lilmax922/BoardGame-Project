@@ -368,6 +368,7 @@ q-page#manage_boardgames
             q-td.text-center.q-gutter-sm
               q-btn(icon="edit" color="info" fab-mini unelevated size="sm" @click="openDialog(props.row._id)")
               q-btn(icon="delete" color="secondary" fab-mini unelevated @click="deleteBoardgame(props.row._id)")
+
     // 新增/編輯商品 dialog
     q-dialog(v-model="bgForm.dialog" persistent)
       q-layout.edit(container)

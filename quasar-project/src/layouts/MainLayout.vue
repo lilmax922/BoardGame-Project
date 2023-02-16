@@ -12,8 +12,6 @@ const { logout } = user
 console.log(avatar.value)
 console.log(nickname.value)
 
-// TODO: nickname 是空值@@?
-
 const tab = ref('')
 const showRegisterCard = ref(false)
 
@@ -66,7 +64,7 @@ q-layout(view='hHh lpR fff')
             q-item-section(avatar)
               q-icon(name="mdi-account-cog")
             q-item-section 管理者後台
-          q-item(clickable v-if="!isAdmin" to="/member/myReservation")
+          q-item(clickable v-if="!isAdmin" to="/member")
             q-item-section(avatar)
               q-icon(name="mdi-google-downasaur")
             q-item-section 我的預約
