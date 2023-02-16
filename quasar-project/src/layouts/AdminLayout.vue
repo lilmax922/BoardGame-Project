@@ -25,7 +25,7 @@ q-layout(view='hHh Lpr lff')
     q-toolbar
       q-btn(flat @click='drawer = !drawer' round dense icon='mdi-menu')
       q-toolbar-title 後台管理
-  q-drawer(v-model='drawer' show-if-above :width='200' :breakpoint='500')
+  q-drawer(v-model='drawer' show-if-above :width='250' :breakpoint='500')
     q-scroll-area(style='height: calc(100% - 150px); margin-top: 150px;')
       q-list(padding)
         q-item-label.q-pa-sm(overline) 後台編輯
