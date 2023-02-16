@@ -13,7 +13,7 @@ getAllBoardgames()
 
 const playerRange = ref({
   min: 1,
-  max: 4
+  max: 12
 })
 const bgTypes = reactive({
   camp: {
@@ -276,7 +276,7 @@ const openDialog = (index) => {
     bgForm.gameFlow = ''
     bgForm.endGame = ''
     playerRange.value.min = 1
-    playerRange.value.max = 4
+    playerRange.value.max = 12
     bgForm.post = false
     bgForm.loading = false
     bgForm.index = -1
@@ -450,10 +450,11 @@ q-page#manage_boardgames
                     q-range(
                     v-model="playerRange"
                     :min="1"
-                    :max="20"
+                    :max="12"
                     label
                     markers
                     marker-labels
+                    snap
                     )
                     .text-h6.text-center.q-pt-md(color="secondary") {{ playerRange.min }} ~ {{ playerRange.max }} 人
               q-card-section.q-gutter-sm
