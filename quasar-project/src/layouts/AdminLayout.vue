@@ -9,7 +9,7 @@ const { logout } = user
 
 const drawer = ref(false)
 
-const links = [
+const lists = [
   { icon: 'mdi-account-edit', text: '帳號管理', to: '/admin/manageAccount' },
   { icon: 'mdi-calendar-account', text: '預約管理', to: '/admin/manageReservation' },
   { icon: 'mdi-account-group', text: '揪團管理', to: '/admin/manageTeamup' },
@@ -30,14 +30,14 @@ q-layout(view='hHh Lpr lff')
       q-list(padding)
         q-item-label.q-pa-sm(overline) 後台編輯
         q-item(
-          v-for="link in links"
-          :to="link.to"
+          v-for="list in lists"
+          :to="list.to"
           clickable
           v-ripple
         )
           q-item-section(avatar)
-            q-icon(:name="link.icon")
-          q-item-section {{ link.text }}
+            q-icon(:name="list.icon")
+          q-item-section {{ list.text }}
         q-separator
         q-item-label.q-pa-sm(overline) 前台編輯
         q-item(clickable v-ripple to="/")
