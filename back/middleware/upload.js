@@ -18,10 +18,10 @@ const upload = multer({
     } else {
       callback(null, true)
     }
-  },
-  limits: {
-    fileSize: 1024 * 1024 // 大小為 1 MB
   }
+  // limits: {
+  //   fileSize: 1024 * 1024 // 大小為 1 MB
+  // }
 })
 
 export const boardgameImg = async (req, res, next) => {
