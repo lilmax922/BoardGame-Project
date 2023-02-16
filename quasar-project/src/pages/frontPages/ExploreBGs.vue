@@ -36,11 +36,18 @@ const types = [
 ]
 
 const filterCondition = reactive({
-  types: [],
+  types: ['陣營',
+    '策略',
+    '心機',
+    '抽象',
+    '卡牌',
+    '派對',
+    '家庭',
+    '兒童'],
   gameTime: 0,
   players: {
     min: 1,
-    max: 1
+    max: 12
   }
 })
 
@@ -52,10 +59,6 @@ const delChip = (i) => {
   chips.value.splice(i, 1)
 }
 
-// for (const i of boardgames.value) {
-//   console.log(i.players.split('~').map(Number))
-// }
-
 console.log(boardgames.value)
 // boardgame.players // ['2 ~ 4']
 const filterFunc = computed(() => {
@@ -63,9 +66,9 @@ const filterFunc = computed(() => {
     console.log(boardgame.players)
     return (
       boardgame.gameTime >= filterCondition.gameTime &&
-      boardgame.players.split('~').map(Number)[0] >=
-        filterCondition.players.min &&
-      boardgame.players.split('~').map(Number)[1] <= filterCondition.players.max
+      boardgame.players.split('~').map(Number)[0] >= filterCondition.players.min &&
+      boardgame.players.split('~').map(Number)[1] <= filterCondition.players.max &&
+      parseInt(_.intersection(boardgame.types, filterCondition.types).length) !== 0
     )
   })
 })
