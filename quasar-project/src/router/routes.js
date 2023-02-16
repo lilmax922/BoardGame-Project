@@ -85,6 +85,16 @@ const routes = [
           admin: false
         }
       }
+      // {
+      //   path: 'myReservation',
+      //   name: 'myReservation',
+      //   component: () => import('src/pages/layout/MemberLayout.vue'),
+      //   meta: {
+      //     title: '差滴滴 | 我的預約',
+      //     login: true,
+      //     admin: false
+      //   }
+      // }
     ]
   },
   {
@@ -97,6 +107,16 @@ const routes = [
       admin: false
     },
     children: [
+      {
+        path: 'myInfo',
+        name: 'myInfo',
+        component: () => import('src/pages/member/MyInfo.vue'),
+        meta: {
+          title: '差滴滴 | 會員資料',
+          login: true,
+          admin: false
+        }
+      },
       {
         path: 'myReservation',
         name: 'myReservation',

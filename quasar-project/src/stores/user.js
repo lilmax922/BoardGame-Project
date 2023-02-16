@@ -83,12 +83,12 @@ export const useUserStore = defineStore('user', () => {
     email,
     nickname,
     role,
+    avatar,
     login,
     logout,
     getMyself,
     isLogin,
     isAdmin,
-    avatar,
     showLoginCard
   }
 }, {
