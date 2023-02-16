@@ -65,7 +65,7 @@ const filterFunc = computed(() => {
       boardgame.gameTime >= filterCondition.gameTime &&
       boardgame.players.split('~').map(Number)[0] >=
         filterCondition.players.min &&
-      boardgame.players.split('~').map(Number)[1] >= filterCondition.players.max
+      boardgame.players.split('~').map(Number)[1] <= filterCondition.players.max
     )
   })
 })
