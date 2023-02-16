@@ -36,16 +36,21 @@ const userForm = reactive({
   <q-page id="my_info" padding>
     <div class="container">
       <q-form @submit="onSubmit" class="flex flex-center column">
-        <div class="col-12 flex flex-center q-my-xl">
-          <q-avatar>
-            <q-img :src="avatar" />
-          </q-avatar>
-          <q-btn
-            @click="userForm.editAvatar = true"
-            icon="mdi-circle-edit-outline"
-            rounded
-            dense
-          />
+        <div class="row avatar_area">
+          <div class="col-12 flex flex-center q-my-xl">
+            <q-avatar>
+              <q-img :src="avatar" />
+            </q-avatar>
+            <q-btn
+              class="editBtn"
+              @click="userForm.editAvatar = true"
+              icon="mdi-circle-edit-outline"
+              flat
+              rounded
+              dense
+              color="primary"
+            />
+          </div>
         </div>
         <div class="row flex flex-center q-gutter-md">
           <!-- 信箱 -->
@@ -122,14 +127,20 @@ const userForm = reactive({
             </q-input>
           </div>
           <div class="col-12 flex justify-center">
-            <q-btn label="確認修改" color="primary" type="submit" />
+            <q-btn label="確認修改" color="primary" type="submit" rounded />
           </div>
         </div>
       </q-form>
       <q-dialog v-model="userForm.editAvatar">
         <q-card style="min-width: 350px">
           <q-card-section>
-            <q-file v-model="avatar" rounded standout clearable label="請選擇大頭貼">
+            <q-file
+              v-model="avatar"
+              rounded
+              standout
+              clearable
+              label="請選擇大頭貼"
+            >
               <template v-slot:prepend>
                 <q-icon name="mdi-image-edit" />
               </template>
@@ -145,6 +156,14 @@ const userForm = reactive({
 #my_info {
   .row {
     width: 75%;
+  }
+  .avatar_area {
+    position: relative;
+    .editBtn {
+      position: absolute;
+      left: 55%;
+      top: 50%;
+    }
   }
   .q-input {
     width: 95%;
