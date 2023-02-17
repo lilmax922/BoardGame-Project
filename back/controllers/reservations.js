@@ -1,4 +1,5 @@
 import reservations from '../models/reservations.js'
+import teamups from '../models/teamups.js'
 
 export const createReservation = async (req, res) => {
   try {
@@ -29,8 +30,9 @@ export const createReservation = async (req, res) => {
 export const getReservation = async (req, res) => {
   try {
     // req.body.selectedDate 會撈到 model 的 reservations 整筆資料，取裡頭的 selectedTime 跟 hours
-    const result = await reservations.find({ date: req.body.selectedDate }).select('time hour')
-    res.status(200).json({ success: true, message: '查詢成功', result })
+    const result1 = await reservations.find({ date: req.body.selectedDate }).select('time hour')
+    const result2 = await teamups.find({ date: req.body.selectedDate }).select('time hour')
+    res.status(200).json({ success: true, message: '查詢成功', result: [...result1, ...result2] })
   } catch (error) {
     if (error.name === 'ValidationError') {
       const key = Object.keys(error.errors)[0]
