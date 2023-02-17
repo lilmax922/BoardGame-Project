@@ -81,7 +81,7 @@ const boardgame = reactive({
         <div class="col-8">
           <div class="info-area q-mb-lg">
             <div class="introduce column">
-              <div class="header text-h4 q-pb-md">遊戲介紹</div>
+              <div class="header text-h4 q-mb-md">遊戲介紹</div>
               <div class="text-h3">{{ boardgame.name }}</div>
               <div v-html="boardgame.introduction" />
               <div class="flex items-center">
@@ -102,7 +102,7 @@ const boardgame = reactive({
           </div>
           <div class="component-area q-mb-lg">
             <div class="component column">
-              <div class="header text-h4 q-pb-md">內容物介紹</div>
+              <div class="header text-h4 q-mb-md">內容物介紹</div>
               <div class="component_carousel">
                 <q-carousel swipeable animated v-model="carouselSlide[0]" thumbnails infinite>
               <q-carousel-slide
@@ -118,13 +118,13 @@ const boardgame = reactive({
           </div>
           <div class="gameflow-area q-mb-lg">
             <div class="gameflow column">
-              <div class="header text-h4 q-pb-md">遊戲流程</div>
+              <div class="header text-h4 q-mb-md">遊戲流程</div>
               <div v-html="boardgame.gameFlow" />
             </div>
           </div>
           <div class="endgame-area q-mb-lg">
             <div class="endgame column">
-              <div class="header text-h4 q-pb-md">遊戲結束</div>
+              <div class="header text-h4 q-mb-md">遊戲結束</div>
               <div v-html="boardgame.endGame" />
             </div>
           </div>
@@ -162,9 +162,9 @@ const boardgame = reactive({
     }
   }
   .header {
-    color: $accent;
-    border-left: 20px solid $accent;
-    padding-left: 15px;
+    border-left: 15px solid $accent;
+      padding-left: 1rem;
+      color: $accent;
   }
 
   .component_carousel {

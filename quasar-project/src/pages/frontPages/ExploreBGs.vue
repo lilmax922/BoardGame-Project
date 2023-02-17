@@ -90,7 +90,7 @@ const filterFunc = computed(() => {
 
     <div class="container">
       <section class="header flex items-center">
-        <div class="text-h3 q-pr-lg" style="display: inline-block">
+        <div class="header-text text-h3 q-pr-lg">
           探索桌遊
         </div>
         <q-btn label="我要預約" to="/reservation" color="primary" />
@@ -222,6 +222,11 @@ const filterFunc = computed(() => {
 
   .header {
     padding-bottom: 55px;
+    .header-text {
+      border-left: 15px solid $accent;
+      padding-left: 1rem;
+      color: $accent;
+    }
   }
 
   .boardgameList {
