@@ -50,7 +50,8 @@ export const login = async (req, res) => {
         email: req.user.email,
         phone: req.user.phone,
         nickname: req.user.nickname,
-        role: req.user.role
+        role: req.user.role,
+        avatar: req.user.avatar
       }
     })
   } catch (error) {
@@ -95,11 +96,34 @@ export const getMyself = (req, res) => {
         email: req.user.email,
         phone: req.user.phone,
         nickname: req.user.nickname,
-        role: req.user.role
+        role: req.user.role,
+        avatar: req.user.avatar
       }
     })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
+export const editMyself = async (req, res) => {
+  try {
+    const avatar = req.files?.cardImage ? req.files?.cardImage[0].path : req.body.cardImage
+    req.user.avatar = avatar
+    req.user.phone = req.body.phone
+    req.user.nickname = req.body.nickname
+    req.user.password = req.body.password
+    const result = req.user.save()
+    res.status(200).json({
+      success: true,
+      result: {
+        email: result.email,
+        phone: result.phone,
+        nickname: result.nickname,
+        avatar: result.avatar
+      }
+    })
+  } catch (error) {
+
   }
 }
 
