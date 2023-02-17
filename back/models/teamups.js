@@ -63,6 +63,7 @@ const schema = new Schema(
       },
       validate: {
         validator () {
+          console.log(_.intersection(this.type, this.interesting).length)
           return _.intersection(this.type, this.interesting).length === 0
         },
         message: '錯誤'
