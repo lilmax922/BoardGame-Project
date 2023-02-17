@@ -45,6 +45,9 @@ const schema = new Schema(
       type: [String],
       default: []
     },
+    avatar: {
+      type: String
+    },
     role: {
       type: Number,
       // 0 = 使用者
