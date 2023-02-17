@@ -7,10 +7,7 @@ import RegisterCard from 'src/components/RegisterCard.vue'
 
 const user = useUserStore()
 const { isLogin, isAdmin, avatar, nickname, showLoginCard } = storeToRefs(user)
-const name = nickname.value
 const { logout } = user
-console.log(avatar.value)
-console.log(nickname.value)
 
 const tab = ref('')
 const showRegisterCard = ref(false)
@@ -56,8 +53,8 @@ q-layout(view='hHh lpR fff')
             q-item-section(avatar)
               q-avatar
                 q-img(:src="avatar")
-            q-item-section.flex-center(ref="nickname")
-              div {{ name }}
+            q-item-section.flex-center()
+              div {{ nickname }}
           q-separator
           q-item-label.q-pa-sm(overline) 我的主頁
           q-item(clickable v-if="isLogin && isAdmin" to="/admin")

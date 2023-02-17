@@ -43,7 +43,7 @@ q-layout(view='hHh Lpr lff')
         q-avatar.q-mb-sm(size='56px')
           img(:src='avatar')
         .flex.justify-between
-          .text-weight-bold.text-h6 {{ userName }}
+          .text-weight-bold.text-h6 {{ nickname }}
           q-btn(@click="logout" icon='fa-solid fa-person-walking-arrow-right' label="登出" color="primary" dense)
 
   q-page-container
