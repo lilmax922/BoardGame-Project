@@ -13,19 +13,32 @@ const schema = new Schema(
       ref: 'users',
       required: [true, '缺少組隊參加人']
     },
-    startDate: {
+    date: {
       type: Date,
       default: Date.now,
-      required: [true, '缺少開始時間']
+      required: [true, '缺少揪團日期']
     },
-    endDate: {
-      type: Date,
-      default: Date.now,
-      required: [true, '缺少結束時間']
+    time: {
+      type: String,
+      enum: ['10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM', '07:00 PM', '08:00 PM'],
+      required: [true, '缺少揪團時間']
+    },
+    hour: {
+      type: Number,
+      default: 1,
+      required: [true, '缺少預約時數']
+    },
+    currentPeople: {
+      type: Number,
+      required: [true, '缺少目前人數']
     },
     totalPeople: {
       type: Number,
       required: [true, '缺少總人數']
+    },
+    cardImage: {
+      type: String,
+      required: [true, '缺少主要遊玩類型圖片']
     },
     type: {
       type: String,
@@ -41,10 +54,6 @@ const schema = new Schema(
         message: '錯誤'
       },
       default: []
-    },
-    image: {
-      type: String,
-      required: [true, '缺少主要遊玩類型圖片']
     },
     interesting: {
       type: [String],
