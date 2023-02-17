@@ -1,7 +1,350 @@
 <script setup>
+import { reactive, watch, ref, computed } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useTeamupStore } from 'stores/teamup.js'
+import { apiAuth } from 'src/boot/axios'
 
+const teamupStore = useTeamupStore()
+const { submitTeamup } = teamupStore
+const { teamups } = storeToRefs(teamupStore)
+
+const date = new Date()
+const mask = 'YYYY-MM-DD'
+const typeGroup = ref('陣營')
+const interestingGroup = ref([])
+const typeOptions = reactive([
+  { label: '陣營', value: '陣營', disable: false },
+  { label: '策略', value: '策略', disable: false },
+  { label: '抽象', value: '抽象', disable: false },
+  { label: '心機', value: '心機', disable: false },
+  { label: '卡牌', value: '卡牌', disable: false },
+  { label: '派對', value: '派對', disable: false },
+  { label: '家庭', value: '家庭', disable: false },
+  { label: '兒童', value: '兒童', disable: false }
+])
+
+const teamupForm = reactive({
+  selectedDate: '',
+  selectedTime: '',
+  selectedHour: 1,
+  currentPeople: 1,
+  totalPeople: 4,
+  type: '',
+  interesting: [],
+  cardImage: undefined,
+  title: '',
+  content: '',
+  _id: teamups._id || '',
+  loading: false
+})
+
+const availableTimeBtn = reactive([
+  { time: '10:00 AM', available: true },
+  { time: '11:00 AM', available: true },
+  { time: '12:00 PM', available: true },
+  { time: '01:00 PM', available: true },
+  { time: '02:00 PM', available: true },
+  { time: '03:00 PM', available: true },
+  { time: '04:00 PM', available: true },
+  { time: '05:00 PM', available: true },
+  { time: '06:00 PM', available: true },
+  { time: '07:00 PM', available: true },
+  { time: '08:00 PM', available: true }
+])
+
+const max = computed(() => {
+  const startIdx = availableTimeBtn.findIndex(
+    (btn) => btn.time === teamupForm.selectedTime
+  )
+  if (startIdx > -1) {
+    let i = startIdx
+    while (availableTimeBtn[i] && availableTimeBtn[i].available) {
+      i++
+    }
+    return i - startIdx
+  } else return 11 // 總共 11 個時段
+})
+
+watch(
+  () => teamupForm.selectedDate,
+  async (value) => {
+    try {
+      // 沒有選擇日期的話按鈕全部為 false
+      if (!teamupForm.selectedDate) {
+        availableTimeBtn.forEach((btn) => {
+          btn.available = false
+          return btn
+        })
+        return
+      }
+
+      teamupForm.selectedTime = ''
+      // 取得使用者選擇的當天日期
+      const { data } = await apiAuth.post('/reservations/getdate', {
+        selectedDate: value
+      })
+
+      // 被預訂的時間與時數
+      const reservedTimeAndHours = []
+      availableTimeBtn.forEach((btn) => {
+        btn.available = true
+        return btn
+      })
+      console.log(availableTimeBtn)
+      console.log(reservedTimeAndHours)
+      // info 會是 controller 傳進來的 result
+      data.result.forEach((info) => {
+        reservedTimeAndHours.push({
+          reservedTime: info.time,
+          reservedHours: info.hour
+        })
+      })
+
+      reservedTimeAndHours.forEach((info) => {
+        const index = availableTimeBtn.findIndex(
+          (availableTime) => availableTime.time === info.reservedTime
+        )
+
+        console.log(index)
+        for (let i = index; i <= index + info.reservedHours; i++) {
+          availableTimeBtn[i].available = false
+          if (
+            // disabled後，選的時間 btn = 最後一個時間 btn 的話
+            availableTimeBtn[i] ===
+            availableTimeBtn[availableTimeBtn.length - 1]
+          ) {
+            return
+          }
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+const onSubmit = async () => {
+  teamupForm.loading = true
+
+  const fd = new FormData()
+  fd.append('_id', teamupForm._id)
+  fd.append('selectedDate', teamupForm.selectedDate)
+  fd.append('selectedTime', teamupForm.selectedTime)
+  fd.append('selectedHour', teamupForm.selectedHour)
+  fd.append('currentPeople', teamupForm.currentPeople)
+  fd.append('totalPeople', teamupForm.totalPeople)
+  fd.append('type', typeGroup.value)
+
+  interestingGroup.value.forEach((item) => {
+    fd.append('interesting', item)
+  })
+  fd.append('cardImage', teamupForm.cardImage)
+  fd.append('title', teamupForm.title)
+  fd.append('content', teamupForm.content)
+  await submitTeamup(fd)
+  teamupForm.loading = false
+}
+
+teamupForm.selectedDate = `${date.getFullYear()}-0${
+  date.getMonth() + 1
+}-${date.getDate()}`
 </script>
 
-<template lang="pug">
-q-page#teamup
+<template>
+  <q-page id="teamup" padding>
+    <div class="q-ma-lg">
+      <q-breadcrumbs>
+        <template #separator>
+          <q-icon name="chevron_right" size="1.5em" />
+        </template>
+        <q-breadcrumbs-el icon="mdi-home" to="/" />
+        <q-breadcrumbs-el label="我要揪團" />
+      </q-breadcrumbs>
+    </div>
+    <div class="container q-gutter-md">
+      <section class="flex justify-center">
+        <q-card style="width: 1500px">
+          <q-form class="q-gutter-md" @submit="onSubmit">
+            <!-- Choose teamup date & time -->
+            <q-card-section class="q-gutter-md">
+              <div class="text-h4">選擇揪團日期</div>
+              <div class="row justify-evenly">
+                <!-- calendar -->
+                <q-date
+                  class="col-7"
+                  v-model="teamupForm.selectedDate"
+                  subtitle="請選擇揪團日期"
+                  :mask="mask"
+                  today-btn
+                  navigation-min-year-month="2023/02"
+                  navigation-max-year-month="2023/12"
+                  style="max-width: 500px"
+                />
+                <div class="col-5 flex column justify-between">
+                  <!-- timeBtn -->
+                  <div
+                    v-if="teamupForm.selectedDate !== ''"
+                    class="col-5 q-gutter-md flex justify-start"
+                  >
+                    <q-btn
+                      class="timeBtn"
+                      v-for="timeBtn in availableTimeBtn"
+                      :key="timeBtn.time"
+                      :color="
+                        timeBtn.time === teamupForm.selectedTime
+                          ? 'info'
+                          : 'secondary'
+                      "
+                      @click="teamupForm.selectedTime = timeBtn.time"
+                      :disable="!timeBtn.available"
+                      checked-icon="task_alt"
+                      unchecked-icon="panorama_fish_eye"
+                    >
+                      {{ timeBtn.time }}
+                    </q-btn>
+                  </div>
+
+                  <div class="hour">
+                    <div class="text-h6">預約時數</div>
+                    <q-slider
+                      v-model="teamupForm.selectedHour"
+                      markers
+                      marker-labels
+                      thumb-color="secondary"
+                      :min="1"
+                      :max="max"
+                      style="max-width: 650px"
+                    />
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+
+            <!-- teamup info -->
+            <q-card-section class="q-gutter-md">
+              <div class="text-h4">填寫揪團資料</div>
+              <div class="row">
+                <div class="title col-6">
+                  <div class="text-h6">來點酷酷的標題吧!</div>
+                  <q-input
+                    v-model="teamupForm.title"
+                    rounded
+                    standout
+                    label="請新增標題"
+                    autogrow
+                    clearable
+                    style="max-width: 650px"
+                  />
+                </div>
+
+                <div class="content col-6">
+                  <div class="text-h6">想新增甚麼內容嗎?</div>
+                  <q-input
+                    v-model="teamupForm.content"
+                    rounded
+                    standout
+                    label="請新增內容"
+                    autogrow
+                    clearable
+                    style="max-width: 650px"
+                  />
+                </div>
+
+                <div class="main col-6">
+                  <div class="text-h6">主要遊玩類型</div>
+                  <q-option-group
+                    v-model="typeGroup"
+                    :options="typeOptions"
+                    color="primary"
+                    inline
+                  />
+                </div>
+
+                <div class="interesting col-6">
+                  <div class="text-h6">我有興趣</div>
+                  <q-option-group
+                    v-model="interestingGroup"
+                    :options="typeOptions"
+                    color="primary"
+                    inline
+                    type="checkbox"
+                  />
+                </div>
+
+                <div class="current_people col-6">
+                  <div class="text-h6">目前人數</div>
+                  <q-slider
+                    v-model="teamupForm.currentPeople"
+                    markers
+                    marker-labels
+                    thumb-color="secondary"
+                    :min="1"
+                    :max="10"
+                    style="max-width: 650px"
+                  />
+                </div>
+
+                <div class="total_people col-6">
+                  <div class="text-h6">揪團總人數</div>
+                  <q-slider
+                    v-model="teamupForm.totalPeople"
+                    markers
+                    marker-labels
+                    thumb-color="secondary"
+                    :min="1"
+                    :max="10"
+                    style="max-width: 650px"
+                  />
+                </div>
+
+                <div class="card_image col-6">
+                  <div class="text-h6">上傳揪團圖片</div>
+                  <q-file
+                    rounded
+                    standout
+                    v-model="teamupForm.cardImage"
+                    use-chips
+                    label="請選擇卡片圖"
+                    style="max-width: 550px"
+                  >
+                    <template>
+                      <q-icon name="attach_file" />
+                    </template>
+                  </q-file>
+                </div>
+              </div>
+            </q-card-section>
+            <q-card-actions class="flex flex-center q-mb-md">
+              <q-btn label="送出揪團" type="submit" color="primary" />
+            </q-card-actions>
+          </q-form>
+        </q-card>
+      </section>
+    </div>
+  </q-page>
 </template>
+
+<style lang="scss">
+#teamup {
+  .text-h4 {
+    border-left: 15px solid $accent;
+    padding-left: 1rem;
+    color: $accent;
+  }
+
+  .timeBtn {
+    width: 100px;
+    height: 50px;
+  }
+
+  .title,
+  .content,
+  .main,
+  .interesting,
+  .current_people,
+  .total_people,
+  .card_image {
+    padding-bottom: 1.5rem;
+  }
+}
+</style>
