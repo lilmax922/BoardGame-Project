@@ -5,10 +5,7 @@ import validator from 'validator'
 import { useUserStore } from 'src/stores/user'
 
 const user = useUserStore()
-// const { getMyself } = user
 const { avatar, email, phone, nickname } = storeToRefs(user)
-
-const text = ref('')
 
 const rules = {
   email (email) {
@@ -25,11 +22,21 @@ const rules = {
 }
 
 const userForm = reactive({
-  phone: '',
-  nickname: '',
+  phone: phone.value || '',
+  nickname: nickname.value || '',
   password: '',
   editAvatar: false
 })
+
+const onSubmit = () => {
+  const fd = new FormData()
+  fd.append('avatar', userForm.avatar)
+  fd.append('phone', userForm.phone)
+  fd.append('nickname', userForm.nickname)
+  fd.append('password', userForm.password)
+  fd.append('cardImage')
+  // await
+}
 </script>
 
 <template>
@@ -41,6 +48,7 @@ const userForm = reactive({
             <q-avatar>
               <q-img :src="avatar" />
             </q-avatar>
+            {{nickname}}
             <q-btn
               class="editBtn"
               @click="userForm.editAvatar = true"
@@ -73,10 +81,10 @@ const userForm = reactive({
               <template v-slot:prepend>
                 <q-icon name="mdi-cellphone" />
               </template>
-              <template v-slot:append v-if="text">
+              <template v-slot:append v-if="userForm.phone">
                 <q-icon
                   name="close"
-                  @click="text = ''"
+                  @click="userForm.phone = ''"
                   class="cursor-pointer"
                 />
               </template>
