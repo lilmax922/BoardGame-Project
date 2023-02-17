@@ -78,15 +78,32 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  async function editMyself () {
+    try {
+      const { data } = await apiAuth.patch('/users/editmyself')
+      avatar.value = data.result.avatar
+      phone.value = data.result.phone
+      nickname.value = data.result.nickname
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   return {
     token,
     email,
+    phone,
     nickname,
     role,
     avatar,
     login,
     logout,
     getMyself,
+    editMyself,
     isLogin,
     isAdmin,
     showLoginCard
