@@ -39,7 +39,7 @@ const onSubmit = async () => {
   fd.append('phone', userForm.phone)
   fd.append('nickname', userForm.nickname)
   fd.append('password', userForm.password)
-  fd.append('cardImage')
+  // fd.append('cardImage')
   await editMyself(fd)
   userForm.loading = false
 }

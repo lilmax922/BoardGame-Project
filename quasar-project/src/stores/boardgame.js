@@ -86,8 +86,6 @@ export const useBoardgameStore = defineStore('boardgame', () => {
     }
   }
 
-  // getAllBoardgames()
-
   return {
     boardgames,
     getPostBoardgames,

@@ -52,16 +52,20 @@ const routes = [
         name: 'searchTeamups',
         component: () => import('src/pages/frontPages/SearchTeamupsPage.vue'),
         meta: {
-          title: '桌遊 | 揪團組隊'
+          title: '桌遊 | 揪團組隊',
+          login: false,
+          admin: false
         }
       },
       {
-        path: 'joinTeamups/:id',
-        name: 'joinTeamups',
-        component: () => import('src/pages/frontPages/joinTeamupsPage.vue'),
+        path: 'joinTeamup/:id',
+        name: 'joinTeamup',
+        component: () => import('src/pages/frontPages/JoinTeamupPage.vue'),
         meta: [
           {
-            title: '桌遊 | 參加揪團'
+            title: '桌遊 | 參加揪團',
+            login: false,
+            admin: false
           }
         ]
       },
