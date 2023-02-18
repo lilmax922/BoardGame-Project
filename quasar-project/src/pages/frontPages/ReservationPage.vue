@@ -66,8 +66,8 @@ watch(() => reservationForm.selectedDate, async (value) => {
       btn.available = true
       return btn
     })
-    console.log(availableTimeBtn)
-    console.log(reservedTimeAndHours)
+    // console.log(availableTimeBtn)
+    // console.log(reservedTimeAndHours)
     // info 會是 controller 傳進來的 result
     data.result.forEach((info) => {
       reservedTimeAndHours.push({
@@ -81,7 +81,7 @@ watch(() => reservationForm.selectedDate, async (value) => {
         (availableTime) => availableTime.time === info.reservedTime
       )
 
-      console.log(index)
+      // console.log(index)
       for (let i = index; i <= index + info.reservedHours; i++) {
         availableTimeBtn[i].available = false
         if (

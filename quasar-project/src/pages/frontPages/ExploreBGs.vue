@@ -24,26 +24,10 @@ const { boardgames } = storeToRefs(boardgameStore)
 // ])
 
 const chips = ref([])
-const types = [
-  '陣營',
-  '策略',
-  '心機',
-  '抽象',
-  '卡牌',
-  '派對',
-  '家庭',
-  '兒童'
-]
+const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童']
 
 const filterCondition = reactive({
-  types: ['陣營',
-    '策略',
-    '心機',
-    '抽象',
-    '卡牌',
-    '派對',
-    '家庭',
-    '兒童'],
+  types: ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童'],
   gameTime: 0,
   players: {
     min: 1,
@@ -59,8 +43,6 @@ const delChip = (i) => {
   chips.value.splice(i, 1)
 }
 
-console.log(boardgames.value)
-// boardgame.players // ['2 ~ 4']
 const filterFunc = computed(() => {
   return boardgames.value.filter((boardgame) => {
     console.log(boardgame.players)
@@ -72,7 +54,6 @@ const filterFunc = computed(() => {
     )
   })
 })
-// && parseInt(_.intersection(boardgame.types, filterCondition.types).length) !== 0
 </script>
 
 <template>
@@ -90,9 +71,7 @@ const filterFunc = computed(() => {
 
     <div class="container">
       <section class="header flex items-center">
-        <div class="header-text text-h3 q-pr-lg">
-          探索桌遊
-        </div>
+        <div class="header-text text-h3 q-pr-lg">探索桌遊</div>
         <q-btn label="我要預約" to="/reservation" color="primary" />
       </section>
       <section class="boardgameList">

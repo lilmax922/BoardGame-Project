@@ -13,7 +13,7 @@ export const useTeamupStore = defineStore('teamup', () => {
         await Swal.fire({
           icon: 'success',
           title: '成功',
-          text: '預約成功~'
+          text: '揪團成功~'
         })
       }
       // this.router.push('/')
