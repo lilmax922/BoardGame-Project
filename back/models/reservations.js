@@ -8,20 +8,6 @@ const schema = new Schema(
       ref: 'users',
       required: [true, '缺少預約人']
     },
-    // reserverName: {
-    //   type: String,
-    //   trim: true
-    // },
-    // reserverPhone: {
-    //   type: String,
-    //   trim: true,
-    //   validate: {
-    //     validator (phone) {
-    //       return validator.isMobilePhone(phone, 'zh-TW')
-    //     },
-    //     message: '手機號碼格式錯誤'
-    //   }
-    // },
     date: {
       type: Date,
       default: Date.now, // 當下時間戳記 ; Date.now() 會變成 server 打開的時間導致每個時間都一樣
@@ -42,8 +28,6 @@ const schema = new Schema(
       default: 1,
       required: [true, '缺少預約人數']
     }
-  },
-  { versionKey: false }
-)
+  }, { versionKey: false })
 
 export default model('reservations', schema)

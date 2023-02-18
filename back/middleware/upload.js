@@ -25,8 +25,8 @@ const upload = multer({
 })
 
 export const boardgameImg = async (req, res, next) => {
-  //  .fields 為陣列物件 [{name: '自訂名稱', maxCount: 8}]
-  // 可以放多筆資料然後每筆都可以自訂名稱
+  //  .fields 為陣列物件 [{name: '自訂名稱', maxCount: '最大上傳數量'}]
+  // 可以放多筆資料 並且 每筆都可以自訂名稱
   upload.fields([
     { name: 'cardImage', maxCount: 1 },
     { name: 'mainImages', maxCount: 10 },
@@ -49,4 +49,21 @@ export const boardgameImg = async (req, res, next) => {
   })
 }
 
-// TODO export const eventImg = async(req, res, next) => {}
+// export const teamupImg = async (req, res, next) => {
+//   upload.single('image')(req, res, (error) => {
+//     console.log(error)
+//     if (error instanceof multer.MulterError) {
+//       let message = '上傳錯誤'
+//       if (error.code === 'LIMIT_FILE_SIZE') {
+//         message = '圖片檔案太大'
+//       } else if (error.code === 'LIMIT_FILE_FORMAT') {
+//         message = '圖片檔案格式錯誤'
+//       }
+//       res.status(400).json({ success: false, message })
+//     } else if (error) {
+//       res.status(500).json({ success: false, message: '未知錯誤' })
+//     } else {
+//       next()
+//     }
+//   })
+// }

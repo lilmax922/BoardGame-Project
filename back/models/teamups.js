@@ -1,5 +1,5 @@
 import { Schema, model, ObjectId } from 'mongoose'
-import _ from 'lodash'
+// import _ from 'lodash'
 
 const schema = new Schema(
   {
@@ -40,34 +40,33 @@ const schema = new Schema(
       type: String,
       required: [true, '缺少主要遊玩類型圖片']
     },
-    type: {
-      type: String,
-      required: [true, '缺少主要遊玩類型'],
-      enum: {
-        values: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
-        message: '桌遊類型錯誤'
-      },
-      validate: {
-        validator () {
-          return _.intersection(this.type, this.interesting).length === 0
-        },
-        message: '錯誤'
-      },
-      default: []
-    },
-    interesting: {
+    // type: {
+    //   type: String,
+    //   required: [true, '缺少主要遊玩類型'],
+    //   enum: {
+    //     values: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
+    //     message: '桌遊類型錯誤'
+    //   },
+    //   validate: {
+    //     validator () {
+    //       return _.intersection(this.type, this.interesting).length === 0
+    //     },
+    //     message: '錯誤'
+    //   },
+    //   default: []
+    // },
+    types: {
       type: [String],
       enum: {
         values: ['派對', '陣營', '策略', '心機', '卡牌', '兒童', '家庭', '抽象'],
         message: '桌遊類型錯誤'
       },
-      validate: {
-        validator () {
-          console.log(_.intersection(this.type, this.interesting).length)
-          return _.intersection(this.type, this.interesting).length === 0
-        },
-        message: '錯誤'
-      },
+      // validate: {
+      //   validator () {
+      //     return _.intersection(this.type, this.interesting).length === 0
+      //   },
+      //   message: '錯誤'
+      // },
       default: []
     },
     title: {
@@ -80,7 +79,6 @@ const schema = new Schema(
       type: String,
       required: [true, '缺少揪團內容']
     }
-  }
-)
+  }, { versionKey: false })
 
 export default model('teamups', schema)

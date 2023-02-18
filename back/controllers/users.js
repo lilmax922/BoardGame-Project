@@ -1,7 +1,7 @@
 import users from '../models/users.js'
-// import teamups from '../models/teamups.js'
 import jwt from 'jsonwebtoken'
 
+// 註冊
 export const register = async (req, res) => {
   try {
     await users.create({
@@ -105,6 +105,7 @@ export const getMyself = (req, res) => {
   }
 }
 
+// 修改自己的資料
 export const editMyself = async (req, res) => {
   try {
     const avatar = req.files?.cardImage ? req.files?.cardImage[0].path : req.body.cardImage
@@ -116,33 +117,12 @@ export const editMyself = async (req, res) => {
     res.status(200).json({
       success: true,
       result: {
-        email: result.email,
+        avatar: result.avatar,
         phone: result.phone,
-        nickname: result.nickname,
-        avatar: result.avatar
+        nickname: result.nickname
       }
     })
   } catch (error) {
-
+    res.status(500).json({ success: false, message: '未知錯誤' })
   }
 }
-
-// 發起揪團
-// export const teamup = async (req, res) => {
-//   try {
-//     await teamups.create({
-//       organizer: req.body.organizer,
-//       startDate: req.body.startDate,
-//       endDate: req.body.endDate,
-//       totalPeople: req.body.totalPeople,
-//       type: req.body.type,
-//       interesting: req.body.interesting,
-//       title: req.body.title,
-//       content: req.body.content
-//     })
-//     res.status(200).json({ success: true, message: '' })
-//   } catch (error) {
-//     console.log(error)
-//     res.status(500).json({ success: false, message: '未知錯誤' })
-//   }
-// }
