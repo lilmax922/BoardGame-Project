@@ -58,7 +58,7 @@ q-card.bg-card(flat)
   <div id="bg_card">
     <q-card flat>
       <div class="image_area">
-        <q-img :src="cardImage" />
+        <q-img :ratio="4/3" :src="cardImage" />
       </div>
       <q-card-section>
         <div class="types_area q-mb-sm">
