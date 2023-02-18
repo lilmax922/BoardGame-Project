@@ -5,6 +5,8 @@ import { apiAuth } from 'src/boot/axios'
 
 export const useTeamupStore = defineStore('teamup', () => {
   const teamups = reactive([])
+
+  // 發起揪團
   async function submitTeamup (form) {
     try {
       if (form.get('_id') === '') {
@@ -26,8 +28,43 @@ export const useTeamupStore = defineStore('teamup', () => {
     }
   }
 
+  // 取所有揪團
+  const getAllTeamups = async () => {
+    try {
+      const { data } = await apiAuth.get('/teamups/all')
+      teamups.splice(0, teamups.length, ...data.result)
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
+  const joinTeamup = async (form, _id) => {
+    try {
+      const { data } = await apiAuth.post('/teamups' + _id, form)
+      console.log(data.result)
+      teamups.push(data.result)
+      await Swal.fire({
+        icon: 'success',
+        title: '成功',
+        text: '參加成功~'
+      })
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   return {
     teamups,
-    submitTeamup
+    submitTeamup,
+    joinTeamup,
+    getAllTeamups
   }
 })
