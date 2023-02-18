@@ -2,13 +2,13 @@
 import { ref, reactive, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import _ from 'lodash'
-import { useBoardgameStore } from 'src/stores/boardgame'
-import BoardgameCard from 'src/components/BoardgameCard.vue'
+import { useTeamupStore } from 'src/stores/teamup'
+import TeamupCard from 'src/components/TeamupCard.vue'
 
-const boardgameStore = useBoardgameStore()
-const { getPostBoardgames } = boardgameStore
-getPostBoardgames()
-const { boardgames } = storeToRefs(boardgameStore)
+const teamupStore = useTeamupStore()
+const { getAllTeamups } = teamupStore
+const { teamups } = storeToRefs(teamupStore)
+getAllTeamups()
 
 // const typeGroup = ref(['不限'])
 // const types = reactive([
@@ -26,34 +26,34 @@ const { boardgames } = storeToRefs(boardgameStore)
 const chips = ref([])
 const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童']
 
-const filterCondition = reactive({
-  types: ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童'],
-  gameTime: 0,
-  players: {
-    min: 1,
-    max: 12
-  }
-})
+// const filterCondition = reactive({
+//   types: ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童'],
+//   gameTime: 0,
+//   players: {
+//     min: 1,
+//     max: 12
+//   }
+// })
 
-const addChip = () => {
-  chips.value = filterCondition.types.map((type) => type)
-}
-const delChip = (i) => {
-  filterCondition.types.splice(i, 1)
-  chips.value.splice(i, 1)
-}
+// const addChip = () => {
+//   chips.value = filterCondition.types.map((type) => type)
+// }
+// const delChip = (i) => {
+//   filterCondition.types.splice(i, 1)
+//   chips.value.splice(i, 1)
+// }
 
-const filterFunc = computed(() => {
-  return boardgames.value.filter((boardgame) => {
-    console.log(boardgame.players)
-    return (
-      boardgame.gameTime >= filterCondition.gameTime &&
-      boardgame.players.split('~').map(Number)[0] >= filterCondition.players.min &&
-      boardgame.players.split('~').map(Number)[1] <= filterCondition.players.max &&
-      parseInt(_.intersection(boardgame.types, filterCondition.types).length) !== 0
-    )
-  })
-})
+// const filterFunc = computed(() => {
+//   return boardgames.value.filter((boardgame) => {
+//     console.log(boardgame.players)
+//     return (
+//       boardgame.gameTime >= filterCondition.gameTime &&
+//       boardgame.players.split('~').map(Number)[0] >= filterCondition.players.min &&
+//       boardgame.players.split('~').map(Number)[1] <= filterCondition.players.max &&
+//       parseInt(_.intersection(boardgame.types, filterCondition.types).length) !== 0
+//     )
+//   })
+// })
 </script>
 
 <template>
@@ -74,13 +74,13 @@ const filterFunc = computed(() => {
         <div class="header-text text-h3 q-pr-lg">揪團組隊</div>
         <q-btn label="我要揪團" to="/teamup" color="primary" />
       </section>
-      <section class="boardgameList">
+      <section class="teamupList">
         <!-- <q-expansion-item
           v-model="expanded"
           icon="mdi-filter-variant"
           label="篩選條件"
         > -->
-        <div class="search_container">
+        <!-- <div class="search_container">
           <div class="search-bar">
             <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
               <template v-slot:append>
@@ -96,13 +96,13 @@ const filterFunc = computed(() => {
               </div>
               <div class="row flex flex-center">
                 <div class="col-5">
-                  <!-- <q-option-group
+                  <q-option-group
                       v-model="typeGroup"
                       :options="types"
                       type="checkbox"
                       inline
                       size="lg"
-                    /> -->
+                    />
                   <q-select
                     v-model="filterCondition.types"
                     filled
@@ -155,16 +155,6 @@ const filterFunc = computed(() => {
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
                 <div class="text-h6 q-pa-md">遊玩人數</div>
-                <!-- <q-slider
-                  v-model="filterCondition.players"
-                  class="q-px-lg"
-                  :min="1"
-                  :max="12"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  snap
-                /> -->
                 <q-range
                   v-model="filterCondition.players"
                   :min="1"
@@ -177,16 +167,17 @@ const filterFunc = computed(() => {
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
+
         <!-- </q-expansion-item> -->
         <div class="cards_container">
           <div class="row q-mx-auto">
             <div
               class="col-12 col-md-6 col-lg-4 col-xl-3 flex flex-center q-mb-lg"
-              v-for="(boardgame, i) in filterFunc"
+              v-for="(teamup, i) in teamups"
               :key="i"
             >
-              <BoardgameCard class="bg_card q-mb-lg" v-bind="boardgame" />
+              <TeamupCard class="teamup_card q-mb-lg" v-bind="teamup" />
             </div>
           </div>
         </div>
@@ -208,13 +199,13 @@ const filterFunc = computed(() => {
     }
   }
 
-  .boardgameList {
+  .teamupList {
     width: 100%;
 
     .cards_container {
       padding-top: 55px;
 
-      .bg_card {
+      .teamup_card {
         width: 300px;
       }
     }
