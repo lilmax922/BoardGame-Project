@@ -10,8 +10,8 @@ export const createTeamup = async (req, res) => {
       currentPeople: req.body.currentPeople,
       totalPeople: req.body.totalPeople,
       cardImage: req.files?.cardImage[0].path || '',
-      type: req.body.type,
-      interesting: req.body.interesting,
+      // type: req.body.type,
+      types: req.body.types,
       title: req.body.title,
       content: req.body.content
     })

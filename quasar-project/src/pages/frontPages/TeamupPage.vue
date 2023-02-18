@@ -10,8 +10,8 @@ const { teamups } = storeToRefs(teamupStore)
 
 const date = new Date()
 const mask = 'YYYY-MM-DD'
-const typeGroup = ref('陣營')
-const interestingGroup = ref([])
+// const typeGroup = ref('陣營')
+const typeGroup = ref([])
 const typeOptions = reactive([
   { label: '陣營', value: '陣營', disable: false },
   { label: '策略', value: '策略', disable: false },
@@ -29,14 +29,25 @@ const teamupForm = reactive({
   selectedHour: 1,
   currentPeople: 1,
   totalPeople: 4,
-  type: '',
-  interesting: [],
+  types: [],
+  // interesting: [],
   cardImage: undefined,
   title: '',
   content: '',
   _id: teamups._id || '',
   loading: false
 })
+
+const rules = {
+  required (value) {
+    return (value && value.length > 0) || '欄位必填'
+  },
+  length (value) {
+    return (
+      (value.length >= 1 && value.length <= 20) || '長度必須為 1 ~ 20 個字'
+    )
+  }
+}
 
 const availableTimeBtn = reactive([
   { time: '10:00 AM', available: true },
@@ -90,8 +101,7 @@ watch(
         btn.available = true
         return btn
       })
-      console.log(availableTimeBtn)
-      console.log(reservedTimeAndHours)
+
       // info 會是 controller 傳進來的 result
       data.result.forEach((info) => {
         reservedTimeAndHours.push({
@@ -105,7 +115,6 @@ watch(
           (availableTime) => availableTime.time === info.reservedTime
         )
 
-        console.log(index)
         for (let i = index; i <= index + info.reservedHours; i++) {
           availableTimeBtn[i].available = false
           if (
@@ -133,10 +142,9 @@ const onSubmit = async () => {
   fd.append('selectedHour', teamupForm.selectedHour)
   fd.append('currentPeople', teamupForm.currentPeople)
   fd.append('totalPeople', teamupForm.totalPeople)
-  fd.append('type', typeGroup.value)
-
-  interestingGroup.value.forEach((item) => {
-    fd.append('interesting', item)
+  // fd.append('type', typeGroup.value)
+  typeGroup.value.forEach((item) => {
+    fd.append('types', item)
   })
   fd.append('cardImage', teamupForm.cardImage)
   fd.append('title', teamupForm.title)
@@ -145,9 +153,7 @@ const onSubmit = async () => {
   teamupForm.loading = false
 }
 
-teamupForm.selectedDate = `${date.getFullYear()}-0${
-  date.getMonth() + 1
-}-${date.getDate()}`
+teamupForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
 </script>
 
 <template>
@@ -169,7 +175,7 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
             <q-card-section class="q-gutter-md">
               <div class="text-h4">選擇揪團日期</div>
               <div class="row justify-evenly">
-                <!-- calendar -->
+                <!-- Calendar -->
                 <q-date
                   class="col-7"
                   v-model="teamupForm.selectedDate"
@@ -234,6 +240,7 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                     autogrow
                     clearable
                     style="max-width: 650px"
+                    :rules="[rules.required, rules.length]"
                   />
                 </div>
 
@@ -247,10 +254,11 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                     autogrow
                     clearable
                     style="max-width: 650px"
+                    :rules="[rules.required]"
                   />
                 </div>
 
-                <div class="main col-6">
+                <!-- <div class="main col-6">
                   <div class="text-h6">主要遊玩類型</div>
                   <q-option-group
                     v-model="typeGroup"
@@ -258,16 +266,29 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                     color="primary"
                     inline
                   />
+                </div> -->
+
+                <div class="card_image col-6">
+                  <div class="text-h6">上傳揪團圖片</div>
+                  <q-file
+                    rounded
+                    standout
+                    v-model="teamupForm.cardImage"
+                    use-chips
+                    label="請選擇卡片圖"
+                    style="max-width: 650px"
+                  >
+                  </q-file>
                 </div>
 
-                <div class="interesting col-6">
-                  <div class="text-h6">我有興趣</div>
+                <div class="types col-6">
+                  <div class="text-h6">我有興趣的類型</div>
                   <q-option-group
-                    v-model="interestingGroup"
-                    :options="typeOptions"
-                    color="primary"
-                    inline
-                    type="checkbox"
+                  v-model="typeGroup"
+                  :options="typeOptions"
+                  color="primary"
+                  inline
+                  type="checkbox"
                   />
                 </div>
 
@@ -297,25 +318,10 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                   />
                 </div>
 
-                <div class="card_image col-6">
-                  <div class="text-h6">上傳揪團圖片</div>
-                  <q-file
-                    rounded
-                    standout
-                    v-model="teamupForm.cardImage"
-                    use-chips
-                    label="請選擇卡片圖"
-                    style="max-width: 550px"
-                  >
-                    <template>
-                      <q-icon name="attach_file" />
-                    </template>
-                  </q-file>
-                </div>
               </div>
             </q-card-section>
             <q-card-actions class="flex flex-center q-mb-md">
-              <q-btn label="送出揪團" type="submit" color="primary" />
+              <q-btn label="送出揪團" type="submit" color="primary" :disable="teamupForm.loading" />
             </q-card-actions>
           </q-form>
         </q-card>
@@ -340,7 +346,7 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
   .title,
   .content,
   .main,
-  .interesting,
+  .types,
   .current_people,
   .total_people,
   .card_image {
