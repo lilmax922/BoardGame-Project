@@ -37,7 +37,6 @@ const teamupForm = reactive({
   _id: teamups._id || '',
   loading: false
 })
-
 const rules = {
   required (value) {
     return (value && value.length > 0) || '欄位必填'
