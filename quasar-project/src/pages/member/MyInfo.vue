@@ -1,10 +1,11 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import validator from 'validator'
 import { useUserStore } from 'src/stores/user'
 
 const user = useUserStore()
+const { editMyself } = user
 const { avatar, email, phone, nickname } = storeToRefs(user)
 
 const rules = {
@@ -25,17 +26,22 @@ const userForm = reactive({
   phone: phone.value || '',
   nickname: nickname.value || '',
   password: '',
-  editAvatar: false
+  image: undefined,
+  editAvatar: false,
+  loading: false
 })
 
-const onSubmit = () => {
+const onSubmit = async () => {
+  userForm.loading = true
+
   const fd = new FormData()
   fd.append('avatar', userForm.avatar)
   fd.append('phone', userForm.phone)
   fd.append('nickname', userForm.nickname)
   fd.append('password', userForm.password)
   fd.append('cardImage')
-  // await
+  await editMyself(fd)
+  userForm.loading = false
 }
 </script>
 

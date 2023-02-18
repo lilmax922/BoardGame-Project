@@ -78,12 +78,13 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  async function editMyself () {
+  async function editMyself (form) {
     try {
       const { data } = await apiAuth.patch('/users/editmyself')
       avatar.value = data.result.avatar
       phone.value = data.result.phone
       nickname.value = data.result.nickname
+      // password.value = data.result.password
     } catch (error) {
       Swal.fire({
         icon: 'error',
