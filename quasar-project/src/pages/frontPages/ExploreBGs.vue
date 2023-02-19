@@ -72,14 +72,9 @@ const filterFunc = computed(() => {
     <div class="container">
       <section class="header flex items-center">
         <div class="header-text text-h3 q-pr-lg">探索桌遊</div>
-        <q-btn label="我要預約" to="/reservation" color="primary" />
+        <q-btn class="reservation_btn" label="我要預約" to="/reservation" />
       </section>
       <section class="boardgameList">
-        <!-- <q-expansion-item
-          v-model="expanded"
-          icon="mdi-filter-variant"
-          label="篩選條件"
-        > -->
         <div class="search_container">
           <div class="search-bar">
             <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
@@ -178,7 +173,7 @@ const filterFunc = computed(() => {
             </div>
           </div>
         </div>
-        <!-- </q-expansion-item> -->
+
         <div class="cards_container">
           <div class="row q-mx-auto">
             <div
@@ -206,6 +201,17 @@ const filterFunc = computed(() => {
       padding-left: 1rem;
       color: $accent;
     }
+  }
+
+  .reservation_btn {
+    border-radius: 8px;
+    background-color: $primary;
+
+     &:hover {
+      transition: 0.5s;
+      color: $primary;
+      background-color: #fff;
+     }
   }
 
   .boardgameList {
