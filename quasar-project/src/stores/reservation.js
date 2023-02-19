@@ -21,7 +21,7 @@ export const useReservationStore = defineStore('reservation', () => {
         const { data } = await apiAuth.patch('/reservations/' + form._id, form)
         const index = reservations.findIndex(reservation => reservation._id === _id)
         reservations[index] = data.result
-        Swal.fire({
+        await Swal.fire({
           icon: 'success',
           title: '成功',
           text: '修改成功'
