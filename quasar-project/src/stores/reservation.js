@@ -8,6 +8,7 @@ export const useReservationStore = defineStore('reservation', () => {
 
   async function submitReservation (form, _id) {
     try {
+      console.log(_id)
       if (form._id === '') {
         const { data } = await apiAuth.post('/reservations', form)
         reservations.push(data.result)
@@ -17,7 +18,7 @@ export const useReservationStore = defineStore('reservation', () => {
           text: '預約成功~'
         })
       } else {
-        const { data } = await apiAuth.patch('/reservations/' + _id, form)
+        const { data } = await apiAuth.patch('/reservations/' + form._id, form)
         const index = reservations.findIndex(reservation => reservation._id === _id)
         reservations[index] = data.result
         Swal.fire({
