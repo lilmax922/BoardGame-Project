@@ -1,10 +1,8 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { useQuasar } from 'quasar'
 import validator from 'validator'
 import { useUserStore } from 'src/stores/user'
 
-const $q = useQuasar()
 const user = useUserStore()
 
 const emit = defineEmits(['showRegisterCard', 'closeDialog'])
@@ -32,12 +30,6 @@ const rules = {
 
 const login = async () => {
   await user.login(loginForm)
-  $q.notify({
-    color: 'accent',
-    textColor: 'white',
-    icon: 'mdi-robot-happy',
-    message: '登入成功'
-  })
   emit('closeDialog')
 }
 </script>
