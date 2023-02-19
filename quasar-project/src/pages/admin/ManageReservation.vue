@@ -80,6 +80,8 @@ const onSubmit = async () => {
     _id: reservationForm._id,
     totalPeople: reservationForm.totalPeople
   })
+  reservationForm.loading = false
+  reservationForm.dialog = false
 }
 </script>
 
@@ -168,7 +170,7 @@ const onSubmit = async () => {
   </q-page>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .edit_dialog {
   position: absolute;
   top: 25%;
@@ -179,6 +181,6 @@ const onSubmit = async () => {
   }
 }
 .swal2-container {
-  z-index: 1000;
+  z-index: 10000;
 }
 </style>
