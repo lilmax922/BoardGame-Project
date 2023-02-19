@@ -84,19 +84,32 @@ const boardgame = reactive({
               <div class="header text-h4 q-mb-md">遊戲介紹</div>
               <div class="text-h3">{{ boardgame.name }}</div>
               <div v-html="boardgame.introduction" />
-              <div class="flex items-center">
-                <q-icon name="mdi-google-downasaur" />
-                <div v-for="type in boardgame.types" :key="type">
-                  &num;{{ type }}&nbsp;
+              <div class="icon_area flex column q-gutter-lg-md text-h6">
+                <div class="flex items-center">
+                  <q-icon
+                    class="q-mr-sm"
+                    name="mdi-google-downasaur"
+                    size="sm"
+                  />
+                  <q-chip
+                    class="type_tag"
+                    v-for="(type, i) in boardgame.types"
+                    :key="i"
+                    color="secondary"
+                    text-color="white"
+                    size="md"
+                  >
+                    &#35;{{ type }}
+                  </q-chip>
                 </div>
-              </div>
-              <div>
-                <q-icon name="mdi-account-group" />
-                {{ boardgame.players }} 人
-              </div>
-              <div>
-                <q-icon name="mdi-timer-sand" />
-                約 {{ boardgame.gameTime }} 分鐘
+                <div>
+                  <q-icon name="mdi-account-group" size="sm" />
+                  {{ boardgame.players }} 人
+                </div>
+                <div>
+                  <q-icon name="mdi-timer-sand" size="sm" />
+                  約 {{ boardgame.gameTime }} 分鐘
+                </div>
               </div>
             </div>
           </div>
@@ -104,16 +117,22 @@ const boardgame = reactive({
             <div class="component column">
               <div class="header text-h4 q-mb-md">內容物介紹</div>
               <div class="component_carousel">
-                <q-carousel swipeable animated v-model="carouselSlide[0]" thumbnails infinite>
-              <q-carousel-slide
-                v-for="(boardgame, i) in boardgame.componentImages"
-                :key="i"
-                :name="i"
-                :img-src="boardgame"
-              />
-            </q-carousel>
+                <q-carousel
+                  swipeable
+                  animated
+                  v-model="carouselSlide[0]"
+                  thumbnails
+                  infinite
+                >
+                  <q-carousel-slide
+                    v-for="(boardgame, i) in boardgame.componentImages"
+                    :key="i"
+                    :name="i"
+                    :img-src="boardgame"
+                  />
+                </q-carousel>
               </div>
-              <div v-html="boardgame.componentTexts" />
+              <div class="q-mt-lg" v-html="boardgame.componentTexts" />
             </div>
           </div>
           <div class="gameflow-area q-mb-lg">
@@ -131,7 +150,13 @@ const boardgame = reactive({
         </div>
         <div class="col-4">
           <div class="mainImages-area">
-            <q-carousel swipeable animated v-model="carouselSlide[1]" thumbnails infinite>
+            <q-carousel
+              swipeable
+              animated
+              v-model="carouselSlide[1]"
+              thumbnails
+              infinite
+            >
               <q-carousel-slide
                 v-for="(boardgame, i) in boardgame.mainImages"
                 :key="i"
@@ -156,15 +181,13 @@ const boardgame = reactive({
     border: 1px solid #fff;
     background-color: #303030;
     border-radius: 16px;
-    padding: 1rem;
-    & {
-      font-size: 18px;
-    }
+    padding: 2rem;
   }
   .header {
     border-left: 15px solid $accent;
-      padding-left: 1rem;
-      color: $accent;
+    padding-left: 1rem;
+    color: $accent;
+    margin-bottom: 2rem;
   }
 
   .component_carousel {
@@ -177,10 +200,10 @@ const boardgame = reactive({
   }
   .mainImages-area {
     position: sticky;
+    top: 50px;
     width: 98%;
     border: 1px solid #fff;
     border-radius: 16px;
-    top: 0;
   }
   .q-carousel {
     border-radius: 16px;
