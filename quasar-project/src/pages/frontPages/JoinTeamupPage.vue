@@ -1,12 +1,11 @@
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { reactive } from 'vue'
 import { api, apiAuth } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
-import { useQuasar } from 'quasar'
+import { Notify } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useTeamupStore } from 'src/stores/teamup'
 
-const $q = useQuasar()
 const route = useRoute()
 const router = useRouter()
 const teamupStore = useTeamupStore()
@@ -49,10 +48,13 @@ const teamup = reactive({
     // 使用者可以看到 title 變更，但對爬蟲沒用
     document.title = '差滴滴 | ' + teamup.name
   } catch (error) {
-    $q.notify({
-      position: 'top',
-      message: error?.response?.data?.message || '發生錯誤',
-      color: 'negative'
+    Notify.create({
+      message: '資料取得失敗',
+      textColor: 'secondary',
+      color: 'white',
+      icon: 'mdi-emoticon-dead-outline',
+      caption: error?.response?.data?.message || '發生錯誤',
+      position: 'top'
     })
     router.go(-1)
   }
