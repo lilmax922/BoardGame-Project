@@ -124,60 +124,6 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
 }-${date.getDate()}`
 </script>
 
-<!-- <template lang="pug">
-q-page#reservation(padding)
-  div.q-ma-lg
-    q-breadcrumbs
-      template(#separator)
-          q-icon(size="1.5em" name="chevron_right")
-      q-breadcrumbs-el(icon='mdi-home' to='/')
-      q-breadcrumbs-el(label='手刀預約')
-  .container.q-gutter-md
-    section.notice.q-mt-lg
-      .text-h3.notice-header 預約須知
-      div.q-pt-xl 預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約須知預約
-    section.flex.justify-center
-      q-card(style="width:1000px")
-        q-form.q-gutter-md.flex.flex-center.column(@submit="onSubmit")
-          // > 日期/時間
-          q-card-section.flex.justify-around(horizontal)
-            q-card-section.col-8.q-gutter-md
-              .text-h6 預約日期
-              .row.justify-between
-                q-date.col-7(
-                  v-model="reservationForm.selectedDate"
-                  subtitle="請選擇預約日期"
-                  :mask="mask"
-                  today-btn
-                  navigation-min-year-month="2023/02"
-                  navigation-max-year-month="2023/12"
-                )
-                div.col-5.q-gutter-md.flex.justify-around(v-if="reservationForm.selectedDate !== ''")
-                  q-btn(
-                    :color="timeBtn.time === reservationForm.selectedTime ? 'info' : 'secondary'"
-                    @click="reservationForm.selectedTime = timeBtn.time"
-                    v-for="timeBtn in availableTimeBtn"
-                    :key="timeBtn.time"
-                    :disable="!timeBtn.available"
-                    checked-icon="task_alt"
-                    unchecked-icon="panorama_fish_eye"
-                  )
-                    | {{ timeBtn.time }}
-              // > 選擇時數
-              .text-h6 預約時數
-              q-slider(v-model="reservationForm.selectedHour" markers marker-labels thumb-color="secondary" label-always :min="1" :max="max")
-              .text-h6 預約人數
-              q-slider(v-model="reservationForm.selectedPeople" markers marker-labels thumb-color="secondary" label-always :min="1" :max="10")
-            q-card-section.col-4.flex.justify-around.items-center.column
-              .text-h4.text-center.q-pb-xl 預約確認
-              .flex.items-start.column
-                p.text-h6 時間: {{ reservationForm.selectedDate }} {{ reservationForm.selectedTime }}
-                p.text-h6 時數: {{ reservationForm.selectedHour }} 小時
-                p.text-h6 人數: {{ reservationForm.selectedPeople }} 人
-              .text-center
-                q-btn(label="送出" type="submit" color="primary" :disable="reservationForm.loading" size="lg")
-</template> -->
-
 <template>
   <q-page id="reservation" padding>
     <div class="q-ma-lg">
