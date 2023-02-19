@@ -84,3 +84,39 @@ export const joinTeamup = async (req, res) => {
     }
   }
 }
+
+// export const editTeamup = async (req, res) => {
+//   try {
+//     const result = teamups.findByIdAndUpdate(req.params.id)
+//   } catch (error) {
+//     if (error.name === 'ValidationError') {
+//       const key = Object.keys(error.errors)[0]
+//       const message = error.errors[key].message
+//       res.status(400).json({ success: false, message })
+//     } else if (error.name === 'MongoServerError' && error.code === 11000) {
+//       // 代表重複
+//       res.status(400).json({ success: false, message: '名稱重複' })
+//     } else {
+//       res.status(500).json({ success: false, message: '未知錯誤' })
+//     }
+//   }
+// }
+
+// export const deleteTeamup = async (req, res) => {
+//   try {
+//     const result = teamup.findByIdAndUpdate(req.params.id)
+//     console.log(result)
+//     res.status(200).json({ success: true, message: '' })
+//   } catch (error) {
+//     if (error.name === 'ValidationError') {
+//       const key = Object.keys(error.errors)[0]
+//       const message = error.errors[key].message
+//       res.status(400).json({ success: false, message })
+//     } else if (error.name === 'MongoServerError' && error.code === 11000) {
+//     // 代表重複
+//       res.status(400).json({ success: false, message: '名稱重複' })
+//     } else {
+//       res.status(500).json({ success: false, message: '未知錯誤' })
+//     }
+//   }
+// }
