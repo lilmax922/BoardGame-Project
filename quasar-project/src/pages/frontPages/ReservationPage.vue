@@ -35,65 +35,74 @@ const availableTimeBtn = reactive([
 ])
 
 const max = computed(() => {
-  const startIdx = availableTimeBtn.findIndex(btn => btn.time === reservationForm.selectedTime)
+  const startIdx = availableTimeBtn.findIndex(
+    (btn) => btn.time === reservationForm.selectedTime
+  )
   if (startIdx > -1) {
     let i = startIdx
     while (availableTimeBtn[i] && availableTimeBtn[i].available) {
       i++
     }
-    return (i - startIdx)
+    return i - startIdx
   } else return 11 // 總共 11 個時段
 })
 
-watch(() => reservationForm.selectedDate, async (value) => {
-  try {
-    // 沒有選擇日期的話按鈕全部為 false
-    if (!reservationForm.selectedDate) {
+watch(
+  () => reservationForm.selectedDate,
+  async (value) => {
+    try {
+      // 沒有選擇日期的話按鈕全部為 false
+      if (!reservationForm.selectedDate) {
+        availableTimeBtn.forEach((btn) => {
+          btn.available = false
+          return btn
+        })
+        return
+      }
+
+      reservationForm.selectedTime = ''
+      // 取得使用者選擇的當天日期
+      const { data } = await apiAuth.post('/reservations/getdate', {
+        selectedDate: value
+      })
+
+      // 被預訂的時間與時數
+      const reservedTimeAndHours = []
       availableTimeBtn.forEach((btn) => {
-        btn.available = false
+        btn.available = true
         return btn
       })
-      return
-    }
-
-    reservationForm.selectedTime = ''
-    // 取得使用者選擇的當天日期
-    const { data } = await apiAuth.post('/reservations/getdate', { selectedDate: value })
-
-    // 被預訂的時間與時數
-    const reservedTimeAndHours = []
-    availableTimeBtn.forEach((btn) => {
-      btn.available = true
-      return btn
-    })
-    // console.log(availableTimeBtn)
-    // console.log(reservedTimeAndHours)
-    // info 會是 controller 傳進來的 result
-    data.result.forEach((info) => {
-      reservedTimeAndHours.push({
-        reservedTime: info.time,
-        reservedHours: info.hour
+      // console.log(availableTimeBtn)
+      // console.log(reservedTimeAndHours)
+      // info 會是 controller 傳進來的 result
+      data.result.forEach((info) => {
+        reservedTimeAndHours.push({
+          reservedTime: info.time,
+          reservedHours: info.hour
+        })
       })
-    })
 
-    reservedTimeAndHours.forEach((info) => {
-      const index = availableTimeBtn.findIndex(
-        (availableTime) => availableTime.time === info.reservedTime
-      )
+      reservedTimeAndHours.forEach((info) => {
+        const index = availableTimeBtn.findIndex(
+          (availableTime) => availableTime.time === info.reservedTime
+        )
 
-      // console.log(index)
-      for (let i = index; i <= index + info.reservedHours; i++) {
-        availableTimeBtn[i].available = false
-        if (
-          // disabled後，選的時間 btn = 最後一個時間 btn 的話
-          availableTimeBtn[i] === availableTimeBtn[availableTimeBtn.length - 1]
-        ) return
-      }
-    })
-  } catch (error) {
-    console.log(error)
+        // console.log(index)
+        for (let i = index; i <= index + info.reservedHours; i++) {
+          availableTimeBtn[i].available = false
+          if (
+            // disabled後，選的時間 btn = 最後一個時間 btn 的話
+            availableTimeBtn[i] ===
+            availableTimeBtn[availableTimeBtn.length - 1]
+          ) {
+            return
+          }
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
-}
 )
 
 const onSubmit = async () => {
@@ -110,7 +119,9 @@ const onSubmit = async () => {
   reservationForm.loading = false
 }
 
-reservationForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
+reservationForm.selectedDate = `${date.getFullYear()}-0${
+  date.getMonth() + 1
+}-${date.getDate()}`
 </script>
 
 <!-- <template lang="pug">
@@ -218,6 +229,7 @@ q-page#reservation(padding)
                     class="col-5 q-gutter-md flex justify-around"
                   >
                     <q-btn
+                      class="time_btn"
                       :color="
                         timeBtn.time === reservationForm.selectedTime
                           ? 'info'
@@ -271,11 +283,10 @@ q-page#reservation(padding)
                 </div>
                 <div class="text-center">
                   <q-btn
-                    label="送出"
+                    class="submit_btn"
+                    label="送出預約"
                     type="submit"
-                    color="primary"
                     :disable="reservationForm.loading"
-                    size="lg"
                   />
                 </div>
               </q-card-section>
@@ -295,6 +306,25 @@ q-page#reservation(padding)
       border-left: 15px solid $accent;
       padding-left: 1rem;
       color: $accent;
+    }
+  }
+
+  .time_btn {
+    border-radius: 8px;
+  }
+  .submit_btn {
+    font-size: 20px;
+    padding: 5px 3px;
+    width: 150px;
+    color: #fff;
+    background-color: $primary;
+    border-radius: 8px;
+
+    &:hover {
+      transition: 0.5s;
+      color: $primary;
+      background-color: $dark;
+      border: 1px solid $primary;
     }
   }
 }

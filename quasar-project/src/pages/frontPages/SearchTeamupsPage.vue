@@ -8,52 +8,31 @@ import TeamupCard from 'src/components/TeamupCard.vue'
 const teamupStore = useTeamupStore()
 const { getAllTeamups } = teamupStore
 const { teamups } = storeToRefs(teamupStore)
-getAllTeamups()
-
-// const typeGroup = ref(['不限'])
-// const types = reactive([
-//   { label: '不限', value: '不限' },
-//   { label: '陣營', value: '陣營' },
-//   { label: '策略', value: '策略' },
-//   { label: '抽象', value: '抽象' },
-//   { label: '心機', value: '心機' },
-//   { label: '卡牌', value: '卡牌' },
-//   { label: '派對', value: '派對' },
-//   { label: '家庭', value: '家庭' },
-//   { label: '兒童', value: '兒童' }
-// ])
 
 const chips = ref([])
 const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童']
 
-// const filterCondition = reactive({
-//   types: ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童'],
-//   gameTime: 0,
-//   players: {
-//     min: 1,
-//     max: 12
-//   }
-// })
+const currentDate = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
+const filterCondition = reactive({
+  types: ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童'],
+  date: currentDate
+})
 
-// const addChip = () => {
-//   chips.value = filterCondition.types.map((type) => type)
-// }
-// const delChip = (i) => {
-//   filterCondition.types.splice(i, 1)
-//   chips.value.splice(i, 1)
-// }
+const addChip = () => {
+  chips.value = filterCondition.types.map((type) => type)
+}
+const delChip = (i) => {
+  filterCondition.types.splice(i, 1)
+  chips.value.splice(i, 1)
+}
 
-// const filterFunc = computed(() => {
-//   return boardgames.value.filter((boardgame) => {
-//     console.log(boardgame.players)
-//     return (
-//       boardgame.gameTime >= filterCondition.gameTime &&
-//       boardgame.players.split('~').map(Number)[0] >= filterCondition.players.min &&
-//       boardgame.players.split('~').map(Number)[1] <= filterCondition.players.max &&
-//       parseInt(_.intersection(boardgame.types, filterCondition.types).length) !== 0
-//     )
-//   })
-// })
+const filterFunc = computed(() => {
+  return teamups.value.filter((teamup) => {
+    return parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0
+  })
+})
+
+getAllTeamups()
 </script>
 
 <template>
@@ -72,15 +51,10 @@ const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家�
     <div class="container">
       <section class="header flex items-center">
         <div class="header-text text-h3 q-pr-lg">揪團組隊</div>
-        <q-btn label="我要揪團" to="/teamup" color="primary" />
+        <q-btn class="teamup_btn" label="我要揪團" to="/teamup" />
       </section>
       <section class="teamupList">
-        <!-- <q-expansion-item
-          v-model="expanded"
-          icon="mdi-filter-variant"
-          label="篩選條件"
-        > -->
-        <!-- <div class="search_container">
+        <div class="search_container">
           <div class="search-bar">
             <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
               <template v-slot:append>
@@ -92,17 +66,10 @@ const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家�
             <div class="game-types">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
-                <div class="text-h6 q-pa-md">桌遊類型</div>
+                <div class="text-h6 q-pa-md">喜歡的桌遊類型</div>
               </div>
               <div class="row flex flex-center">
                 <div class="col-5">
-                  <q-option-group
-                      v-model="typeGroup"
-                      :options="types"
-                      type="checkbox"
-                      inline
-                      size="lg"
-                    />
                   <q-select
                     v-model="filterCondition.types"
                     filled
@@ -134,7 +101,8 @@ const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家�
                 </div>
               </div>
             </div>
-            <div class="game_time">
+
+            <!-- <div class="game_time">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
                 <div class="text-h6 q-pa-md">遊戲時間</div>
@@ -150,31 +118,16 @@ const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家�
                   snap
                 />
               </div>
-            </div>
-            <div class="players">
-              <div class="flex items-center">
-                <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
-                <div class="text-h6 q-pa-md">遊玩人數</div>
-                <q-range
-                  v-model="filterCondition.players"
-                  :min="1"
-                  :max="12"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  snap
-                />
-              </div>
-            </div>
-          </div>
-        </div> -->
+            </div> -->
 
-        <!-- </q-expansion-item> -->
+          </div>
+        </div>
+
         <div class="cards_container">
           <div class="row q-mx-auto">
             <div
               class="col-12 col-md-6 col-lg-4 col-xl-3 flex flex-center q-mb-lg"
-              v-for="(teamup, i) in teamups"
+              v-for="(teamup, i) in filterFunc"
               :key="i"
             >
               <TeamupCard class="teamup_card q-mb-lg" v-bind="teamup" />
@@ -198,6 +151,16 @@ const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家�
       color: $accent;
     }
   }
+  .teamup_btn {
+    border-radius: 8px;
+    background-color: $primary;
+
+     &:hover {
+      transition: 0.5s;
+      color: $primary;
+      background-color: #fff;
+     }
+  }
 
   .teamupList {
     width: 100%;
@@ -207,6 +170,7 @@ const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家�
 
       .teamup_card {
         width: 300px;
+        height: 500px;
       }
     }
 
@@ -214,10 +178,6 @@ const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家�
       border: 1px solid #fff;
       border-radius: 16px;
       padding: 1rem;
-
-      .game_time {
-        border-radius: 16px;
-      }
     }
   }
 }

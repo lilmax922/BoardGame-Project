@@ -320,7 +320,7 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.
               </div>
             </q-card-section>
             <q-card-actions class="flex flex-center q-mb-md">
-              <q-btn label="送出揪團" type="submit" color="primary" :disable="teamupForm.loading" />
+              <q-btn class="submit_btn" label="送出揪團" type="submit" :disable="teamupForm.loading" />
             </q-card-actions>
           </q-form>
         </q-card>
@@ -340,6 +340,23 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.
   .timeBtn {
     width: 100px;
     height: 50px;
+    border-radius: 8px;
+  }
+
+  .submit_btn {
+    font-size: 20px;
+    padding: 5px 3px;
+    width: 150px;
+    color: #fff;
+    background-color: $primary;
+    border-radius: 8px;
+
+    &:hover {
+      transition: 0.5s;
+      color: $primary;
+      background-color: $dark;
+      border: 1px solid $primary;
+    }
   }
 
   .title,
