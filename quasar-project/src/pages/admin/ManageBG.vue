@@ -74,12 +74,30 @@ const bgForm = reactive({
   index: -1
 })
 
-watch(
-  () => bgForm.cardImage,
-  (value) => {
-    cardImage.value = ''
-    previewUrlHandler(value, cardImage.value)
+const previewUrlHandler = (file, data) => {
+  if (file && typeof file !== 'string' && file.type.startsWith('image/')) {
+    const reader = new FileReader()
+    reader.addEventListener('load', (event) => {
+      if (typeof data === 'object') {
+        data.push(event.target.result)
+      } else {
+        // string
+        cardImage.value = event.target.result
+      }
+    })
+    reader.readAsDataURL(file)
+  } else {
+    if (typeof data === 'object') {
+      data.push(file)
+    } else {
+      cardImage.value = file
+    }
   }
+}
+watch(() => bgForm.cardImage, (value) => {
+  cardImage.value = ''
+  previewUrlHandler(value, cardImage.value)
+}
 )
 watch(
   () => bgForm.mainImages,
@@ -102,33 +120,13 @@ watch(
     })
   }
 )
-const previewUrlHandler = (file, data) => {
-  if (file && typeof file !== 'string' && file.type.startsWith('image/')) {
-    const reader = new FileReader()
-    reader.addEventListener('load', (event) => {
-      if (typeof data === 'object') {
-        data.push(event.target.result)
-      } else {
-        // string
-        cardImage.value = event.target.result
-      }
-    })
-    reader.readAsDataURL(file)
-  } else {
-    if (typeof data === 'object') {
-      data.push(file)
-    } else {
-      cardImage.value = file
-    }
-  }
-}
 
-//  q-table
+//  <----- q-table ----->
 const filter = ref('')
 const columns = [
   {
     name: 'image',
-    label: '圖片',
+    label: '桌遊圖',
     field: (row) => row.cardImage,
     align: 'center'
   },
@@ -161,7 +159,8 @@ const columns = [
     align: 'center'
   }
 ]
-//  q-edit
+
+//  <----- q-edit ----->
 const toolbar = reactive([
   [
     {
@@ -349,7 +348,7 @@ q-page#manage_boardgames
         q-btn(@click="openDialog(-1)" label="新增桌遊" color="primary")
       .col-12
         // 桌遊表單
-        q-table(title="好玩的桌遊們" :rows="boardgames" :columns="columns" row-key="_id" :filter="filter" :rows-per-page-options="[5,10,15,0]")
+        q-table(title="好玩的桌遊們" :rows="boardgames" :columns="columns" row-key="_id" :filter="filter" :rows-per-page-options="[10,15,0]")
 
           template(v-slot:top-right)
             q-input(debounce="300" v-model="filter" placeholder="Search")
@@ -357,12 +356,12 @@ q-page#manage_boardgames
                 q-icon(name="search")
 
           template(v-slot:body-cell-image="props")
-            q-img(:src="props.row.cardImage")
+            q-img(:src="props.row.cardImage" height="200px")
 
           template(v-slot:body-cell-post="props")
             q-td.text-center
-              p {{ props.row.post }}
-              //- q-toggle(v-model="props.row.post" color="accent")
+              //- p {{ props.row.post }}
+              q-toggle(v-model="props.row.post" color="accent")
 
           template(v-slot:body-cell-edit="props")
             q-td.text-center.q-gutter-sm
@@ -509,23 +508,23 @@ q-page#manage_boardgames
 </template>
 
 <style lang="scss" scoped>
-.edit {
-  max-width: 1000px !important;
-}
-.count {
-  height: 10vh;
-  .num {
-    width: 50%;
+  .edit {
+    max-width: 1000px !important;
   }
-  .add {
-    width: 5vh;
-    height: 2vh;
-    margin: 0 0 1rem 1rem;
+  .count {
+    height: 10vh;
+    .num {
+      width: 50%;
+    }
+    .add {
+      width: 5vh;
+      height: 2vh;
+      margin: 0 0 1rem 1rem;
+    }
+    .remove {
+      width: 5vh;
+      height: 2vh;
+      margin: 0 1rem 1rem 0;
+    }
   }
-  .remove {
-    width: 5vh;
-    height: 2vh;
-    margin: 0 1rem 1rem 0;
-  }
-}
 </style>
