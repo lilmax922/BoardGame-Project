@@ -61,6 +61,7 @@ const teamup = reactive({
 const onSubmit = async () => {
   teamup.loading = true
   await joinTeamup({
+    _id: teamup._id,
     participant: teamup.participant
   })
   teamup.loading = false
@@ -84,7 +85,7 @@ const onSubmit = async () => {
       <q-form @submit="onSubmit" class="teamup_wrap">
         <q-card class="teamup_card" flat>
           <q-card-section class="q-pa-xl" horizontal>
-            <q-img class="col-5" :src="teamup.cardImage" />
+            <q-img class="card_img col-5" :src="teamup.cardImage" />
 
             <q-card-section class="info_area col-7 flex column">
               <div class="nickname_area">
@@ -128,7 +129,12 @@ const onSubmit = async () => {
                     {{ teamup.totalPeople }} 人
                   </div>
                 </div>
-                <q-btn class="joinBtn" type="submit" label="參加揪團" :disable="teamup.loading" />
+                <q-btn
+                  class="joinBtn"
+                  type="submit"
+                  label="參加揪團"
+                  :disable="teamup.loading"
+                />
               </div>
             </q-card-section>
           </q-card-section>
@@ -144,25 +150,39 @@ const onSubmit = async () => {
 
   .teamup_card {
     // max-width: 1200px;
+    max-height: 800px;
+    overflow: hidden;
     // background-color: #eee;
-
     & {
       font-size: 24px;
+    }
+    .card_img {
+      max-height: 500px;
+      border-radius: 16px;
     }
     .info_area {
       padding-left: 2rem;
 
       .joinBtn {
+        width: 200px;
         position: absolute;
         top: 85%;
         right: 0;
-        width: 200px;
-        border-radius: 16px;
         font-size: 20px;
+        border-radius: 16px;
         background-color: $primary;
+
+        &:hover {
+          transition: 0.5s;
+          border: 1px solid $primary;
+          color: $primary;
+          background-color: $dark;
+        }
       }
 
-      .type,.date,.time {
+      .type,
+      .date,
+      .time {
         margin-bottom: 1.5rem;
       }
     }
