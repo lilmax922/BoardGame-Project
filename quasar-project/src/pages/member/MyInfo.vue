@@ -54,7 +54,6 @@ const onSubmit = async () => {
             <q-avatar>
               <q-img :src="avatar" />
             </q-avatar>
-            {{nickname}}
             <q-btn
               class="editBtn"
               @click="userForm.editAvatar = true"
@@ -141,7 +140,7 @@ const onSubmit = async () => {
             </q-input>
           </div>
           <div class="col-12 flex justify-center">
-            <q-btn label="確認修改" color="primary" type="submit" rounded />
+            <q-btn class="submit_btn" label="確認修改" type="submit" />
           </div>
         </div>
       </q-form>
@@ -179,12 +178,23 @@ const onSubmit = async () => {
       top: 50%;
     }
   }
-  .q-input {
-    width: 95%;
-  }
   .input {
     display: flex;
     justify-content: center;
+  }
+
+  .submit_btn {
+    font-size: 16px;
+    border-radius: 8px;
+    color: #fff;
+    background-color: $primary;
+
+    &:hover {
+      transition: 0.5s;
+      color: $primary;
+      background-color: $dark;
+      border: 1px solid $primary;
+    }
   }
 }
 </style>
