@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useReservationStore } from 'src/stores/reservation'
 
 const ReservationStore = useReservationStore()
-const { getAllReservations, deleteReservation, submitReservation } = ReservationStore
+const { submitReservation } = ReservationStore
 const { reservations } = storeToRefs(ReservationStore)
 
 const reservationForm = reactive({
@@ -79,7 +79,7 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <q-page id="manage_reservation" padding>
+  <q-page id="my_reservation" padding>
     <div class="container">
       <div class="row">
         <div class="col-12">

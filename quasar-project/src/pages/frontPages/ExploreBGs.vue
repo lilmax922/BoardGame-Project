@@ -45,7 +45,7 @@ const delChip = (i) => {
 
 const filterFunc = computed(() => {
   return boardgames.value.filter((boardgame) => {
-    console.log(boardgame.players)
+    // console.log(boardgame.players)
     return (
       boardgame.gameTime >= filterCondition.gameTime &&
       boardgame.players.split('~').map(Number)[0] >= filterCondition.players.min &&
