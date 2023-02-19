@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useTeamupStore } from 'src/stores/teamup'
 
 const teamupStore = useTeamupStore()
-const { getAllTeamups } = teamupStore
+const { getAllTeamups, submitTeamup } = teamupStore
 const { teamups } = storeToRefs(teamupStore)
 
 getAllTeamups()
@@ -138,13 +138,17 @@ const openDialog = (index) => {
 
   teamupForm.dialog = true
 }
-// const onSubmit = async () => {
-//   teamupForm.loading = true
-//   await submitTeamup({
-//     _id: teamupForm._id,
-//     totalPeople: teamupForm.totalPeople
-//   })
-// }
+const onSubmit = async () => {
+  teamupForm.loading = true
+
+  const fd = new FormData()
+  fd.append('cardImage', teamupForm.cardImage)
+  fd.append('currentPeople', teamupForm.currentPeople)
+  fd.append('totalPeople', teamupForm.totalPeople)
+  await submitTeamup(fd, teamupForm._id)
+  teamupForm.loading = false
+  teamupForm.dialog = false
+}
 </script>
 
 <template>
@@ -266,7 +270,7 @@ const openDialog = (index) => {
   </q-page>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .edit_dialog {
   position: absolute;
   top: 10%;
@@ -276,7 +280,8 @@ const openDialog = (index) => {
     border-radius: 8px;
   }
 }
+
 .swal2-container {
-  z-index: 1000;
+  z-index: 10000;
 }
 </style>
