@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { api, apiAuth } from 'boot/axios.js'
+import { Notify } from 'quasar'
 import Swal from 'sweetalert2'
+import { api, apiAuth } from 'boot/axios.js'
 
 export const useUserStore = defineStore('user', () => {
   const email = ref('')
@@ -29,16 +30,21 @@ export const useUserStore = defineStore('user', () => {
       nickname.value = data.result.nickname
       token.value = data.result.token
       role.value = data.result.role
-      Swal.fire({
-        icon: 'success',
-        title: '成功',
-        text: '登入成功'
+      Notify.create({
+        message: '登入成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white',
+        position: 'top'
       })
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: '失敗',
-        text: error?.response?.data?.message || '發生錯誤'
+      Notify.create({
+        message: '登入失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤',
+        position: 'top'
       })
     }
   }
@@ -50,10 +56,12 @@ export const useUserStore = defineStore('user', () => {
       email.value = ''
       role.value = 0
       this.router.push('/')
-      Swal.fire({
-        icon: 'success',
-        title: '成功',
-        text: '登出成功'
+      Notify.create({
+        message: '登出成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white',
+        position: 'top'
       })
     } catch (error) {
       console.log(error)
@@ -86,13 +94,28 @@ export const useUserStore = defineStore('user', () => {
       nickname.value = data.result.nickname
       // password.value = data.result.password
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: '失敗',
-        text: error?.response?.data?.message || '發生錯誤'
+      Notify.create({
+        message: '編輯失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤',
+        position: 'top'
       })
     }
   }
+
+  // const getMyReservations = async (req, res) => {
+  //   try {
+  //     const { data } = apiAuth.get('/reservations/getMyReservations')
+  //   } catch (error) {
+  //     Notify.create({
+  //       message: '取得失敗',
+  //       caption: error?.response?.data?.message || '發生錯誤',
+  //       color: '$accent'
+  //     })
+  //   }
+  // }
 
   return {
     token,

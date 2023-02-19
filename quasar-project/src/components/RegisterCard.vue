@@ -1,5 +1,5 @@
 <script setup>
-import { useQuasar } from 'quasar'
+import { Notify } from 'quasar'
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import validator from 'validator'
@@ -7,7 +7,6 @@ import { api } from 'src/boot/axios'
 
 const emit = defineEmits(['showRegisterCard', 'closeDialog'])
 
-const $q = useQuasar()
 const router = useRouter()
 
 const text = ref('')
@@ -43,29 +42,36 @@ const rules = {
 const register = async () => {
   try {
     await api.post('/users', registerForm)
-    $q.notify({
+    Notify.create({
       spinner: true,
       timeout: 1500,
-      color: 'accent',
-      textColor: 'white',
-      message: '請稍等'
+      message: '請稍等',
+      textColor: 'primary',
+      icon: 'mdi-emoticon-happy-outline',
+      color: 'white',
+      position: 'top'
     })
     setTimeout(() => {
-      $q.notify({
-        color: 'accent',
-        textColor: 'white',
-        icon: 'mdi-robot-happy',
-        message: '註冊成功'
+      Notify.create({
+        spinner: true,
+        timeout: 1500,
+        message: '註冊成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white',
+        position: 'top'
       })
     }, 3000)
     router.push('/')
     emit('closeDialog')
   } catch (error) {
-    $q.notify({
-      color: 'negative',
-      textColor: 'white',
-      icon: 'fa-solid fa-face-sad-tear',
-      message: error?.response?.data?.message || '註冊失敗'
+    Notify.create({
+      message: '註冊失敗',
+      textColor: 'secondary',
+      color: 'white',
+      icon: 'mdi-emoticon-dead-outline',
+      caption: error?.response?.data?.message || '發生錯誤',
+      position: 'top'
     })
   }
 }
