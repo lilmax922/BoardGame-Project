@@ -7,7 +7,7 @@ export const useTeamupStore = defineStore('teamup', () => {
   const teamups = reactive([])
 
   // 發起揪團
-  async function submitTeamup (form) {
+  async function submitTeamup (form, _id) {
     try {
       if (form.get('_id') === '') {
         const { data } = await apiAuth.post('/teamups', form)
@@ -16,6 +16,15 @@ export const useTeamupStore = defineStore('teamup', () => {
           icon: 'success',
           title: '成功',
           text: '揪團成功~'
+        })
+      } else {
+        const { data } = await apiAuth.patch('/teamups/' + _id, form)
+        const index = teamups.findIndex(teamup => teamup._id === _id)
+        teamups[index] = data.result
+        await Swal.fire({
+          icon: 'success',
+          title: '成功',
+          text: '修改成功'
         })
       }
       // this.router.push('/')
