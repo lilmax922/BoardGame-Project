@@ -22,7 +22,7 @@ const close = () => {
 
 <template lang="pug">
 q-layout(view='hHh lpR fff')
-  q-header.bg-primary.text-white(reveal elevated)
+  q-header.bg-primary.text-white(bordered)
     q-toolbar
       q-avatar
         img(src='../assets/MAXXD.png')
