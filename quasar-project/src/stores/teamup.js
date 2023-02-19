@@ -51,13 +51,14 @@ export const useTeamupStore = defineStore('teamup', () => {
     }
   }
 
+  // 參加揪團
   const joinTeamup = async (form) => {
     console.log(form)
     console.log(form._id)
+    console.log(form.participant)
     try {
       const { data } = await apiAuth.post('/teamups/' + form._id)
-      console.log(data.result)
-      teamups.push(...data.result)
+      const index = teamups.findIndex(teamup => teamup._id === form._id)
       await Swal.fire({
         icon: 'success',
         title: '成功',
