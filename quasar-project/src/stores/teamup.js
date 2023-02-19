@@ -42,11 +42,13 @@ export const useTeamupStore = defineStore('teamup', () => {
     }
   }
 
-  const joinTeamup = async (form, _id) => {
+  const joinTeamup = async (form) => {
+    console.log(form)
+    console.log(form._id)
     try {
-      const { data } = await apiAuth.post('/teamups' + _id, form)
+      const { data } = await apiAuth.post('/teamups/' + form._id)
       console.log(data.result)
-      teamups.push(data.result)
+      teamups.push(...data.result)
       await Swal.fire({
         icon: 'success',
         title: '成功',
