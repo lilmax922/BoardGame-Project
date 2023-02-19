@@ -92,7 +92,7 @@ const teamupDate = ref(props.date.substring(0, 10))
           </q-list>
         </q-card-section>
         <q-card-section class="col-4 q-pa-none flex justify-center">
-          <q-btn class="more_btn" color="primary" :to="'/joinTeamup/' + _id" label="參加揪團" />
+          <q-btn class="moreBtn" :to="'/joinTeamup/' + _id" label="More" />
         </q-card-section>
       </q-card-section>
     </q-card>

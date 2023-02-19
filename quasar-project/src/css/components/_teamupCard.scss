@@ -12,20 +12,19 @@
       height: 200px;
       object-fit: cover;
       transition: 0.5s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
-    .q-img:hover {
-      transform: scale(1.1);
-    }
-
-    // ? 加了之後縮小就會疊在一起
     .title {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       -webkit-line-clamp: 1;
     }
-    
+
     .q-item__section--main {
       flex: none;
       margin-left: 0;
@@ -35,9 +34,21 @@
       font-size: 14px;
     }
 
-    .more_btn {
+    .moreBtn {
+      position: relative;
+      bottom: 25px;
+      left: 0;
       padding: 8px 10px;
       border-radius: 8px;
+      background-color: $primary;
+      color: $dark;
+
+      &:hover {
+        transition: 0.5s;
+        border: 1px solid $primary;
+        color: $primary;
+        background-color: $dark;
+      }
     }
   }
 }

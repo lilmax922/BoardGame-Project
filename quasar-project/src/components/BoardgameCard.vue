@@ -89,7 +89,7 @@ q-card.bg-card(flat)
           </q-list>
         </q-card-section>
         <q-card-section class="col-4 q-pa-none flex justify-center">
-          <q-btn class="more_btn" color="primary" :to="'/BGInfo/' + _id" label="查看更多"></q-btn>
+          <q-btn class="moreBtn" :to="'/BGInfo/' + _id" label="More"></q-btn>
         </q-card-section>
       </q-card-section>
     </q-card>

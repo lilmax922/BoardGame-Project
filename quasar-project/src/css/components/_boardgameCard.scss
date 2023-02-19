@@ -12,10 +12,9 @@
       height: 200px;
       object-fit: cover;
       transition: 0.5s;
-    }
-
-    .q-img:hover {
-      transform: scale(1.1);
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
     // ? 加了之後縮小就會疊在一起
@@ -35,9 +34,18 @@
       font-size: 14px;
     }
 
-    .more_btn {
+    .moreBtn {
       padding: 8px 10px;
       border-radius: 8px;
+      background-color: $primary;
+      color: $dark;
+
+      &:hover {
+        transition: 0.5s;
+        border: 1px solid $primary;
+        color: $primary;
+        background-color: $dark;
+      }
     }
   }
 }
