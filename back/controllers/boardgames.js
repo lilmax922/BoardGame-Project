@@ -131,9 +131,9 @@ export const editBoardgame = async (req, res) => {
     }, { new: true })
     console.log(result)
     if (!result) {
-      res.status(404).json({ success: false, message: '找不到' })
+      res.status(404).json({ success: false, message: '找不到此桌遊' })
     } else {
-      res.status(200).json({ success: true, message: '桌遊建立成功', result })
+      res.status(200).json({ success: true, message: '桌遊編輯成功', result })
     }
   } catch (error) {
     console.log(error)
