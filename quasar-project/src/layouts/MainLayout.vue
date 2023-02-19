@@ -61,22 +61,22 @@ q-layout(view='hHh lpR fff')
             q-item-section(avatar)
               q-icon(name="mdi-account-cog")
             q-item-section 管理者後台
-          q-item(clickable v-if="!isAdmin" to="/member")
+          q-item(clickable v-if="!isAdmin" to="/member/myInfo")
+            q-item-section(avatar)
+              q-icon(name="mdi-account-edit")
+            q-item-section 會員資料
+          q-item(clickable v-if="!isAdmin" to="/member/myReservation")
             q-item-section(avatar)
               q-icon(name="mdi-google-downasaur")
             q-item-section 我的預約
-          q-item(clickable v-if="!isAdmin")
+          q-item(clickable v-if="!isAdmin" to="/member/myTeamup")
             q-item-section(avatar)
               q-icon(name="mdi-account-group")
             q-item-section 我的揪團
-          q-item(clickable v-if="!isAdmin")
-            q-item-section(avatar)
-              q-icon(name="mdi-human-greeting")
-            q-item-section 我的報名
           q-separator(v-if="isLogin")
           q-item(v-if="isLogin")
             q-item-section
-              q-btn(@click="logout" icon='fa-solid fa-person-walking-arrow-right' label="登出")
+              q-btn(@click="logout" icon='fa-solid fa-person-walking-arrow-right' label="登出" flat dense)
   q-page-container
     router-view
 
