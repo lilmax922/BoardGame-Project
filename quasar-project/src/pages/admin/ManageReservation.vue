@@ -24,7 +24,7 @@ const columns = [
   {
     name: 'reserver',
     label: '預約人',
-    field: (row) => row.reserver,
+    field: (row) => row.reserver.nickname,
     align: 'left'
   },
   {
@@ -68,9 +68,6 @@ const openDialog = (index) => {
     (reservation) => reservation._id === index
   )
   reservationForm._id = reservations.value[idx]._id
-  reservationForm.date = reservations.value[idx].date
-  reservationForm.time = reservations.value[idx].time
-  reservationForm.hour = reservations.value[idx].hour
   reservationForm.totalPeople = reservations.value[idx].totalPeople
   reservationForm.dialog = true
 }

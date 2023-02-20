@@ -9,7 +9,7 @@ export const useTeamupStore = defineStore('teamup', () => {
   // 發起揪團
   async function submitTeamup (form, _id) {
     try {
-      if (form.get('_id') === '') {
+      if (_id === '') {
         const { data } = await apiAuth.post('/teamups', form)
         teamups.push(data.result)
         await Swal.fire({
