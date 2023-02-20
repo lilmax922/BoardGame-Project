@@ -2,16 +2,15 @@
 import { reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import validator from 'validator'
+import { Notify } from 'quasar'
 import { useUserStore } from 'src/stores/user'
+import { apiAuth } from 'src/boot/axios'
 
 const user = useUserStore()
 const { editMyself } = user
 const { avatar, email, phone, nickname } = storeToRefs(user)
 
 const rules = {
-  email (email) {
-    return validator.isEmail(email) || '信箱格式錯誤'
-  },
   phone (phone) {
     return validator.isMobilePhone(phone, 'zh-TW') || '手機號碼格式錯誤'
   },
@@ -33,14 +32,30 @@ const userForm = reactive({
 
 const onSubmit = async () => {
   userForm.loading = true
-
-  const fd = new FormData()
-  fd.append('avatar', userForm.avatar)
-  fd.append('phone', userForm.phone)
-  fd.append('nickname', userForm.nickname)
-  fd.append('password', userForm.password)
-  // fd.append('cardImage')
-  await editMyself(fd)
+  try {
+    const { data } = await apiAuth.patch('/users/editMyself', {
+      phone: userForm.phone,
+      nickname: userForm.nickname,
+      password: userForm.password
+    })
+    userForm.phone = data.result.phone
+    userForm.nickname = data.result.nickname
+    userForm.password = data.result.password
+    Notify.create({
+      message: '修改成功',
+      textColor: 'primary',
+      icon: 'mdi-emoticon-happy-outline',
+      color: 'white'
+    })
+  } catch (error) {
+    Notify.create({
+      message: '編輯失敗',
+      textColor: 'secondary',
+      color: 'white',
+      icon: 'mdi-emoticon-dead-outline',
+      caption: error?.response?.data?.message || '發生錯誤'
+    })
+  }
   userForm.loading = false
 }
 </script>
@@ -54,7 +69,7 @@ const onSubmit = async () => {
             <q-avatar>
               <q-img :src="avatar" />
             </q-avatar>
-            <q-btn
+            <!-- <q-btn
               class="editBtn"
               @click="userForm.editAvatar = true"
               icon="mdi-circle-edit-outline"
@@ -62,7 +77,7 @@ const onSubmit = async () => {
               rounded
               dense
               color="primary"
-            />
+            /> -->
           </div>
         </div>
         <div class="row flex flex-center q-gutter-md">
@@ -82,6 +97,7 @@ const onSubmit = async () => {
               bottom-slots
               v-model="userForm.phone"
               label="Phone"
+              :rules="[rules.phone]"
             >
               <template v-slot:prepend>
                 <q-icon name="mdi-cellphone" />
@@ -103,7 +119,7 @@ const onSubmit = async () => {
               rounded
               standout
               bottom-slots
-              v-model="nickname"
+              v-model="userForm.nickname"
               label="NickName"
             >
               <template v-slot:prepend>
@@ -112,7 +128,7 @@ const onSubmit = async () => {
               <template v-slot:append>
                 <q-icon
                   name="close"
-                  @click="nickname = ''"
+                  @click="userForm.nickname = ''"
                   class="cursor-pointer"
                 />
               </template>
@@ -124,8 +140,9 @@ const onSubmit = async () => {
               rounded
               standout
               bottom-slots
-              v-model="password"
+              v-model="userForm.password"
               label="Password"
+              :rules="[rules.length]"
             >
               <template v-slot:prepend>
                 <q-icon name="mdi-lock-reset" />
@@ -133,7 +150,7 @@ const onSubmit = async () => {
               <template v-slot:append>
                 <q-icon
                   name="close"
-                  @click="password = ''"
+                  @click="userForm.password = ''"
                   class="cursor-pointer"
                 />
               </template>
