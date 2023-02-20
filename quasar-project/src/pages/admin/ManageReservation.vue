@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useReservationStore } from 'src/stores/reservation'
 
@@ -20,12 +20,21 @@ const reservationForm = reactive({
 })
 
 // q-table
+const filter = ref('')
 const columns = [
   {
     name: 'reserver',
     label: '預約人',
     field: (row) => row.reserver.nickname,
-    align: 'left'
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'phone',
+    label: '聯絡電話',
+    field: row => row.reserver.phone,
+    align: 'left',
+    sortable: true
   },
   {
     name: 'date',
