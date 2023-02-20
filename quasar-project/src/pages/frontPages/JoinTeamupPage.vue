@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref, computed } from 'vue'
-import { api } from 'src/boot/axios'
+import { api, apiAuth } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
 import { Notify } from 'quasar'
 import { storeToRefs } from 'pinia'
@@ -11,7 +11,6 @@ const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 const teamupStore = useTeamupStore()
-const { joinTeamup, cancelTeamup } = useTeamupStore()
 const { _id } = storeToRefs(userStore)
 const { teamups } = storeToRefs(teamupStore)
 
@@ -73,22 +72,55 @@ const onSubmit = async () => {
   teamup.loading = true
   console.log(teamup.participant)
 
+  const joinTeamup = async () => {
+    try {
+      const { data } = await apiAuth.post('/teamups/' + teamup._id)
+      Notify.create({
+        message: '參加成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white'
+      })
+    } catch (error) {
+      Notify.create({
+        message: '資料取得失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+  const cancelTeamup = async () => {
+    try {
+      const { data } = await apiAuth.post('/teamups/' + teamup._id)
+      Notify.create({
+        message: '取消成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white'
+      })
+    } catch (error) {
+      Notify.create({
+        message: '資料取得失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   if (!teamup.participant.includes(_id)) {
-    await joinTeamup({
-      _id: teamup._id,
-      participant: teamup.participant
-    })
+    await joinTeamup()
     teamup.currentPeople++
     teamup.participant.push(_id)
     teamup.loading = false
     joined.value = true
   } else {
-    await cancelTeamup({
-      _id: teamup._id,
-      participant: teamup.participant
-    })
+    await cancelTeamup()
     teamup.currentPeople--
-    teamup.participant.splice(_id, 1)
+    teamup.participant.splice(teamup.participant.indexOf((_id), 1))
     teamup.loading = false
     joined.value = false
   }
