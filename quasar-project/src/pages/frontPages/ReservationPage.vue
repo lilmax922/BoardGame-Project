@@ -126,33 +126,39 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
 
 <template>
   <q-page id="reservation" padding>
-    <div class="q-ma-lg">
-      <q-breadcrumbs>
-        <template #separator>
-          <q-icon name="chevron_right" size="1.5em" />
-        </template>
-        <q-breadcrumbs-el icon="mdi-home" to="/" />
-        <q-breadcrumbs-el label="手刀預約" />
-      </q-breadcrumbs>
-    </div>
-    <div class="container q-gutter-md">
-      <section class="notice q-mt-lg">
-        <div class="text-h3 notice-header">預約須知</div>
-        <div class="q-pt-xl">
-          <p>
-            1.
-            假日位置如遇客滿將保留１０分鐘，超過時間自動取消訂位不另行通知，請準時進場。
-          </p>
-          <p>2. 攜帶外食將酌收每人５０元清潔費，生日蛋糕、水、嬰兒食品除外。</p>
-          <p>
-            3.
-            資料送出後待門市確認訂位狀況，並電話回覆訂位成功後才算完成訂位哦！（營業時間２４Ｈ內回覆）
-          </p>
-          <p>4. 如有其他問題、特殊情況可私訊聯繫粉專管理員。</p>
-        </div>
+    <div class="container">
+      <div class="breadcrumbs">
+        <q-breadcrumbs>
+          <template #separator>
+            <q-icon name="chevron_right" size="1.5em" />
+          </template>
+          <q-breadcrumbs-el icon="mdi-home" to="/" />
+          <q-breadcrumbs-el label="手刀預約" />
+        </q-breadcrumbs>
+      </div>
+
+      <section class="notice q-mt-xl">
+        <div class="text-h3 notice-header">手刀預約</div>
       </section>
-      <section class="flex justify-center">
-        <q-card style="width: 1000px">
+
+      <section class="reservation_card flex justify-center">
+        <q-card class="card_wrap" flat>
+          <div class="q-pa-lg">
+            <div class="text-h6">預約須知</div>
+            <p class="q-mt-md">
+              1.
+              假日位置如遇客滿將保留１０分鐘，超過時間自動取消訂位不另行通知，請準時進場。
+            </p>
+            <p>
+              2. 攜帶外食將酌收每人５０元清潔費，生日蛋糕、水、嬰兒食品除外。
+            </p>
+            <p>
+              3.
+              資料送出後待門市確認訂位狀況，並電話回覆訂位成功後才算完成訂位哦！（營業時間２４Ｈ內回覆）
+            </p>
+            <p>4. 如有其他問題、特殊情況可私訊聯繫粉專管理員。</p>
+          </div>
+
           <q-form
             class="q-gutter-md flex flex-center column"
             @submit="onSubmit"
@@ -165,6 +171,7 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
                     class="col-7"
                     v-model="reservationForm.selectedDate"
                     subtitle="請選擇預約日期"
+                    text-color="dark"
                     :mask="mask"
                     today-btn
                     navigation-min-year-month="2023/02"
@@ -172,7 +179,7 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
                   />
                   <div
                     v-if="reservationForm.selectedDate !== ''"
-                    class="col-5 q-gutter-md flex justify-around"
+                    class="col-5 q-gutter-md flex justify-center"
                   >
                     <q-btn
                       class="time_btn"
@@ -191,7 +198,7 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
                       {{ timeBtn.time }}
                     </q-btn>
                   </div>
-                  <div class="text-h6">預約時數</div>
+                  <div class="text-h6 q-mt-md">預約時數</div>
                   <q-slider
                     v-model="reservationForm.selectedHour"
                     markers
@@ -214,7 +221,7 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
               <q-card-section
                 class="col-4 flex justify-around items-center column"
               >
-                <div class="text-h4 text-center q-pb-xl">預約確認</div>
+                <div class="confirm_text text-h4 text-center q-pb-xl">--- 預約確認 ---</div>
                 <div class="flex items-start column">
                   <p class="text-h6">
                     時間: {{ reservationForm.selectedDate }}
@@ -247,30 +254,44 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
 <style lang="scss">
 #reservation {
   .notice {
-    padding-bottom: 100px;
+    padding-bottom: 50px;
     .notice-header {
-      border-left: 15px solid $accent;
+      border-left: 15px solid $primary;
       padding-left: 1rem;
-      color: $accent;
     }
   }
 
-  .time_btn {
-    border-radius: 8px;
-  }
-  .submit_btn {
-    font-size: 20px;
-    padding: 5px 3px;
-    width: 150px;
-    color: #fff;
-    background-color: $primary;
-    border-radius: 8px;
+  .reservation_card {
+    margin-bottom: 50px;
 
-    &:hover {
-      transition: 0.5s;
-      color: $primary;
-      background-color: $dark;
-      border: 1px solid $primary;
+    .card_wrap {
+      border: 1px solid #fff;
+      border-radius: 16px;
+      padding: 2rem;
+
+      .time_btn {
+        padding: -10px 15px !important;
+        border-radius: 8px;
+      }
+       .confirm_text {
+        color: $accent;
+       }
+
+      .submit_btn {
+        font-size: 20px;
+        padding: 5px 3px;
+        width: 150px;
+        color: $dark;
+        background-color: $primary;
+        border-radius: 8px;
+
+        &:hover {
+          transition: 0.5s;
+          color: $primary;
+          background-color: $dark;
+          border: 1px solid $primary;
+        }
+      }
     }
   }
 }

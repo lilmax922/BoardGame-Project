@@ -12,7 +12,9 @@ const { teamups } = storeToRefs(teamupStore)
 const chips = ref([])
 const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童']
 
-const currentDate = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
+const currentDate = `${new Date().getFullYear()}-${
+  new Date().getMonth() + 1
+}-${new Date().getDate()}`
 const filterCondition = reactive({
   types: ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童'],
   date: currentDate
@@ -28,7 +30,9 @@ const delChip = (i) => {
 
 const filterFunc = computed(() => {
   return teamups.value.filter((teamup) => {
-    return parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0
+    return (
+      parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0
+    )
   })
 })
 
@@ -37,19 +41,18 @@ getAllTeamups()
 
 <template>
   <q-page id="searchTeamups" padding>
-    <!-- 麵包屑 -->
-    <div class="breadcrumb q-ma-lg">
-      <q-breadcrumbs>
-        <template #separator>
-          <q-icon size="1.5em" name="chevron_right" />
-        </template>
-        <q-breadcrumbs-el icon="mdi-home" to="/" />
-        <q-breadcrumbs-el label="揪團組隊" />
-      </q-breadcrumbs>
-    </div>
-
     <div class="container">
-      <section class="header flex items-center">
+      <!-- 麵包屑 -->
+      <div class="breadcrumb">
+        <q-breadcrumbs>
+          <template #separator>
+            <q-icon size="1.5em" name="chevron_right" />
+          </template>
+          <q-breadcrumbs-el icon="mdi-home" to="/" />
+          <q-breadcrumbs-el label="揪團組隊" />
+        </q-breadcrumbs>
+      </div>
+      <section class="header flex items-center q-mt-xl">
         <div class="header-text text-h3 q-pr-lg">揪團組隊</div>
         <q-btn class="teamup_btn" label="我要揪團" to="/teamup" />
       </section>
@@ -119,7 +122,6 @@ getAllTeamups()
                 />
               </div>
             </div> -->
-
           </div>
         </div>
 
@@ -146,20 +148,21 @@ getAllTeamups()
   .header {
     padding-bottom: 55px;
     .header-text {
-      border-left: 15px solid $accent;
+      border-left: 15px solid $primary;
       padding-left: 1rem;
-      color: $accent;
     }
   }
   .teamup_btn {
     border-radius: 8px;
     background-color: $primary;
+    color: $dark;
 
-     &:hover {
+    &:hover {
       transition: 0.5s;
       color: $primary;
-      background-color: #fff;
-     }
+      background-color: $dark;
+      border: 1px solid $primary;
+    }
   }
 
   .teamupList {

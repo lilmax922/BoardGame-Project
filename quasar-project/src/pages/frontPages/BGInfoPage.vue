@@ -66,25 +66,28 @@ const boardgame = reactive({
 
 <template>
   <q-page id="bg-info" padding>
-    <div class="q-ma-lg">
-      <q-breadcrumbs>
-        <q-breadcrumbs-el icon="mdi-home" to="/" />
-        <template #separator>
-          <q-icon size="1.5em" name="chevron_right" />
-        </template>
-        <q-breadcrumbs-el label="探索桌遊" to="/exploreBGs" />
-        <q-breadcrumbs-el :label="boardgame.name" />
-      </q-breadcrumbs>
-    </div>
     <div class="container">
-      <div class="row">
-        <div class="col-8">
+
+      <!-- 麵包屑 -->
+      <div class="breadcrumbs">
+        <q-breadcrumbs>
+          <q-breadcrumbs-el icon="mdi-home" to="/" />
+          <template #separator>
+            <q-icon size="1.5em" name="chevron_right" />
+          </template>
+          <q-breadcrumbs-el label="探索桌遊" to="/exploreBGs" />
+          <q-breadcrumbs-el :label="boardgame.name" />
+        </q-breadcrumbs>
+      </div>
+
+      <div class="row q-mt-xl">
+        <div class="col-4">
           <div class="info-area q-mb-lg">
             <div class="introduce column">
-              <div class="header text-h4 q-mb-md">遊戲介紹</div>
-              <div class="text-h3">{{ boardgame.name }}</div>
+              <div class="header text-h6 q-mb-md">遊戲介紹</div>
+              <div class="text-h4 q-mb-md name">{{ boardgame.name }}</div>
               <div v-html="boardgame.introduction" />
-              <div class="icon_area flex column q-gutter-lg-md text-h6">
+              <div class="icon_area flex column q-gutter-sm q-mt-md text-h6">
                 <div class="flex items-center">
                   <q-icon
                     class="q-mr-sm"
@@ -112,10 +115,28 @@ const boardgame = reactive({
                 </div>
               </div>
             </div>
+            <div class="mainImages-area">
+              <q-carousel
+                swipeable
+                animated
+                v-model="carouselSlide[1]"
+                thumbnails
+                infinite
+              >
+                <q-carousel-slide
+                  v-for="(boardgame, i) in boardgame.mainImages"
+                  :key="i"
+                  :name="i"
+                  :img-src="boardgame"
+                />
+              </q-carousel>
+            </div>
           </div>
+        </div>
+        <div class="col-8">
           <div class="component-area q-mb-lg">
             <div class="component column">
-              <div class="header text-h4 q-mb-md">內容物介紹</div>
+              <div class="header text-h6 q-mb-md">內容物介紹</div>
               <div class="component_carousel">
                 <q-carousel
                   swipeable
@@ -137,35 +158,18 @@ const boardgame = reactive({
           </div>
           <div class="gameflow-area q-mb-lg">
             <div class="gameflow column">
-              <div class="header text-h4 q-mb-md">遊戲流程</div>
+              <div class="header text-h6 q-mb-md">遊戲流程</div>
               <div v-html="boardgame.gameFlow" />
             </div>
           </div>
           <div class="endgame-area q-mb-lg">
             <div class="endgame column">
-              <div class="header text-h4 q-mb-md">遊戲結束</div>
+              <div class="header text-h4 q-mb-md">結束遊戲</div>
               <div v-html="boardgame.endGame" />
             </div>
           </div>
         </div>
-        <div class="col-4">
-          <div class="mainImages-area">
-            <q-carousel
-              swipeable
-              animated
-              v-model="carouselSlide[1]"
-              thumbnails
-              infinite
-            >
-              <q-carousel-slide
-                v-for="(boardgame, i) in boardgame.mainImages"
-                :key="i"
-                :name="i"
-                :img-src="boardgame"
-              />
-            </q-carousel>
-          </div>
-        </div>
+
       </div>
     </div>
   </q-page>
@@ -179,15 +183,22 @@ const boardgame = reactive({
   .endgame-area {
     width: 98%;
     border: 1px solid #fff;
-    background-color: #303030;
+    background-color: $dark;
     border-radius: 16px;
     padding: 2rem;
   }
   .header {
-    border-left: 15px solid $accent;
-    padding-left: 1rem;
-    color: $accent;
+    // border-left: 15px solid $accent;
+    // padding-left: 1rem;
     margin-bottom: 2rem;
+  }
+  .name {
+    color: $accent;
+  }
+
+  .info-area {
+    position: sticky;
+    top: 50px;
   }
 
   .component_carousel {
@@ -199,11 +210,9 @@ const boardgame = reactive({
     transform: translateX(-50%);
   }
   .mainImages-area {
-    position: sticky;
-    top: 50px;
     width: 98%;
-    border: 1px solid #fff;
     border-radius: 16px;
+    margin-top: 2rem;
   }
   .q-carousel {
     border-radius: 16px;

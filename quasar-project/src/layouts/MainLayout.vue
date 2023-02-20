@@ -26,8 +26,8 @@ q-layout(view='hHh lpR fff')
     q-toolbar
       q-avatar
         img(src='../assets/MAXXD.png')
-      q-toolbar-title 桌遊
-      q-tabs(v-model="tab")
+      q-toolbar-title.tabs 揪遊
+      q-tabs.tabs(v-model="tab")
         q-route-tab(to="/exploreBGs") 探索桌遊
         q-route-tab(to="/searchTeamups") 揪團組隊
         q-route-tab(to="/teamup") 我要揪團
@@ -85,3 +85,9 @@ q-layout(view='hHh lpR fff')
     LoginCard(v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close")
     RegisterCard(v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close")
 </template>
+
+<style lang="scss">
+.tabs {
+  color: $dark;
+}
+</style>

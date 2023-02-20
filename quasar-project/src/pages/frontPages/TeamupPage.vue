@@ -152,23 +152,26 @@ const onSubmit = async () => {
   teamupForm.loading = false
 }
 
-teamupForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
+teamupForm.selectedDate = `${date.getFullYear()}-0${
+  date.getMonth() + 1
+}-${date.getDate()}`
 </script>
 
 <template>
   <q-page id="teamup" padding>
-    <div class="q-ma-lg">
-      <q-breadcrumbs>
-        <template #separator>
-          <q-icon name="chevron_right" size="1.5em" />
-        </template>
-        <q-breadcrumbs-el icon="mdi-home" to="/" />
-        <q-breadcrumbs-el label="我要揪團" />
-      </q-breadcrumbs>
-    </div>
     <div class="container q-gutter-md">
-      <section class="flex justify-center">
-        <q-card style="width: 1500px">
+      <div class="breadcrumbs">
+        <q-breadcrumbs>
+          <template #separator>
+            <q-icon name="chevron_right" size="1.5em" />
+          </template>
+          <q-breadcrumbs-el icon="mdi-home" to="/" />
+          <q-breadcrumbs-el label="我要揪團" />
+        </q-breadcrumbs>
+      </div>
+
+      <section class="flex justify-center q-mt-xl">
+        <q-card class="card_wrap" flat>
           <q-form class="q-gutter-md" @submit="onSubmit">
             <!-- Choose teamup date & time -->
             <q-card-section class="q-gutter-md">
@@ -283,11 +286,11 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.
                 <div class="types col-6">
                   <div class="text-h6">我有興趣的類型</div>
                   <q-option-group
-                  v-model="typeGroup"
-                  :options="typeOptions"
-                  color="primary"
-                  inline
-                  type="checkbox"
+                    v-model="typeGroup"
+                    :options="typeOptions"
+                    color="primary"
+                    inline
+                    type="checkbox"
                   />
                 </div>
 
@@ -316,11 +319,15 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.
                     style="max-width: 650px"
                   />
                 </div>
-
               </div>
             </q-card-section>
             <q-card-actions class="flex flex-center q-mb-md">
-              <q-btn class="submit_btn" label="送出揪團" type="submit" :disable="teamupForm.loading" />
+              <q-btn
+                class="submit_btn"
+                label="送出揪團"
+                type="submit"
+                :disable="teamupForm.loading"
+              />
             </q-card-actions>
           </q-form>
         </q-card>
@@ -332,41 +339,43 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.
 <style lang="scss">
 #teamup {
   .text-h4 {
-    border-left: 15px solid $accent;
-    padding-left: 1rem;
     color: $accent;
   }
+  .card_wrap {
+    border: 1px solid #fff;
+    border-radius: 16px;
 
-  .timeBtn {
-    width: 100px;
-    height: 50px;
-    border-radius: 8px;
-  }
-
-  .submit_btn {
-    font-size: 20px;
-    padding: 5px 3px;
-    width: 150px;
-    color: #fff;
-    background-color: $primary;
-    border-radius: 8px;
-
-    &:hover {
-      transition: 0.5s;
-      color: $primary;
-      background-color: $dark;
-      border: 1px solid $primary;
+    .timeBtn {
+      width: 100px;
+      height: 50px;
+      border-radius: 8px;
     }
-  }
 
-  .title,
-  .content,
-  .main,
-  .types,
-  .current_people,
-  .total_people,
-  .card_image {
-    padding-bottom: 1.5rem;
+    .submit_btn {
+      font-size: 20px;
+      padding: 5px 3px;
+      width: 150px;
+      color: $dark;
+      background-color: $primary;
+      border-radius: 8px;
+
+      &:hover {
+        transition: 0.5s;
+        color: $primary;
+        background-color: $dark;
+        border: 1px solid $primary;
+      }
+    }
+
+    .title,
+    .content,
+    .main,
+    .types,
+    .current_people,
+    .total_people,
+    .card_image {
+      padding-bottom: 1.5rem;
+    }
   }
 }
 </style>
