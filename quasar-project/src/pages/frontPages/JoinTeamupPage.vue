@@ -1,21 +1,25 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, watch, ref } from 'vue'
 import { api, apiAuth } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
 import { Notify } from 'quasar'
 import { storeToRefs } from 'pinia'
+import { useUserStore } from 'src/stores/user'
 import { useTeamupStore } from 'src/stores/teamup'
 
 const route = useRoute()
 const router = useRouter()
+const userStore = useUserStore()
 const teamupStore = useTeamupStore()
-const { joinTeamup } = useTeamupStore()
+const { joinTeamup, cancelTeamup } = useTeamupStore()
+const { _id } = storeToRefs(userStore)
 const { teamups } = storeToRefs(teamupStore)
+const joined = ref(false)
 
 const teamup = reactive({
   _id: teamups._id || '',
   organizer: '',
-  participant: '',
+  participant: [],
   date: '',
   time: '',
   hour: 1,
@@ -44,7 +48,7 @@ const teamup = reactive({
     teamup.types = data.result.types
     teamup.title = data.result.title
     teamup.content = data.result.content
-
+    joined.value = teamup.participant.includes(_id.value)
     // 使用者可以看到 title 變更，但對爬蟲沒用
     document.title = '差滴滴 | ' + teamup.name
   } catch (error) {
@@ -62,11 +66,50 @@ const teamup = reactive({
 
 const onSubmit = async () => {
   teamup.loading = true
+  console.log(teamup.participant)
+
+  if (!teamup.participant.includes(_id)) {
+    await joinTeamup({
+      _id: teamup._id,
+      participant: teamup.participant
+    })
+    teamup.currentPeople++
+    teamup.participant.push(_id)
+    teamup.loading = false
+    joined.value = true
+  } else {
+    await cancelTeamup({
+      _id: teamup._id,
+      participant: teamup.participant
+    })
+    teamup.currentPeople--
+    // const idx = this.indexOf(_id)
+    // console.log(this.indexOf(_id))
+    // console.log(idx)
+    // if (idx !== -1) {
+    //   teamup.participant.splice(idx, 1)
+    // }
+    teamup.participant.splice(_id, 1)
+    teamup.loading = false
+    joined.value = false
+  }
+}
+
+const cancelSubmit = async () => {
+  teamup.loading = true
   await joinTeamup({
     _id: teamup._id,
     participant: teamup.participant
   })
+  teamup.currentPeople--
+  // const idx = this.indexOf(_id)
+  // console.log(this.indexOf(_id))
+  // console.log(idx)
+  // if (idx !== -1) {
+  // }
+  teamup.participant.splice(_id, 1)
   teamup.loading = false
+  joined.value = false
 }
 </script>
 
@@ -132,9 +175,17 @@ const onSubmit = async () => {
                   </div>
                 </div>
                 <q-btn
+                  v-if="!joined"
                   class="joinBtn"
                   type="submit"
                   label="參加揪團"
+                  :disable="teamup.loading"
+                />
+                <q-btn
+                  v-else
+                  class="cancelBtn"
+                  type="submit"
+                  label="取消參加"
                   :disable="teamup.loading"
                 />
               </div>
@@ -178,6 +229,22 @@ const onSubmit = async () => {
           transition: 0.5s;
           border: 1px solid $primary;
           color: $primary;
+          background-color: $dark;
+        }
+      }
+      .cancelBtn {
+        width: 200px;
+        position: absolute;
+        top: 85%;
+        right: 0;
+        font-size: 20px;
+        border-radius: 16px;
+        background-color: $secondary;
+
+        &:hover {
+          transition: 0.5s;
+          border: 1px solid $secondary;
+          color: $secondary;
           background-color: $dark;
         }
       }
