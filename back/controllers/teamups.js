@@ -97,33 +97,6 @@ export const joinOrCancelTeamup = async (req, res) => {
   }
 }
 
-// export const cancelTeamup = async (req, res) => {
-//   try {
-//     const teamup = await teamups.findById(req.params.id)
-//     if (!teamup) {
-//       return res.status(404).json({ success: false, message: '找不到此揪團' })
-//     }
-//     teamup.participant.splice(req.user._id, 1)
-//     teamup.currentPeople--
-//     await teamup.save()
-//     res.status(200).json({ success: true, message: '取消參加成功', teamup })
-//   } catch (error) {
-//     console.log(error)
-//     if (error.name === 'ValidationError') {
-//       const key = Object.keys(error.errors)[0]
-//       const message = error.errors[key].message
-//       res.status(400).json({ success: false, message })
-//     } else if (error.name === 'MongoServerError' && error.code === 11000) {
-//     // 代表重複
-//       res.status(400).json({ success: false, message: '名稱重複' })
-//     } else if (error.name === 'CastError') {
-//       res.status(400).json({ success: false, message: 'ID 格式錯誤' })
-//     } else {
-//       res.status(500).json({ success: false, message: '未知錯誤' })
-//     }
-//   }
-// }
-
 export const editTeamup = async (req, res) => {
   try {
     const result = await teamups.findByIdAndUpdate(req.params.id, {
@@ -155,8 +128,7 @@ export const editTeamup = async (req, res) => {
 
 export const deleteTeamup = async (req, res) => {
   try {
-    const result = teamups.findByIdAndUpdate(req.params.id, { new: true })
-    console.log(result)
+    await teamups.findByIdAndDelete(req.params.id)
     res.status(200).json({ success: true, message: '' })
   } catch (error) {
     console.log(error)
