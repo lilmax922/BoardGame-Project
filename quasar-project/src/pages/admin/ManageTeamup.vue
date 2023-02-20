@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useTeamupStore } from 'src/stores/teamup'
 
 const teamupStore = useTeamupStore()
-const { getAllTeamups, submitTeamup } = teamupStore
+const { getAllTeamups, submitTeamup, deleteTeamup } = teamupStore
 const { teamups } = storeToRefs(teamupStore)
 
 getAllTeamups()
