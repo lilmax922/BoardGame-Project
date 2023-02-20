@@ -51,7 +51,8 @@ export const login = async (req, res) => {
         phone: req.user.phone,
         nickname: req.user.nickname,
         role: req.user.role,
-        avatar: req.user.avatar
+        avatar: req.user.avatar,
+        _id: req.user._id
       }
     })
   } catch (error) {
@@ -97,7 +98,8 @@ export const getMyself = (req, res) => {
         phone: req.user.phone,
         nickname: req.user.nickname,
         role: req.user.role,
-        avatar: req.user.avatar
+        avatar: req.user.avatar,
+        _id: req.user._id
       }
     })
   } catch (error) {
