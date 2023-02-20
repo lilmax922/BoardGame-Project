@@ -36,8 +36,7 @@ export const useUserStore = defineStore('user', () => {
         message: '登入成功',
         textColor: 'primary',
         icon: 'mdi-emoticon-happy-outline',
-        color: 'white',
-        position: 'top'
+        color: 'white'
       })
     } catch (error) {
       Notify.create({
@@ -45,8 +44,7 @@ export const useUserStore = defineStore('user', () => {
         textColor: 'secondary',
         color: 'white',
         icon: 'mdi-emoticon-dead-outline',
-        caption: error?.response?.data?.message || '發生錯誤',
-        position: 'top'
+        caption: error?.response?.data?.message || '發生錯誤'
       })
     }
   }
@@ -63,15 +61,15 @@ export const useUserStore = defineStore('user', () => {
         message: '登出成功',
         textColor: 'primary',
         icon: 'mdi-emoticon-happy-outline',
-        color: 'white',
-        position: 'top'
+        color: 'white'
       })
     } catch (error) {
       console.log(error)
-      Swal.fire({
-        icon: 'error',
-        title: '失敗',
-        text: error?.response?.data?.message || '發生錯誤'
+      Notify.create({
+        message: error?.response?.data?.message || '發生錯誤',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline'
       })
     }
   }
@@ -87,25 +85,6 @@ export const useUserStore = defineStore('user', () => {
       role.value = data.result.role
     } catch (error) {
       logout()
-    }
-  }
-
-  async function editMyself (form) {
-    try {
-      const { data } = await apiAuth.patch('/users/editmyself')
-      avatar.value = data.result.avatar
-      phone.value = data.result.phone
-      nickname.value = data.result.nickname
-      // password.value = data.result.password
-    } catch (error) {
-      Notify.create({
-        message: '編輯失敗',
-        textColor: 'secondary',
-        color: 'white',
-        icon: 'mdi-emoticon-dead-outline',
-        caption: error?.response?.data?.message || '發生錯誤',
-        position: 'top'
-      })
     }
   }
 
