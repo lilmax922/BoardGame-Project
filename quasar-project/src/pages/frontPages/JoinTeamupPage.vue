@@ -83,39 +83,16 @@ const onSubmit = async () => {
       participant: teamup.participant
     })
     teamup.currentPeople--
-    // const idx = this.indexOf(_id)
-    // console.log(this.indexOf(_id))
-    // console.log(idx)
-    // if (idx !== -1) {
-    //   teamup.participant.splice(idx, 1)
-    // }
     teamup.participant.splice(_id, 1)
     teamup.loading = false
     joined.value = false
   }
 }
-
-const cancelSubmit = async () => {
-  teamup.loading = true
-  await joinTeamup({
-    _id: teamup._id,
-    participant: teamup.participant
-  })
-  teamup.currentPeople--
-  // const idx = this.indexOf(_id)
-  // console.log(this.indexOf(_id))
-  // console.log(idx)
-  // if (idx !== -1) {
-  // }
-  teamup.participant.splice(_id, 1)
-  teamup.loading = false
-  joined.value = false
-}
 </script>
 
 <template>
   <q-page id="jointeamup" padding>
-    <div class="breadcrumb q-ma-lg">
+    <div class="breadcrumb">
       <q-breadcrumbs>
         <template #separator>
           <q-icon size="1.5em" name="chevron_right" />
