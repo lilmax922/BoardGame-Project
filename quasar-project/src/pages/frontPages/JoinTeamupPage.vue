@@ -1,6 +1,6 @@
 <script setup>
-import { reactive, watch, ref } from 'vue'
-import { api, apiAuth } from 'src/boot/axios'
+import { reactive, ref, computed } from 'vue'
+import { api } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
 import { Notify } from 'quasar'
 import { storeToRefs } from 'pinia'
@@ -14,8 +14,8 @@ const teamupStore = useTeamupStore()
 const { joinTeamup, cancelTeamup } = useTeamupStore()
 const { _id } = storeToRefs(userStore)
 const { teamups } = storeToRefs(teamupStore)
-const joined = ref(false)
 
+const joined = ref(false)
 const teamup = reactive({
   _id: teamups._id || '',
   organizer: '',
@@ -49,8 +49,9 @@ const teamup = reactive({
     teamup.title = data.result.title
     teamup.content = data.result.content
     joined.value = teamup.participant.includes(_id.value)
+
     // 使用者可以看到 title 變更，但對爬蟲沒用
-    document.title = '差滴滴 | ' + teamup.name
+    document.title = '揪遊 | ' + teamup.title
   } catch (error) {
     Notify.create({
       message: '資料取得失敗',
@@ -63,6 +64,10 @@ const teamup = reactive({
     router.go(-1)
   }
 })()
+
+const isFull = computed(() => {
+  return teamup.currentPeople === teamup.totalPeople
+})
 
 const onSubmit = async () => {
   teamup.loading = true
@@ -155,8 +160,8 @@ const onSubmit = async () => {
                   v-if="!joined"
                   class="joinBtn"
                   type="submit"
-                  label="參加揪團"
-                  :disable="teamup.loading"
+                  :label="teamup.currentPeople === teamup.totalPeople ? '人數已滿' :'參加揪團'"
+                  :disable="isFull"
                 />
                 <q-btn
                   v-else
@@ -199,6 +204,7 @@ const onSubmit = async () => {
         top: 85%;
         right: 0;
         font-size: 20px;
+        color: $dark;
         border-radius: 16px;
         background-color: $primary;
 
@@ -215,6 +221,7 @@ const onSubmit = async () => {
         top: 85%;
         right: 0;
         font-size: 20px;
+        color: $dark;
         border-radius: 16px;
         background-color: $secondary;
 
