@@ -50,7 +50,8 @@ export const getTeamup = async (req, res) => {
 
 export const getAllTeamups = async (req, res) => {
   try {
-    const result = await teamups.find()
+    const result = await teamups.find().populate('organizer', 'nickname phone').populate('participant', 'nickname phone')
+    console.log(result)
     res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
