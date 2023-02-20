@@ -48,9 +48,13 @@ const filterFunc = computed(() => {
     // console.log(boardgame.players)
     return (
       boardgame.gameTime >= filterCondition.gameTime &&
-      boardgame.players.split('~').map(Number)[0] >= filterCondition.players.min &&
-      boardgame.players.split('~').map(Number)[1] <= filterCondition.players.max &&
-      parseInt(_.intersection(boardgame.types, filterCondition.types).length) !== 0
+      boardgame.players.split('~').map(Number)[0] >=
+        filterCondition.players.min &&
+      boardgame.players.split('~').map(Number)[1] <=
+        filterCondition.players.max &&
+      parseInt(
+        _.intersection(boardgame.types, filterCondition.types).length
+      ) !== 0
     )
   })
 })
@@ -58,78 +62,82 @@ const filterFunc = computed(() => {
 
 <template>
   <q-page id="explore" padding>
-    <!-- 麵包屑 -->
-    <div class="breadcrumb q-ma-lg">
-      <q-breadcrumbs>
-        <template #separator>
-          <q-icon size="1.5em" name="chevron_right" />
-        </template>
-        <q-breadcrumbs-el icon="mdi-home" to="/" />
-        <q-breadcrumbs-el label="探索桌遊" />
-      </q-breadcrumbs>
-    </div>
-
     <div class="container">
-      <section class="header flex items-center">
+      <!-- 麵包屑 -->
+      <div class="breadcrumb">
+        <q-breadcrumbs>
+          <template #separator>
+            <q-icon size="1.5em" name="chevron_right" />
+          </template>
+          <q-breadcrumbs-el icon="mdi-home" to="/" />
+          <q-breadcrumbs-el label="探索桌遊" />
+        </q-breadcrumbs>
+      </div>
+      <section class="header flex items-center q-mt-xl">
         <div class="header-text text-h3 q-pr-lg">探索桌遊</div>
         <q-btn class="reservation_btn" label="我要預約" to="/reservation" />
       </section>
       <section class="boardgameList">
-        <div class="search_container">
-          <div class="search-bar">
-            <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
+        <div class="search_container row">
+          <!-- <div class="search-bar col-6 flex items-center">
+            <q-input
+              name="search"
+              rounded
+              standout
+              placeholder="關鍵字/標籤搜尋"
+              style="width: 500px"
+            >
               <template v-slot:append>
                 <q-btn icon="search" flat rounded />
               </template>
             </q-input>
-          </div>
-          <div class="filter-area q-gutter-md">
-            <div class="game-types">
-              <div class="flex items-center">
-                <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
-                <div class="text-h6 q-pa-md">桌遊類型</div>
-              </div>
-              <div class="row flex flex-center">
-                <div class="col-5">
-                  <!-- <q-option-group
+          </div> -->
+          <div class="game-types col-6">
+            <div class="flex items-center">
+              <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
+              <div class="text-h6 q-pa-md">桌遊類型</div>
+            </div>
+            <div class="row flex flex-center">
+              <div class="col-12">
+                <!-- <q-option-group
                       v-model="typeGroup"
                       :options="types"
                       type="checkbox"
                       inline
                       size="lg"
                     /> -->
-                  <q-select
-                    v-model="filterCondition.types"
-                    filled
-                    multiple
-                    :options="types"
-                    label="新增標籤"
-                    style="width: 250px"
-                    bottom-slots
-                  >
-                    <template #append>
-                      <q-btn round dense flat icon="add" @click="addChip" />
-                    </template>
-                  </q-select>
-                </div>
-                <div class="col-4">
-                  <q-chip
-                    v-for="(chip, i) in chips"
-                    :key="i"
-                    v-model="chips"
-                    color="primary"
-                    text-color="white"
-                    clickable
-                    icon="mdi-close-circle"
-                    icon-color="white"
-                    @click="delChip(i)"
-                  >
-                    {{ chip }}
-                  </q-chip>
-                </div>
+                <q-select
+                  v-model="filterCondition.types"
+                  filled
+                  multiple
+                  :options="types"
+                  label="新增標籤"
+                  bottom-slots
+                >
+                  <template #append>
+                    <q-btn round dense flat icon="add" @click="addChip" />
+                  </template>
+                </q-select>
+              </div>
+              <div>
+                <q-chip
+                  v-for="(chip, i) in chips"
+                  :key="i"
+                  v-model="chips"
+                  color="secondary"
+                  text-color="white"
+                  clickable
+                  icon="mdi-close-circle"
+                  icon-color="white"
+                  @click="delChip(i)"
+                >
+                  {{ chip }}
+                </q-chip>
               </div>
             </div>
-            <div class="game_time">
+          </div>
+          <div class="col-6">
+            <div class="game_time col-12">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
                 <div class="text-h6 q-pa-md">遊戲時間</div>
@@ -146,24 +154,16 @@ const filterFunc = computed(() => {
                 />
               </div>
             </div>
-            <div class="players">
+            <div class="players col-12">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
+
                 <div class="text-h6 q-pa-md">遊玩人數</div>
-                <!-- <q-slider
+                <q-range
                   v-model="filterCondition.players"
                   class="q-px-lg"
                   :min="1"
-                  :max="12"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  snap
-                /> -->
-                <q-range
-                  v-model="filterCondition.players"
-                  :min="1"
-                  :max="12"
+                  :max="10"
                   markers
                   marker-labels
                   thumb-color="secondary"
@@ -172,6 +172,7 @@ const filterFunc = computed(() => {
               </div>
             </div>
           </div>
+          <div class="filter-area q-gutter-md row"></div>
         </div>
 
         <div class="cards_container">
@@ -197,23 +198,27 @@ const filterFunc = computed(() => {
   .header {
     padding-bottom: 55px;
     .header-text {
-      border-left: 15px solid $accent;
+      border-left: 15px solid $primary;
       padding-left: 1rem;
-      color: $accent;
+      // color: $accent;
     }
   }
 
   .reservation_btn {
     border-radius: 8px;
     background-color: $primary;
+    color: $dark;
 
-     &:hover {
+    &:hover {
       transition: 0.5s;
       color: $primary;
-      background-color: #fff;
-     }
+      background-color: $dark;
+      border: 1px solid $primary;
+    }
   }
-
+  .search_container {
+    background-color: $dark;
+  }
   .boardgameList {
     width: 100%;
 
