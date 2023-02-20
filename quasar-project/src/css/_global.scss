@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Concert+One&family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap");
 
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   width: 100%;
@@ -16,7 +22,7 @@ body {
     margin-left: auto;
     padding-top: 30px;
   }
-  
+
   @include lg {
     .container {
       padding-right: 8rem;
