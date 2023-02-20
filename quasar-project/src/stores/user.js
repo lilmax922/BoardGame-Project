@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import { api, apiAuth } from 'boot/axios.js'
 
 export const useUserStore = defineStore('user', () => {
+  const _id = ref('')
   const email = ref('')
   const phone = ref('')
   const nickname = ref('')
@@ -25,6 +26,7 @@ export const useUserStore = defineStore('user', () => {
   async function login (form) {
     try {
       const { data } = await api.post('/users/login', form)
+      _id.value = data.result._id
       email.value = data.result.email
       phone.value = data.result.phone
       nickname.value = data.result.nickname
@@ -52,6 +54,7 @@ export const useUserStore = defineStore('user', () => {
   async function logout () {
     try {
       await apiAuth.delete('/users/logout')
+      _id.value = ''
       token.value = ''
       email.value = ''
       role.value = 0
@@ -77,6 +80,7 @@ export const useUserStore = defineStore('user', () => {
     if (token.value.length === 0) return
     try {
       const { data } = await apiAuth.get('/users/myself')
+      _id.value = data.result._id
       email.value = data.result.email
       nickname.value = data.result.nickname
       phone.value = data.result.phone
@@ -118,6 +122,7 @@ export const useUserStore = defineStore('user', () => {
   // }
 
   return {
+    _id,
     token,
     email,
     phone,
