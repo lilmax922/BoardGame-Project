@@ -57,19 +57,29 @@ export const getAllTeamups = async (req, res) => {
   }
 }
 
-export const joinTeamup = async (req, res) => {
+export const joinOrCancelTeamup = async (req, res) => {
   try {
-    const teamup = await teamups.findByIdAndUpdate(req.params.id)
+    const teamup = await teamups.findById(req.params.id)
     if (!teamup) {
-      res.status(404).json({ success: false, message: '找不到此揪團' })
+      return res.status(404).json({ success: false, message: '找不到此揪團' })
     }
-    if (teamup.currentPeople >= teamup.totalPeople) {
-      res.status(400).json({ success: false, message: '揪團人數已滿' })
+    if (!teamup.participant.includes(req.user._id)) {
+      if (teamup.currentPeople >= teamup.totalPeople) {
+        return res.status(400).json({ success: false, message: '揪團人數已滿' })
+      }
+      if (teamup.participant.includes(req.user._id)) {
+        return res.status(400).json({ success: false, message: '您已經參加了該揪團' })
+      }
+      teamup.participant.push(req.user._id)
+      teamup.currentPeople++
+      await teamup.save()
+      res.status(200).json({ success: true, message: '參加揪團成功', teamup })
+    } else {
+      teamup.participant.splice(teamup.participant.indexOf(req.user._id), 1)
+      teamup.currentPeople--
+      await teamup.save()
+      res.status(200).json({ success: true, message: '取消參加成功', teamup })
     }
-    teamup.participant.push(req.user._id)
-    teamup.currentPeople++
-    await teamup.save()
-    res.status(200).json({ success: true, message: '參加揪團成功', teamup })
   } catch (error) {
     console.log(error)
     if (error.name === 'ValidationError') {
@@ -86,6 +96,33 @@ export const joinTeamup = async (req, res) => {
     }
   }
 }
+
+// export const cancelTeamup = async (req, res) => {
+//   try {
+//     const teamup = await teamups.findById(req.params.id)
+//     if (!teamup) {
+//       return res.status(404).json({ success: false, message: '找不到此揪團' })
+//     }
+//     teamup.participant.splice(req.user._id, 1)
+//     teamup.currentPeople--
+//     await teamup.save()
+//     res.status(200).json({ success: true, message: '取消參加成功', teamup })
+//   } catch (error) {
+//     console.log(error)
+//     if (error.name === 'ValidationError') {
+//       const key = Object.keys(error.errors)[0]
+//       const message = error.errors[key].message
+//       res.status(400).json({ success: false, message })
+//     } else if (error.name === 'MongoServerError' && error.code === 11000) {
+//     // 代表重複
+//       res.status(400).json({ success: false, message: '名稱重複' })
+//     } else if (error.name === 'CastError') {
+//       res.status(400).json({ success: false, message: 'ID 格式錯誤' })
+//     } else {
+//       res.status(500).json({ success: false, message: '未知錯誤' })
+//     }
+//   }
+// }
 
 export const editTeamup = async (req, res) => {
   try {
