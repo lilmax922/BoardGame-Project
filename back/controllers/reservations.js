@@ -51,7 +51,8 @@ export const getReservation = async (req, res) => {
 
 export const getAllReservations = async (req, res) => {
   try {
-    const result = await reservations.find()
+    const result = await reservations.find().populate('reserver', 'nickname phone')
+    console.log(result)
     res.status(200).json({ success: true, message: '成功取得所有預約', result })
   } catch (error) {
     console.log(error)
@@ -99,8 +100,7 @@ export const editReservation = async (req, res) => {
 
 export const deleteReservation = async (req, res) => {
   try {
-    const result = reservations.findByIdAndUpdate(req.params.id, { new: true })
-    console.log(result)
+    await reservations.findByIdAndDelete(req.params.id)
     res.status(200).json({ success: true, message: '' })
   } catch (error) {
     console.log(error)

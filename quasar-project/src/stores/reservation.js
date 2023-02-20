@@ -19,7 +19,7 @@ export const useReservationStore = defineStore('reservation', () => {
         })
       } else {
         const { data } = await apiAuth.patch('/reservations/' + form._id, form)
-        const index = reservations.findIndex(reservation => reservation._id === _id)
+        const index = reservations.findIndex(reservation => reservation._id === form._id)
         reservations[index] = data.result
         await Swal.fire({
           icon: 'success',
