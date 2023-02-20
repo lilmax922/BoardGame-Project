@@ -179,7 +179,7 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
               <div class="row justify-evenly">
                 <!-- Calendar -->
                 <q-date
-                  class="col-7"
+                  class="col-12 col-md-7"
                   v-model="teamupForm.selectedDate"
                   subtitle="請選擇揪團日期"
                   :mask="mask"
@@ -187,8 +187,9 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                   navigation-min-year-month="2023/02"
                   navigation-max-year-month="2023/12"
                   style="max-width: 500px"
+                  text-color="dark"
                 />
-                <div class="col-5 flex column justify-between">
+                <div class="col-12 col-md-5 flex column justify-between">
                   <!-- timeBtn -->
                   <div
                     v-if="teamupForm.selectedDate !== ''"

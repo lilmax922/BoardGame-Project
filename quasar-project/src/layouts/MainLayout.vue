@@ -22,20 +22,17 @@ const close = () => {
 
 <template lang="pug">
 q-layout(view='hHh lpR fff')
-  q-header.bg-primary.text-white(bordered)
+  q-header.bg-primary(bordered)
     q-toolbar
       q-avatar
         img(src='../assets/MAXXD.png')
-      q-toolbar-title.tabs 揪遊
+      q-toolbar-title.logo_name 揪遊
       q-tabs.tabs(v-model="tab")
         q-route-tab(to="/exploreBGs") 探索桌遊
         q-route-tab(to="/searchTeamups") 揪團組隊
         q-route-tab(to="/teamup") 我要揪團
         q-route-tab(to="/reservation") 手刀預約
       q-space
-      //- q-input(name="search" placeholder="search")
-      //-   template(v-slot:prepend)
-      //-     q-icon(name="search")
       q-btn(v-if="isLogin" icon='mdi-bell' rounded flat)
         q-badge(color="accent" floating :label="5")
         q-menu(fit anchor="bottom left" self="top middle")
@@ -87,7 +84,15 @@ q-layout(view='hHh lpR fff')
 </template>
 
 <style lang="scss">
+.logo_name,
 .tabs {
   color: $dark;
+
+  .q-tab__indicator {
+    height: 3px;
+  }
+}
+.tabs {
+  font-weight: 700;
 }
 </style>
