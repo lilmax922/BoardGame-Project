@@ -111,7 +111,6 @@ export const useUserStore = defineStore('user', () => {
     login,
     logout,
     getMyself,
-    editMyself,
     isLogin,
     isAdmin,
     showLoginCard
