@@ -28,6 +28,7 @@ const teamupForm = reactive({
 })
 
 // q-table
+const filter = ref('')
 const columns = [
   {
     name: 'image',
@@ -38,17 +39,26 @@ const columns = [
   {
     name: 'organizer',
     label: '揪團發起人',
-    field: (row) => row.organizer,
+    field: (row) => row.organizer.nickname,
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'phone',
+    label: '發起人電話',
+    field: row => row.organizer.phone,
     align: 'left',
     sortable: true
   },
   {
     name: 'participant',
-    label: '組隊參加人',
+    label: '參加人資訊',
     field: row => row.participant,
     align: 'left',
     sortable: true,
-    format: (val) => val.join(' ')
+    format: (val, row) => {
+      return row.participant.map(p => `${p.nickname} (${p.phone})`).join(',')
+    }
   },
   {
     name: 'date',
