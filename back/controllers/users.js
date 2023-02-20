@@ -110,8 +110,6 @@ export const getMyself = (req, res) => {
 // 修改自己的資料
 export const editMyself = async (req, res) => {
   try {
-    const avatar = req.files?.cardImage ? req.files?.cardImage[0].path : req.body.cardImage
-    req.user.avatar = avatar
     req.user.phone = req.body.phone
     req.user.nickname = req.body.nickname
     req.user.password = req.body.password
@@ -119,7 +117,6 @@ export const editMyself = async (req, res) => {
     res.status(200).json({
       success: true,
       result: {
-        avatar: result.avatar,
         phone: result.phone,
         nickname: result.nickname
       }
