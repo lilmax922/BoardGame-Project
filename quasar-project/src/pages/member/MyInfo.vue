@@ -7,7 +7,6 @@ import { useUserStore } from 'src/stores/user'
 import { apiAuth } from 'src/boot/axios'
 
 const user = useUserStore()
-const { editMyself } = user
 const { avatar, email, phone, nickname } = storeToRefs(user)
 
 const rules = {
