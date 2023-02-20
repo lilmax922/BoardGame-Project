@@ -53,12 +53,8 @@ export const useTeamupStore = defineStore('teamup', () => {
 
   // 參加揪團
   const joinTeamup = async (form) => {
-    console.log(form)
-    console.log(form._id)
-    console.log(form.participant)
     try {
       const { data } = await apiAuth.post('/teamups/' + form._id)
-      const index = teamups.findIndex(teamup => teamup._id === form._id)
       await Swal.fire({
         icon: 'success',
         title: '成功',
@@ -73,10 +69,49 @@ export const useTeamupStore = defineStore('teamup', () => {
     }
   }
 
+  // 取消參加
+  const cancelTeamup = async (form) => {
+    try {
+      const { data } = await apiAuth.post('/teamups/' + form._id)
+      await Swal.fire({
+        icon: 'success',
+        title: '成功',
+        text: '取消成功~'
+      })
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
+  const deleteTeamup = async (_id) => {
+    try {
+      await apiAuth.patch('/teamups/delete/' + _id)
+      const index = teamups.findIndex(teamup => teamup._id === _id)
+      teamups.splice(index, 1)
+      Swal.fire({
+        icon: 'success',
+        title: '成功',
+        text: '預約刪除成功'
+      })
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   return {
     teamups,
     submitTeamup,
     joinTeamup,
-    getAllTeamups
+    cancelTeamup,
+    getAllTeamups,
+    deleteTeamup
   }
 })
