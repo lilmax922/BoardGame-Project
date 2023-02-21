@@ -16,18 +16,18 @@ const boardgames = reactive([])
 const slide = ref(1)
 console.log(boardgames)
 
-;(async () => {
-  try {
-    const { data } = api.get('/boardgames')
-    boardgames.push(...data.result)
-  } catch (error) {
-    $q.notify({
-      message: '失敗',
-      caption: error?.response?.data?.message || '發生錯誤',
-      color: 'secondary'
-    })
-  }
-})()
+// ;(async () => {
+//   try {
+//     const { data } = api.get('/boardgames')
+//     boardgames.push(...data.result)
+//   } catch (error) {
+//     $q.notify({
+//       message: '失敗',
+//       caption: error?.response?.data?.message || '發生錯誤',
+//       color: 'secondary'
+//     })
+//   }
+// })()
 </script>
 
 <template>
