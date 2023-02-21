@@ -10,7 +10,6 @@ const { teamups } = storeToRefs(teamupStore)
 
 const date = new Date()
 const mask = 'YYYY-MM-DD'
-// const typeGroup = ref('陣營')
 const typeGroup = ref([])
 const typeOptions = reactive([
   { label: '陣營', value: '陣營', disable: false },
@@ -146,6 +145,7 @@ const onSubmit = async () => {
   fd.append('cardImage', teamupForm.cardImage)
   fd.append('title', teamupForm.title)
   fd.append('content', teamupForm.content)
+  console.log(fd._id)
   await submitTeamup(fd)
   teamupForm.loading = false
 }
