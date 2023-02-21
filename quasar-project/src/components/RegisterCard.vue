@@ -16,6 +16,7 @@ const registerForm = reactive({
   nickname: '',
   password: '',
   isPwd: true,
+  isConfirmPwd: true,
   confirmPassword: ''
 })
 
@@ -33,6 +34,9 @@ const rules = {
     return (
       (value.length >= 4 && value.length <= 12) || '長度必須為 4 ~ 12 個字'
     )
+  },
+  nickname (value) {
+    return (value.length >= 1 && value.length <= 12) || '長度必須為 1 ~ 12 個字'
   },
   confirmPassword (value) {
     return value === registerForm.password || '密碼不一致'
@@ -58,8 +62,7 @@ const register = async () => {
         message: '註冊成功',
         textColor: 'primary',
         icon: 'mdi-emoticon-happy-outline',
-        color: 'white',
-        position: 'top'
+        color: 'white'
       })
     }, 3000)
     router.push('/')
@@ -70,8 +73,7 @@ const register = async () => {
       textColor: 'secondary',
       color: 'white',
       icon: 'mdi-emoticon-dead-outline',
-      caption: error?.response?.data?.message || '發生錯誤',
-      position: 'top'
+      caption: error?.response?.data?.message || '發生錯誤'
     })
   }
 }
@@ -93,25 +95,25 @@ q-card#register-card(flat style="width:1500px")
       q-form(@submit="register").q-gutter-sm
         q-input.bottom-slots(filled counter maxlength="不限" v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
           template(v-slot:prepend)
-            q-icon(name="fa-solid fa-envelope")
+            q-icon(name="mdi-email")
           template(v-slot:append)
             q-icon(v-if="text !== ''" name="fa-solid fa-xmark" @click="text = ''" class="cursor-pointer")
         q-input(filled counter maxlength="10" v-model="registerForm.phone" label="手機號碼" :rules="[rules.required, rules.phone]")
           template(v-slot:prepend)
-            q-icon(name="fa-solid fa-mobile")
+            q-icon(name="mdi-cellphone")
         q-input(filled counter maxlength="20" v-model="registerForm.nickname" label="暱稱" :rules="[rules.required, rules.nickname]")
           template(v-slot:prepend)
-            q-icon(name="fa-solid fa-signature")
+            q-icon(name="mdi-draw")
         q-input(filled counter maxlength="12" v-model='registerForm.password' label='密碼' :rules="[rules.required, rules.password, rules.length]" :type="registerForm.isPwd ? 'password' : 'text'")
           template(v-slot:prepend)
-            q-icon(name="fa-solid fa-key")
+            q-icon(name="mdi-lock")
           template(v-slot:append)
             q-icon.cursor-pointer(:name="registerForm.isPwd ? 'visibility_off' : 'visibility'" @click="registerForm.isPwd = !registerForm.isPwd")
-        q-input(filled counter maxlength="12" v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.required, rules.confirmPassword, rules.length]" :type="registerForm.isPwd ? 'password' : 'text'")
+        q-input(filled counter maxlength="12" v-model='registerForm.confirmPassword' label='確認密碼' :rules="[rules.required, rules.confirmPassword, rules.length]" :type="registerForm.isConfirmPwd ? 'password' : 'text'")
           template(v-slot:prepend)
-            q-icon(name="fa-solid fa-check-double")
+            q-icon(name="mdi-check-all")
           template(v-slot:append)
-            q-icon.cursor-pointer(:name="registerForm.isPwd ? 'visibility_off' : 'visibility'" @click="registerForm.isPwd = !registerForm.isPwd")
+            q-icon.cursor-pointer(:name="registerForm.isConfirmPwd ? 'visibility_off' : 'visibility'" @click="registerForm.isConfirmPwd = !registerForm.isConfirmPwd")
         q-btn(label="註冊" type="submit" color="primary")
 </template>
 
