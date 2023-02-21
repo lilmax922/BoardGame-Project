@@ -125,3 +125,12 @@ export const editMyself = async (req, res) => {
     res.status(500).json({ success: false, message: '未知錯誤' })
   }
 }
+
+export const getAllUser = async (req, res) => {
+  try {
+    const result = await users.find().select('-password')
+    res.status(200).json({ success: true, message: '', result })
+  } catch (error) {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
