@@ -35,7 +35,7 @@ const slide = ref(1)
       <div class="glass row">
         <div class="title col-12 text-h3">關於我們</div>
         <div class="content col-12 q-pt-md text-h6">
-          在這個科技冷漠的世代，揪遊希望成為一個讓人們聚在一起，享受桌遊樂趣的地方，並透過桌遊這個媒介，讓人們能夠在日常生活中找到快樂和樂趣。
+          在這個科技冷漠的世代，我們希望成為一個讓人們聚在一起，享受桌遊樂趣的地方，並透過桌遊這個媒介，讓人們能夠在日常生活中找到快樂和樂趣。
         </div>
       </div>
     </div>

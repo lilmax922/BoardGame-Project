@@ -50,7 +50,7 @@ const teamup = reactive({
     joined.value = teamup.participant.includes(_id.value)
 
     // 使用者可以看到 title 變更，但對爬蟲沒用
-    document.title = '揪遊 | ' + teamup.title
+    document.title = '揪遊列國 | ' + teamup.title
   } catch (error) {
     Notify.create({
       message: '資料取得失敗',

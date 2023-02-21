@@ -52,7 +52,7 @@ const boardgame = reactive({
     boardgame.post = data.result.post
 
     // 使用者可以看到 title 變更，但對爬蟲沒用
-    document.title = '揪遊 | ' + boardgame.name
+    document.title = '揪遊列國 | ' + boardgame.name
   } catch (error) {
     $q.notify({
       position: 'top',

@@ -26,7 +26,7 @@ q-layout(view='hHh lpR fff')
     q-toolbar
       q-avatar
         img(src='../assets/MAXXD.png')
-      q-toolbar-title.logo_name 揪遊
+      q-toolbar-title.logo_name 揪遊列國
       q-tabs.tabs(v-model="tab")
         q-route-tab(to="/exploreBGs") 探索桌遊
         q-route-tab(to="/searchTeamups") 揪團組隊
