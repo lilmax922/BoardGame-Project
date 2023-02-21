@@ -5,6 +5,7 @@ import { apiAuth } from 'src/boot/axios'
 
 export const useTeamupStore = defineStore('teamup', () => {
   const teamups = reactive([])
+  const joinTeamups = reactive([])
 
   // 發起揪團
   async function submitTeamup (form, _id) {
@@ -58,8 +59,10 @@ export const useTeamupStore = defineStore('teamup', () => {
 
   const getMyTeamup = async () => {
     try {
-      const { data } = await apiAuth.get('/teamups/member')
+      const { data } = await apiAuth.get('/teamups/member?people=organizer')
+      const { data: data2 } = await apiAuth.get('/teamups/member?people=participant')
       teamups.splice(0, teamups.length, ...data.result)
+      joinTeamups.splice(0, joinTeamups.length, ...data2.result)
     } catch (error) {
       Notify.create({
         message: '資料取得失敗',

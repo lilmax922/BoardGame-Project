@@ -26,8 +26,14 @@ const teamupForm = reactive({
 // q-table
 const columns = [
   {
-    name: 'organizer',
-    label: '發起人',
+    name: 'teamupTitle',
+    label: '揪團團名',
+    field: row => row.organizer,
+    align: 'left'
+  },
+  {
+    name: 'participant',
+    label: '參加',
     field: row => row.organizer,
     align: 'left'
   },
@@ -139,7 +145,7 @@ const onSubmit = async () => {
         </div>
       </div>
 
-      <!-- 編輯預約資料 dialog -->
+      <!-- 編輯揪團資料 dialog -->
       <q-dialog v-model="teamupForm.dialog" persistent>
         <q-layout class="edit_dialog" container>
           <q-card>

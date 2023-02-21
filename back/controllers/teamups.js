@@ -107,8 +107,13 @@ export const editTeamup = async (req, res) => {
 
 export const getMyTeamup = async (req, res) => {
   try {
-    const result = await teamups.find({ $or: [{ organizer: req.user._id }, { participant: req.user._id }] })
-    console.log(result)
+    const people = req.query.people || 'organizer'
+    let result
+    if (people === 'organizer') {
+      result = await teamups.find({ organizer: req.user._id })
+    } else {
+      result = await teamups.find({ participant: req.user._id })
+    }
     res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     errorHandler(error, res)
