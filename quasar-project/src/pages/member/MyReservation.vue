@@ -1,23 +1,12 @@
 <script setup>
-import { reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useReservationStore } from 'src/stores/reservation'
 
 const ReservationStore = useReservationStore()
-const { submitReservation, getMyReservation } = ReservationStore
+const { getMyReservation, deleteReservation } = ReservationStore
 const { reservations } = storeToRefs(ReservationStore)
 
 getMyReservation()
-
-const reservationForm = reactive({
-  _id: '',
-  date: Date,
-  time: '',
-  hour: 0,
-  totalPeople: 0,
-  loading: false,
-  dialog: false
-})
 
 // q-table
 const columns = [
@@ -50,34 +39,12 @@ const columns = [
     sortable: true
   },
   {
-    name: 'edit',
-    label: '編輯/刪除',
-    field: (row) => row.edit,
+    name: 'delete',
+    label: '刪除',
+    field: (row) => row.delete,
     align: 'center'
   }
 ]
-
-const openDialog = (index) => {
-  const idx = reservations.value.findIndex(
-    (reservation) => reservation._id === index
-  )
-  reservationForm._id = reservations.value[idx]._id
-  reservationForm.date = reservations.value[idx].date
-  reservationForm.time = reservations.value[idx].time
-  reservationForm.hour = reservations.value[idx].hour
-  reservationForm.totalPeople = reservations.value[idx].totalPeople
-  reservationForm.dialog = true
-}
-
-const onSubmit = async () => {
-  reservationForm.loading = true
-  await submitReservation({
-    _id: reservationForm._id,
-    totalPeople: reservationForm.totalPeople
-  })
-  reservationForm.loading = false
-  reservationForm.dialog = false
-}
 </script>
 
 <template>
@@ -100,22 +67,14 @@ const onSubmit = async () => {
             <template v-slot:top-right>
               <q-input debounce="300" v-model="filter" placeholder="Search">
                 <template v-slot:append>
-                  <q-icon name="mdi-search" />
+                  <q-icon name="search" />
                 </template>
               </q-input>
             </template>
 
-            <!-- edit_area -->
-            <template v-slot:body-cell-edit="props">
+            <!-- delete_area -->
+            <template v-slot:body-cell-delete="props">
               <q-td class="text-center q-gutter-sm">
-                <q-btn
-                  icon="mdi-pencil"
-                  color="info"
-                  fab-mini
-                  unelevated
-                  size="sm"
-                  @click="openDialog(props.row._id)"
-                />
                 <q-btn
                   icon="delete"
                   color="secondary"
@@ -128,39 +87,6 @@ const onSubmit = async () => {
           </q-table>
         </div>
       </div>
-
-      <!-- 編輯預約資料 dialog -->
-      <q-dialog v-model="reservationForm.dialog" persistent>
-        <q-layout class="edit_dialog" container>
-          <q-card>
-            <q-form @submit="onSubmit">
-              <q-card-section class="flex justify-end">
-                <q-btn push dense icon="mdi-close" v-close-popup />
-              </q-card-section>
-              <div class="text-h4 text-center">編輯預約資料</div>
-              <q-card-section>
-                <div class="text-subtitle1">預約人數</div>
-                <q-slider
-                  v-model="reservationForm.totalPeople"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  :min="1"
-                  :max="10"
-                />
-              </q-card-section>
-              <q-card-actions class="flex justify-center q-pa-md">
-                <q-btn
-                  class="submit_btn text-center"
-                  type="submit"
-                  label="確認修改"
-                  :loading="reservationForm.loading"
-                />
-              </q-card-actions>
-            </q-form>
-          </q-card>
-        </q-layout>
-      </q-dialog>
     </div>
   </q-page>
 </template>
