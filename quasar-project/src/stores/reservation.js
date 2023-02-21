@@ -69,10 +69,25 @@ export const useReservationStore = defineStore('reservation', () => {
     }
   }
 
+  const getMyReservation = async () => {
+    try {
+      const { data } = await apiAuth.get('/reservations/getmyreservation')
+      reservations.splice(0, data.result.length, ...data.result)
+      console.log(reservations)
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   return {
     reservations,
     submitReservation,
     getAllReservations,
+    getMyReservation,
     deleteReservation
   }
 })
