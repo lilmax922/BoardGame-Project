@@ -10,7 +10,10 @@ export const useTeamupStore = defineStore('teamup', () => {
   // 發起揪團
   async function submitTeamup (form, _id) {
     try {
-      if (form._id === '' || form._id === undefined) {
+      if (_id === '') {
+        console.log(_id)
+        console.log(form)
+        console.log(form._id)
         const { data } = await apiAuth.post('/teamups', form)
         teamups.push(data.result)
         Notify.create({
@@ -20,6 +23,9 @@ export const useTeamupStore = defineStore('teamup', () => {
           color: 'white'
         })
       } else {
+        console.log(_id)
+        console.log(form)
+        console.log(form._id)
         const { data } = await apiAuth.patch('/teamups/' + _id, form)
         const index = teamups.findIndex((teamup) => teamup._id === _id)
         teamups[index] = data.result

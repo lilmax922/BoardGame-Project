@@ -145,8 +145,7 @@ const onSubmit = async () => {
   fd.append('cardImage', teamupForm.cardImage)
   fd.append('title', teamupForm.title)
   fd.append('content', teamupForm.content)
-  console.log(fd._id)
-  await submitTeamup(fd)
+  await submitTeamup(fd, teamupForm._id)
   teamupForm.loading = false
 }
 
