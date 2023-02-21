@@ -88,18 +88,6 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  // const getMyReservations = async (req, res) => {
-  //   try {
-  //     const { data } = apiAuth.get('/reservations/getMyReservations')
-  //   } catch (error) {
-  //     Notify.create({
-  //       message: '取得失敗',
-  //       caption: error?.response?.data?.message || '發生錯誤',
-  //       color: '$accent'
-  //     })
-  //   }
-  // }
-
   return {
     _id,
     token,
