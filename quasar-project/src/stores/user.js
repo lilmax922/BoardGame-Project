@@ -27,6 +27,12 @@ export const useUserStore = defineStore('user', () => {
   async function register (form) {
     try {
       await api.post('/users', form)
+      Notify.create({
+        message: '註冊成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white'
+      })
     } catch (error) {
       Notify.create({
         message: error?.response?.data?.message || '發生錯誤',

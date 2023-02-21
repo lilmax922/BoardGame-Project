@@ -5,7 +5,7 @@ import { apiAuth } from 'src/boot/axios'
 
 export const useTeamupStore = defineStore('teamup', () => {
   const teamups = reactive([])
-  const joinTeamups = reactive([])
+  const joinedTeamups = reactive([])
 
   // 發起揪團
   async function submitTeamup (form, _id) {
@@ -57,12 +57,13 @@ export const useTeamupStore = defineStore('teamup', () => {
     }
   }
 
+  // 會員取自己的所有揪團
   const getMyTeamup = async () => {
     try {
       const { data } = await apiAuth.get('/teamups/member?people=organizer')
       const { data: data2 } = await apiAuth.get('/teamups/member?people=participant')
       teamups.splice(0, teamups.length, ...data.result)
-      joinTeamups.splice(0, joinTeamups.length, ...data2.result)
+      joinedTeamups.splice(0, joinedTeamups.length, ...data2.result)
     } catch (error) {
       Notify.create({
         message: '資料取得失敗',
@@ -74,6 +75,7 @@ export const useTeamupStore = defineStore('teamup', () => {
     }
   }
 
+  // 刪除揪團
   const deleteTeamup = async (_id) => {
     try {
       await apiAuth.patch('/teamups/delete/' + _id)

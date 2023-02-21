@@ -117,7 +117,7 @@ const onSubmit = async () => {
   } else {
     teamup.currentPeople--
     await cancelTeamup()
-    teamup.participant.splice(teamup.participant.indexOf((_id.value), 1))
+    teamup.participant.splice(teamup.participant.indexOf(_id.value, 1))
     teamup.loading = false
     joined.value = false
   }
@@ -126,19 +126,19 @@ const onSubmit = async () => {
 
 <template>
   <q-page id="jointeamup" padding>
-    <div class="breadcrumb">
-      <q-breadcrumbs>
-        <template #separator>
-          <q-icon size="1.5em" name="chevron_right" />
-        </template>
-        <q-breadcrumbs-el icon="mdi-home" to="/" />
-        <q-breadcrumbs-el label="揪團組隊" to="/searchTeamups" />
-        <q-breadcrumbs-el label="參加揪團" />
-      </q-breadcrumbs>
-    </div>
-
     <div class="container">
-      <q-form @submit="onSubmit" class="teamup_wrap">
+      <div class="breadcrumb">
+        <q-breadcrumbs>
+          <template #separator>
+            <q-icon size="1.5em" name="chevron_right" />
+          </template>
+          <q-breadcrumbs-el icon="mdi-home" to="/" />
+          <q-breadcrumbs-el label="揪團組隊" to="/searchTeamups" />
+          <q-breadcrumbs-el label="參加揪團" />
+        </q-breadcrumbs>
+      </div>
+
+      <q-form @submit="onSubmit" class="teamup_wrap q-mt-xl">
         <q-card class="teamup_card" flat>
           <q-card-section class="q-pa-xl" horizontal>
             <q-img class="card_img col-5" :src="teamup.cardImage" />
@@ -189,7 +189,11 @@ const onSubmit = async () => {
                   v-if="!joined"
                   class="joinBtn"
                   type="submit"
-                  :label="teamup.currentPeople === teamup.totalPeople ? '人數已滿' :'參加揪團'"
+                  :label="
+                    teamup.currentPeople === teamup.totalPeople
+                      ? '人數已滿'
+                      : '參加揪團'
+                  "
                   :disable="isFull"
                 />
                 <q-btn
@@ -213,10 +217,10 @@ const onSubmit = async () => {
   width: 100%;
 
   .teamup_card {
-    // max-width: 1200px;
     max-height: 800px;
     overflow: hidden;
-    // background-color: #eee;
+    border-radius: 16px;
+
     & {
       font-size: 24px;
     }

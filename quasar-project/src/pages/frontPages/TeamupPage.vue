@@ -30,7 +30,6 @@ const teamupForm = reactive({
   currentPeople: 1,
   totalPeople: 4,
   types: [],
-  // interesting: [],
   cardImage: undefined,
   title: '',
   content: '',
@@ -342,7 +341,6 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
     color: $accent;
   }
   .card_wrap {
-    border: 1px solid #fff;
     border-radius: 16px;
 
     .timeBtn {

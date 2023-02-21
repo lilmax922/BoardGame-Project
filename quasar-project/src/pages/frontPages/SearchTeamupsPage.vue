@@ -52,12 +52,14 @@ getAllTeamups()
           <q-breadcrumbs-el label="揪團組隊" />
         </q-breadcrumbs>
       </div>
+
       <section class="header flex items-center q-mt-xl">
         <div class="header-text text-h3 q-pr-lg">揪團組隊</div>
         <q-btn class="teamup_btn" label="我要揪團" to="/teamup" />
       </section>
+
       <section class="teamupList">
-        <div class="search_container">
+        <div class="search_container bg-dark">
           <div class="search-bar">
             <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
               <template v-slot:append>
@@ -178,7 +180,6 @@ getAllTeamups()
     }
 
     .search_container {
-      border: 1px solid #fff;
       border-radius: 16px;
       padding: 1rem;
     }

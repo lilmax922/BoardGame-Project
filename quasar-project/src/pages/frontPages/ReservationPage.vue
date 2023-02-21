@@ -260,7 +260,6 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
     margin-bottom: 50px;
 
     .card_wrap {
-      border: 1px solid #fff;
       border-radius: 16px;
       padding: 2rem;
 

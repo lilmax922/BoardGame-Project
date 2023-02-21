@@ -17,5 +17,4 @@ router.get('/:id', getTeamup)
 router.post('/:id', jwt, joinOrCancelTeamup)
 router.patch('/delete/:id', jwt, admin, deleteTeamup)
 router.patch('/:id', content('multipart/form-data'), jwt, upload.boardgameImg, admin, editTeamup)
-
 export default router
