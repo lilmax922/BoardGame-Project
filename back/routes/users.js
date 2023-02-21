@@ -2,7 +2,7 @@ import { Router } from 'express'
 import content from '../middleware/content.js'
 import * as auth from '../middleware/auth.js'
 import admin from '../middleware/admin.js'
-import { register, login, logout, extend, getMyself, editMyself, getAllUser } from '../controllers/users.js'
+import { register, login, logout, extend, getMyself, editMyself, getAllUser, editUser } from '../controllers/users.js'
 
 const router = Router()
 
@@ -12,6 +12,7 @@ router.delete('/logout', auth.jwt, logout) // 登出
 router.patch('/extend', auth.jwt, extend) // 過期 JWT 換新 JWT
 router.get('/myself', auth.jwt, getMyself) // 取自己的資料
 router.get('/allusers', auth.jwt, admin, getAllUser) // 取全部使用者的資料
+router.patch('/edituser', auth.jwt, admin, editUser) // 改使用者的資料
 router.patch('/editmyself', auth.jwt, editMyself) // 改自己的資料
 
 export default router

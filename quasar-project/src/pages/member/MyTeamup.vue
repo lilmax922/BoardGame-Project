@@ -4,21 +4,33 @@ import { storeToRefs } from 'pinia'
 import { useTeamupStore } from 'src/stores/teamup'
 
 const teamupStore = useTeamupStore()
-const { submitTeamup } = teamupStore
+const { submitTeamup, getMyTeamup } = teamupStore
 const { teamups } = storeToRefs(teamupStore)
+
+getMyTeamup()
 
 const teamupForm = reactive({
   _id: '',
+  organizer: '',
+  participant: [],
   date: Date,
   time: '',
   hour: 0,
+  currentPeople: 0,
   totalPeople: 0,
+  cardImage: undefined,
   loading: false,
   dialog: false
 })
 
 // q-table
 const columns = [
+  {
+    name: 'organizer',
+    label: '發起人',
+    field: row => row.organizer,
+    align: 'left'
+  },
   {
     name: 'date',
     label: '日期',
@@ -57,7 +69,7 @@ const columns = [
 
 const openDialog = (index) => {
   const idx = teamupForm.value.findIndex(
-    (reservation) => reservation._id === index
+    (teamup) => teamup._id === index
   )
   teamupForm._id = teamups.value[idx]._id
   teamupForm.date = teamups.value[idx].date
@@ -88,7 +100,7 @@ const onSubmit = async () => {
         <div class="col-12">
           <q-table
             title="Teamups"
-            :rows="reservations"
+            :rows="teamups"
             :columns="columns"
             row-key="_id"
             :rows-per-page-options="[10, 15, 0]"

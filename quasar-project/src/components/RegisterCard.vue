@@ -4,7 +4,9 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import validator from 'validator'
 import { api } from 'src/boot/axios'
+import { useUserStore } from 'src/stores/user'
 
+const { register } = useUserStore()
 const emit = defineEmits(['showRegisterCard', 'closeDialog'])
 
 const router = useRouter()
@@ -43,39 +45,20 @@ const rules = {
   }
 }
 
-const register = async () => {
-  try {
-    await api.post('/users', registerForm)
+const registerHandler = async () => {
+  await register()
+  setTimeout(() => {
     Notify.create({
       spinner: true,
       timeout: 1500,
-      message: '請稍等',
+      message: '註冊成功',
       textColor: 'primary',
       icon: 'mdi-emoticon-happy-outline',
-      color: 'white',
-      position: 'top'
+      color: 'white'
     })
-    setTimeout(() => {
-      Notify.create({
-        spinner: true,
-        timeout: 1500,
-        message: '註冊成功',
-        textColor: 'primary',
-        icon: 'mdi-emoticon-happy-outline',
-        color: 'white'
-      })
-    }, 3000)
-    router.push('/')
-    emit('closeDialog')
-  } catch (error) {
-    Notify.create({
-      message: '註冊失敗',
-      textColor: 'secondary',
-      color: 'white',
-      icon: 'mdi-emoticon-dead-outline',
-      caption: error?.response?.data?.message || '發生錯誤'
-    })
-  }
+  }, 3000)
+  router.push('/')
+  emit('closeDialog')
 }
 </script>
 
@@ -92,7 +75,7 @@ q-card#register-card(flat style="width:1500px")
 
     q-card-section.col-8.text-center
       h5.text-center 會員註冊
-      q-form(@submit="register").q-gutter-sm
+      q-form(@submit="registerHandler").q-gutter-sm
         q-input.bottom-slots(filled counter maxlength="不限" v-model='registerForm.email' label='電子信箱' :rules="[rules.required ,rules.email,]")
           template(v-slot:prepend)
             q-icon(name="mdi-email")

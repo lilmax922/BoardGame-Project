@@ -4,7 +4,8 @@ import { storeToRefs } from 'pinia'
 import { useReservationStore } from 'src/stores/reservation'
 
 const ReservationStore = useReservationStore()
-const { getAllReservations, deleteReservation, submitReservation } = ReservationStore
+const { getAllReservations, deleteReservation, submitReservation } =
+  ReservationStore
 const { reservations } = storeToRefs(ReservationStore)
 
 getAllReservations()
@@ -32,7 +33,7 @@ const columns = [
   {
     name: 'phone',
     label: '聯絡電話',
-    field: row => row.reserver.phone,
+    field: (row) => row.reserver.phone,
     align: 'left',
     sortable: true
   },
@@ -69,6 +70,9 @@ const columns = [
     label: '編輯/刪除',
     field: (row) => row.edit,
     align: 'center'
+  },
+  {
+    headerStyle: 'font-size 20px'
   }
 ]
 
@@ -100,6 +104,7 @@ const onSubmit = async () => {
         </div>
         <div class="col-12">
           <q-table
+            class="table"
             title="Reservations"
             :rows="reservations"
             :columns="columns"
@@ -177,6 +182,14 @@ const onSubmit = async () => {
 </template>
 
 <style lang="scss">
+.q-table th {
+  font-size: 18px;
+}
+
+.q-table tbody td {
+  font-size: 16px;
+}
+
 .edit_dialog {
   position: absolute;
   top: 25%;

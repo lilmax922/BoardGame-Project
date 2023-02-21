@@ -56,6 +56,21 @@ export const useTeamupStore = defineStore('teamup', () => {
     }
   }
 
+  const getMyTeamup = async () => {
+    try {
+      const { data } = await apiAuth.get('/teamups/member')
+      teamups.splice(0, teamups.length, ...data.result)
+    } catch (error) {
+      Notify.create({
+        message: '資料取得失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   const deleteTeamup = async (_id) => {
     try {
       await apiAuth.patch('/teamups/delete/' + _id)
@@ -82,6 +97,7 @@ export const useTeamupStore = defineStore('teamup', () => {
     teamups,
     submitTeamup,
     getAllTeamups,
+    getMyTeamup,
     deleteTeamup
   }
 })

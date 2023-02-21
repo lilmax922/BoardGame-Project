@@ -34,65 +34,65 @@ const columns = [
     name: 'image',
     label: '揪團圖片',
     field: row => row.cardImage,
-    align: 'left'
+    align: 'center'
   },
   {
     name: 'organizer',
     label: '揪團發起人',
     field: (row) => row.organizer.nickname,
-    align: 'left',
+    align: 'center',
     sortable: true
   },
   {
     name: 'phone',
     label: '發起人電話',
     field: row => row.organizer.phone,
-    align: 'left',
+    align: 'center',
     sortable: true
   },
   {
     name: 'participant',
     label: '參加人資訊',
     field: row => row.participant,
-    align: 'left',
+    align: 'center',
     sortable: true,
     format: (val, row) => {
-      return row.participant.map(p => `${p.nickname} (${p.phone})`).join(',')
+      return row.participant.map(p => `${p.nickname} (${p.phone})`).join('\n')
     }
   },
   {
     name: 'date',
     label: '日期',
     field: (row) => row.date.substring(0, 10),
-    align: 'left',
+    align: 'center',
     sortable: true
   },
   {
     name: 'time',
     label: '時間',
     field: (row) => row.time,
-    align: 'left',
+    align: 'center',
     sortable: true
   },
   {
     name: 'hour',
     label: '時數',
     field: (row) => row.hour,
-    align: 'left',
+    align: 'center',
     sortable: true
   },
   {
     name: 'currentPeople',
     label: '目前人數',
     field: (row) => row.currentPeople,
-    align: 'left',
+    align: 'center',
     sortable: true
   },
   {
     name: 'totalPeople',
     label: '揪團人數',
     field: (row) => row.totalPeople,
-    align: 'left',
+    align: 'center',
     sortable: true
   },
   {
@@ -107,12 +107,7 @@ const previewUrlHandler = (file, data) => {
   if (file && typeof file !== 'string' && file.type.startsWith('image/')) {
     const reader = new FileReader()
     reader.addEventListener('load', (event) => {
-      if (typeof data === 'object') {
-        data.push(event.target.result)
-      } else {
-        // string
-        cardImage.value = event.target.result
-      }
+      cardImage.value = event.target.result
     })
     reader.readAsDataURL(file)
   } else {
@@ -239,7 +234,7 @@ const onSubmit = async () => {
               </q-file>
                 <div class="row q-pa-md flex flex-center">
                   <q-card>
-                    <q-img class="text-center" :src="teamupForm.cardImage" width="200px" height="200px" />
+                    <q-img class="text-center" :src="cardImage" width="200px" height="200px" />
                   </q-card>
                 </div>
 

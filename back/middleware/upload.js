@@ -32,7 +32,6 @@ export const boardgameImg = async (req, res, next) => {
     { name: 'mainImages', maxCount: 10 },
     { name: 'componentImages', maxCount: 20 }
   ])(req, res, (error) => {
-    console.log(error)
     if (error instanceof multer.MulterError) {
       let message = '上傳錯誤'
       if (error.code === 'LIMIT_FILE_SIZE') {
@@ -48,22 +47,3 @@ export const boardgameImg = async (req, res, next) => {
     }
   })
 }
-
-// export const teamupImg = async (req, res, next) => {
-//   upload.single('image')(req, res, (error) => {
-//     console.log(error)
-//     if (error instanceof multer.MulterError) {
-//       let message = '上傳錯誤'
-//       if (error.code === 'LIMIT_FILE_SIZE') {
-//         message = '圖片檔案太大'
-//       } else if (error.code === 'LIMIT_FILE_FORMAT') {
-//         message = '圖片檔案格式錯誤'
-//       }
-//       res.status(400).json({ success: false, message })
-//     } else if (error) {
-//       res.status(500).json({ success: false, message: '未知錯誤' })
-//     } else {
-//       next()
-//     }
-//   })
-// }

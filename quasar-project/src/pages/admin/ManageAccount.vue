@@ -1,15 +1,17 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import validator from 'validator'
 import { Notify } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from 'src/stores/user'
-import { api, apiAuth } from 'src/boot/axios'
 
-// const user = useUserStore()
-// const users = storeToRefs(user)
+const userStore = useUserStore()
+const { getAllUsers, editUser, register } = userStore
+const { accounts } = storeToRefs(userStore)
 
-const accounts = reactive([])
+getAllUsers()
+
+const filter = ref('')
 const accountForm = reactive({
   _id: '',
   email: '',
@@ -20,8 +22,7 @@ const accountForm = reactive({
   isPwd: true,
   isConfirmPwd: true,
   dialog: false,
-  loading: false,
-  index: -1
+  loading: false
 })
 
 const rules = {
@@ -49,25 +50,41 @@ const rules = {
   }
 }
 
-const getAllUsers = async () => {
-  try {
-    const { data } = await apiAuth.get('/users/allusers')
-    console.log(data.result)
-    accounts.push(...data.result)
-  } catch (error) {
-    Notify.create({
-      message: '資料取得失敗',
-      textColor: 'secondary',
-      color: 'white',
-      icon: 'mdi-emoticon-dead-outline',
-      caption: error?.response?.data?.message || '發生錯誤'
-    })
+const columns = [
+  {
+    name: 'email',
+    label: '信箱',
+    field: (row) => row.email,
+    align: 'center',
+    sortable: true
+  },
+  {
+    name: 'phone',
+    label: '電話',
+    field: (row) => row.phone,
+    align: 'center',
+    sortable: true
+  },
+  {
+    name: 'nickname',
+    label: '暱稱',
+    field: (row) => row.nickname,
+    align: 'center',
+    sortable: true
+  },
+  {
+    name: 'edit',
+    label: '編輯/刪除',
+    field: (row) => row.edit,
+    align: 'center'
   }
-}
-getAllUsers()
-
+]
 const openDialog = (index) => {
-  const idx = accounts.findIndex((account) => account._id === accountForm._id)
+  const idx = accounts.value.findIndex(
+    (account) => {
+      return account._id === index
+    }
+  )
 
   if (index === -1) {
     accountForm._id = ''
@@ -79,16 +96,36 @@ const openDialog = (index) => {
     accountForm.loading = false
     accountForm.index = -1
   } else {
-    accountForm._id = accountForm[idx]._id
-    accountForm.email = accountForm[idx].email
-    accountForm.phone = accountForm[idx].phone
-    accountForm.nickname = accountForm[idx].nickname
-    accountForm.password = accountForm[idx].password
-    accountForm._id = accountForm[idx]._id
+    accountForm._id = accounts.value[idx]._id
+    accountForm.email = accounts.value[idx].email
+    accountForm.phone = accounts.value[idx].phone
+    accountForm.nickname = accounts.value[idx].nickname
+    accountForm.password = accounts.value[idx].password
     accountForm.loading = false
     accountForm.index = idx
   }
   accountForm.dialog = true
+}
+
+const onSubmit = async () => {
+  if (accountForm._id === '') {
+    await register({
+      email: accountForm.email,
+      phone: accountForm.phone,
+      nickname: accountForm.nickname,
+      password: accountForm.password
+    })
+  } else {
+    await editUser({
+      _id: accountForm._id,
+      email: accountForm.email,
+      phone: accountForm.phone,
+      nickname: accountForm.nickname,
+      password: accountForm.password
+    })
+  }
+
+  accountForm.dialog = false
 }
 </script>
 
@@ -102,7 +139,44 @@ const openDialog = (index) => {
         </div>
         <!-- account table -->
         <div class="col-12">
-          <q-table title="Account Management"></q-table>
+          <q-table
+            title="Account Management"
+            :rows="accounts"
+            :columns="columns"
+            :row-key="_id"
+            :filter="filter"
+            :rows-per-page-options="[10, 15, 0]"
+          >
+            <!-- filter_area -->
+            <template v-slot:top-right>
+              <q-input debounce="300" v-model="filter" placeholder="Search">
+                <template v-slot:append>
+                  <q-icon name="mdi-search" />
+                </template>
+              </q-input>
+            </template>
+
+            <!-- edit_area -->
+            <template v-slot:body-cell-edit="props">
+              <q-td class="text-center q-gutter-sm">
+                <q-btn
+                  icon="mdi-pencil"
+                  color="info"
+                  fab-mini
+                  unelevated
+                  size="sm"
+                  @click="openDialog(props.row._id)"
+                />
+                <q-btn
+                  icon="delete"
+                  color="secondary"
+                  fab-mini
+                  unelevated
+                  @click="deleteTeamup(props.row._id)"
+                />
+              </q-td>
+            </template>
+          </q-table>
         </div>
       </div>
 
@@ -237,9 +311,13 @@ const openDialog = (index) => {
                         <q-icon
                           class="cursor-pointer"
                           :name="
-                            accountForm.isConfirmPwd ? 'visibility_off' : 'visibility'
+                            accountForm.isConfirmPwd
+                              ? 'visibility_off'
+                              : 'visibility'
                           "
-                          @click="accountForm.isConfirmPwd = !accountForm.isConfirmPwd"
+                          @click="
+                            accountForm.isConfirmPwd = !accountForm.isConfirmPwd
+                          "
                         />
                       </template>
                     </q-input>

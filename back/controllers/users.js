@@ -1,6 +1,27 @@
 import users from '../models/users.js'
 import jwt from 'jsonwebtoken'
 
+const errorHandler = (error, res) => {
+  if (error.name === 'ValidationError') {
+    const key = Object.keys(error.errors)[0]
+    const message = error.errors[key].message
+    res.status(400).json({ success: false, message })
+  } else if (error.name === 'MongoServerError' && error.code === 11000) {
+    // 代表重複
+    const key = Object.keys(error.keyPattern)[0]
+    switch (key) {
+      case 'nickname':
+        return res.status(400).json({ success: false, message: '暱稱已被註冊' })
+      case 'phone':
+        return res.status(400).json({ success: false, message: '手機號碼已被註冊' })
+      case 'email':
+        return res.status(400).json({ success: false, message: '電子信箱已被註冊' })
+    }
+  } else {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
 // 註冊
 export const register = async (req, res) => {
   try {
@@ -12,27 +33,7 @@ export const register = async (req, res) => {
     })
     res.status(200).json({ success: true, message: '' })
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      console.log(error)
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).json({ success: false, message })
-    } else if (error.name === 'MongoServerError' && error.code === 11000) {
-      // 代表重複
-      console.log(error)
-      const key = Object.keys(error.keyPattern)[0]
-      switch (key) {
-        case 'nickname':
-          return res.status(400).json({ success: false, message: '暱稱已被註冊' })
-        case 'phone':
-          return res.status(400).json({ success: false, message: '手機號碼已被註冊' })
-        case 'email':
-          return res.status(400).json({ success: false, message: '電子信箱已被註冊' })
-      }
-    } else {
-      console.log(error)
-      res.status(500).json({ success: false, message: '未知錯誤' })
-    }
+    errorHandler(error, res)
   }
 }
 
@@ -56,7 +57,6 @@ export const login = async (req, res) => {
       }
     })
   } catch (error) {
-    console.log(error)
     res.status(500).json({ success: false, message: '未知錯誤' })
   }
 }
@@ -69,7 +69,6 @@ export const logout = async (req, res) => {
     await req.user.save()
     res.status(200).json({ success: true, message: '登出成功' })
   } catch (error) {
-    console.log(error)
     res.status(500).json({ success: false, message: '未知錯誤' })
   }
 }
@@ -130,6 +129,27 @@ export const getAllUser = async (req, res) => {
   try {
     const result = await users.find().select('-password')
     res.status(200).json({ success: true, message: '', result })
+  } catch (error) {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
+export const editUser = async (req, res) => {
+  try {
+    const result = await users.findById(req.body._id)
+    result.email = req.body.email || result.email
+    result.phone = req.body.phone || result.phone
+    result.nickname = req.body.nickname || result.nickname
+    result.password = req.body.password || result.password
+    await result.save()
+    res.status(200).json({
+      success: true,
+      result: {
+        email: result.email,
+        phone: result.phone,
+        nickname: result.nickname
+      }
+    })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
   }

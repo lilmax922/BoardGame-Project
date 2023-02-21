@@ -69,12 +69,9 @@ const isFull = computed(() => {
 })
 
 const onSubmit = async () => {
-  teamup.loading = true
-  console.log(teamup.participant)
-
   const joinTeamup = async () => {
     try {
-      const { data } = await apiAuth.post('/teamups/' + teamup._id)
+      await apiAuth.post('/teamups/' + teamup._id)
       Notify.create({
         message: '參加成功',
         textColor: 'primary',
@@ -93,7 +90,7 @@ const onSubmit = async () => {
   }
   const cancelTeamup = async () => {
     try {
-      const { data } = await apiAuth.post('/teamups/' + teamup._id)
+      await apiAuth.post('/teamups/' + teamup._id)
       Notify.create({
         message: '取消成功',
         textColor: 'primary',
@@ -111,16 +108,16 @@ const onSubmit = async () => {
     }
   }
 
-  if (!teamup.participant.includes(_id)) {
-    await joinTeamup()
+  if (!teamup.participant.includes(_id.value)) {
     teamup.currentPeople++
-    teamup.participant.push(_id)
+    await joinTeamup()
+    teamup.participant.push(_id.value)
     teamup.loading = false
     joined.value = true
   } else {
-    await cancelTeamup()
     teamup.currentPeople--
-    teamup.participant.splice(teamup.participant.indexOf((_id), 1))
+    await cancelTeamup()
+    teamup.participant.splice(teamup.participant.indexOf((_id.value), 1))
     teamup.loading = false
     joined.value = false
   }

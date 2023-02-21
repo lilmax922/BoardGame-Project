@@ -8,7 +8,6 @@ export const useReservationStore = defineStore('reservation', () => {
 
   async function submitReservation (form, _id) {
     try {
-      console.log(_id)
       if (form._id === '') {
         const { data } = await apiAuth.post('/reservations', form)
         reservations.push(data.result)
@@ -41,7 +40,6 @@ export const useReservationStore = defineStore('reservation', () => {
       const { data } = await apiAuth.get('/reservations/all')
       reservations.splice(0, data.result.length, ...data.result)
     } catch (error) {
-      console.log(error)
       Swal.fire({
         icon: 'error',
         title: '失敗',
@@ -73,7 +71,6 @@ export const useReservationStore = defineStore('reservation', () => {
     try {
       const { data } = await apiAuth.get('/reservations/getmyreservation')
       reservations.splice(0, data.result.length, ...data.result)
-      console.log(reservations)
     } catch (error) {
       Swal.fire({
         icon: 'error',

@@ -1,5 +1,18 @@
 import boardgames from '../models/boardgames.js'
 
+const errorHandler = (error, res) => {
+  if (error.name === 'ValidationError') {
+    const key = Object.keys(error.errors)[0]
+    const message = error.errors[key].message
+    res.status(400).json({ success: false, message })
+  } else if (error.name === 'MongoServerError' && error.code === 11000) {
+    // 代表重複
+    res.status(400).json({ success: false, message: '桌遊名稱重複' })
+  } else {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
 export const createBoardgame = async (req, res) => {
   try {
     const result = await boardgames.create({
@@ -22,17 +35,7 @@ export const createBoardgame = async (req, res) => {
     })
     res.status(200).json({ success: true, message: '桌遊建立成功', result })
   } catch (error) {
-    console.log(error)
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).json({ success: false, message })
-    } else if (error.name === 'MongoServerError' && error.code === 11000) {
-      // 代表重複
-      res.status(400).json({ success: false, message: '桌遊名稱重複' })
-    } else {
-      res.status(500).json({ success: false, message: '未知錯誤' })
-    }
+    errorHandler(error, res)
   }
 }
 
@@ -47,7 +50,6 @@ export const getBoardgame = async (req, res) => {
     }
   } catch (error) {
     if (error.name === 'CastError') {
-      console.log(error)
       res.status(400).json({ success: false, message: 'ID 格式錯誤' })
     } else {
       res.status(500).json({ success: false, message: '未知錯誤' })
@@ -129,48 +131,24 @@ export const editBoardgame = async (req, res) => {
       endGame: req.body.endGame,
       post: req.body.post
     }, { new: true })
-    console.log(result)
+
     if (!result) {
       res.status(404).json({ success: false, message: '找不到此桌遊' })
     } else {
       res.status(200).json({ success: true, message: '桌遊編輯成功', result })
     }
   } catch (error) {
-    console.log(error)
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).json({ success: false, message })
-    } else if (error.name === 'MongoServerError' && error.code === 11000) {
-      // 代表重複
-      res.status(400).json({ success: false, message: '桌遊名稱重複' })
-    } else if (error.name === 'CastError') {
-      res.status(400).json({ success: false, message: 'ID 格式錯誤' })
-    } else {
-      res.status(500).json({ success: false, message: '未知錯誤' })
-    }
+    errorHandler(error, res)
   }
 }
 
 export const deleteBoardgame = async (req, res) => {
   try {
-    const result = await boardgames.findByIdAndUpdate(req.params.id, {
+    await boardgames.findByIdAndUpdate(req.params.id, {
       status: req.body.status
     }, { new: true })
-    console.log(result)
     res.status(200).json({ success: true, message: '' })
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).json({ success: false, message })
-    } else if (error.name === 'MongoServerError' && error.code === 11000) {
-    // 代表重複
-      res.status(400).json({ success: false, message: '桌遊名稱重複' })
-    } else if (error.name === 'CastError') {
-      res.status(400).json({ success: false, message: 'ID 格式錯誤' })
-    } else {
-      res.status(500).json({ success: false, message: '未知錯誤' })
-    }
+    errorHandler(error, res)
   }
 }

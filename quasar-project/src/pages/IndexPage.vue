@@ -14,7 +14,6 @@ const $q = useQuasar()
 
 const boardgames = reactive([])
 const slide = ref(1)
-console.log(boardgames)
 
 // ;(async () => {
 //   try {

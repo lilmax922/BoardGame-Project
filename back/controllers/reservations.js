@@ -1,6 +1,21 @@
 import reservations from '../models/reservations.js'
 import teamups from '../models/teamups.js'
 
+const errorHandler = (error, res) => {
+  if (error.name === 'ValidationError') {
+    const key = Object.keys(error.errors)[0]
+    const message = error.errors[key].message
+    res.status(400).json({ success: false, message })
+  } else if (error.name === 'MongoServerError' && error.code === 11000) {
+  // 代表重複
+    res.status(400).json({ success: false, message: '名稱重複' })
+  } else if (error.name === 'CastError') {
+    res.status(400).json({ success: false, message: 'ID 格式錯誤' })
+  } else {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
 export const createReservation = async (req, res) => {
   try {
     const result = await reservations.create({
@@ -12,18 +27,7 @@ export const createReservation = async (req, res) => {
     })
     res.status(200).json({ success: true, message: '預約成功', result })
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).json({ success: false, message })
-    } else if (error.name === 'MongoServerError' && error.code === 11000) {
-    // 代表重複
-      res.status(400).json({ success: false, message: '名稱重複' })
-    } else if (error.name === 'CastError') {
-      res.status(400).json({ success: false, message: 'ID 格式錯誤' })
-    } else {
-      res.status(500).json({ success: false, message: '未知錯誤' })
-    }
+    errorHandler(error, res)
   }
 }
 
@@ -34,40 +38,16 @@ export const getReservation = async (req, res) => {
     const result2 = await teamups.find({ date: req.body.selectedDate }).select('time hour')
     res.status(200).json({ success: true, message: '查詢成功', result: [...result1, ...result2] })
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).json({ success: false, message })
-    } else if (error.name === 'MongoServerError' && error.code === 11000) {
-    // 代表重複
-      res.status(400).json({ success: false, message: '名稱重複' })
-    } else if (error.name === 'CastError') {
-      res.status(400).json({ success: false, message: 'ID 格式錯誤' })
-    } else {
-      res.status(500).json({ success: false, message: '未知錯誤' })
-    }
+    errorHandler(error, res)
   }
 }
 
 export const getAllReservations = async (req, res) => {
   try {
     const result = await reservations.find().populate('reserver', 'nickname phone')
-    console.log(result)
     res.status(200).json({ success: true, message: '成功取得所有預約', result })
   } catch (error) {
-    console.log(error)
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).json({ success: false, message })
-    } else if (error.name === 'MongoServerError' && error.code === 11000) {
-    // 代表重複
-      res.status(400).json({ success: false, message: '名稱重複' })
-    } else if (error.name === 'CastError') {
-      res.status(400).json({ success: false, message: 'ID 格式錯誤' })
-    } else {
-      res.status(500).json({ success: false, message: '未知錯誤' })
-    }
+    errorHandler(error, res)
   }
 }
 
@@ -76,7 +56,7 @@ export const getMyReservation = async (req, res) => {
     const result = await reservations.find({ reserver: req.user._id })
     res.status(200).json({ success: true, message: '成功取得預約', result })
   } catch (error) {
-    console.log(error)
+    errorHandler(error, res)
   }
 }
 
@@ -92,18 +72,7 @@ export const editReservation = async (req, res) => {
       res.status(200).json({ success: true, message: '成功修改', result })
     }
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).json({ success: false, message })
-    } else if (error.name === 'MongoServerError' && error.code === 11000) {
-    // 代表重複
-      res.status(400).json({ success: false, message: '名稱重複' })
-    } else if (error.name === 'CastError') {
-      res.status(400).json({ success: false, message: 'ID 格式錯誤' })
-    } else {
-      res.status(500).json({ success: false, message: '未知錯誤' })
-    }
+    errorHandler(error, res)
   }
 }
 
@@ -112,18 +81,6 @@ export const deleteReservation = async (req, res) => {
     await reservations.findByIdAndDelete(req.params.id)
     res.status(200).json({ success: true, message: '' })
   } catch (error) {
-    console.log(error)
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).json({ success: false, message })
-    } else if (error.name === 'MongoServerError' && error.code === 11000) {
-    // 代表重複
-      res.status(400).json({ success: false, message: '名稱重複' })
-    } else if (error.name === 'CastError') {
-      res.status(400).json({ success: false, message: 'ID 格式錯誤' })
-    } else {
-      res.status(500).json({ success: false, message: '未知錯誤' })
-    }
+    errorHandler(error, res)
   }
 }

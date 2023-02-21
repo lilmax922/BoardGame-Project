@@ -106,7 +106,6 @@ watch(
 
     value.forEach((img) => {
       previewUrlHandler(img, mainImages.value)
-      // console.log(mainImages.value)
     })
   }
 )

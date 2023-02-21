@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { Notify } from 'quasar'
 import Swal from 'sweetalert2'
 import { api, apiAuth } from 'boot/axios.js'
@@ -12,6 +12,7 @@ export const useUserStore = defineStore('user', () => {
   const token = ref('')
   const role = ref(0)
   const showLoginCard = ref(false)
+  const accounts = reactive([])
 
   const isLogin = computed(() => {
     return token.value.length > 0
@@ -22,6 +23,19 @@ export const useUserStore = defineStore('user', () => {
   const avatar = computed(() => {
     return `https://source.boringavatars.com/beam/256/${email.value}?colors=C4DDD6,D4DDD6,E4DDD6,E4E3CD,ECECDD`
   })
+
+  async function register (form) {
+    try {
+      await api.post('/users', form)
+    } catch (error) {
+      Notify.create({
+        message: error?.response?.data?.message || '發生錯誤',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline'
+      })
+    }
+  }
 
   async function login (form) {
     try {
@@ -64,7 +78,6 @@ export const useUserStore = defineStore('user', () => {
         color: 'white'
       })
     } catch (error) {
-      console.log(error)
       Notify.create({
         message: error?.response?.data?.message || '發生錯誤',
         textColor: 'secondary',
@@ -88,6 +101,41 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const getAllUsers = async () => {
+    try {
+      const { data } = await apiAuth.get('/users/allusers')
+      accounts.splice(0, accounts.length, ...data.result)
+    } catch (error) {
+      Notify.create({
+        message: '資料取得失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
+  const editUser = async (form) => {
+    try {
+      const { data } = await apiAuth.patch('/users/edituser', form)
+      Notify.create({
+        message: '修改成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white'
+      })
+    } catch (error) {
+      Notify.create({
+        message: '資料取得失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   return {
     _id,
     token,
@@ -96,12 +144,16 @@ export const useUserStore = defineStore('user', () => {
     nickname,
     role,
     avatar,
+    register,
     login,
     logout,
     getMyself,
+    getAllUsers,
+    editUser,
     isLogin,
     isAdmin,
-    showLoginCard
+    showLoginCard,
+    accounts
   }
 }, {
   persist: {
