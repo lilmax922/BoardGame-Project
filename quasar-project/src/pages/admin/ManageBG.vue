@@ -341,7 +341,7 @@ const onSubmit = async () => {
 
 <template lang="pug">
 q-page#manage_boardgames
-  .container.q-mx-xl
+  .container
     .row
       .col-12.flex.items-center
         h4.q-pr-xl 桌遊管理

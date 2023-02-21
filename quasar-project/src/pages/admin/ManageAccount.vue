@@ -18,6 +18,7 @@ const accountForm = reactive({
   password: '',
   confirmPassword: '',
   isPwd: true,
+  isConfirmPwd: true,
   dialog: false,
   loading: false,
   index: -1
@@ -66,7 +67,7 @@ const getAllUsers = async () => {
 getAllUsers()
 
 const openDialog = (index) => {
-  const idx = accounts.findIndex(account => account._id === accountForm._id)
+  const idx = accounts.findIndex((account) => account._id === accountForm._id)
 
   if (index === -1) {
     accountForm._id = ''
@@ -201,11 +202,14 @@ const openDialog = (index) => {
                       <template v-slot:prepend>
                         <q-icon name="mdi-lock" />
                       </template>
+
                       <template v-slot:append>
                         <q-icon
-                          name="close"
-                          @click="accountForm.password = ''"
                           class="cursor-pointer"
+                          :name="
+                            accountForm.isPwd ? 'visibility_off' : 'visibility'
+                          "
+                          @click="accountForm.isPwd = !accountForm.isPwd"
                         />
                       </template>
                     </q-input>
@@ -224,16 +228,18 @@ const openDialog = (index) => {
                         rules.confirmPassword,
                         rules.required,
                       ]"
-                      :type="accountForm.isPwd ? 'password' : 'text'"
+                      :type="accountForm.isConfirmPwd ? 'password' : 'text'"
                     >
                       <template v-slot:prepend>
                         <q-icon name="mdi-check-all" />
                       </template>
                       <template v-slot:append>
                         <q-icon
-                          name="close"
-                          @click="accountForm.confirmPassword = ''"
                           class="cursor-pointer"
+                          :name="
+                            accountForm.isConfirmPwd ? 'visibility_off' : 'visibility'
+                          "
+                          @click="accountForm.isConfirmPwd = !accountForm.isConfirmPwd"
                         />
                       </template>
                     </q-input>
