@@ -85,7 +85,7 @@ const boardgame = reactive({
           <div class="info-area q-mb-lg">
             <div class="introduce column">
               <div class="header text-h6 q-mb-md">遊戲介紹</div>
-              <div class="text-h4 q-mb-md name">{{ boardgame.name }}</div>
+              <div class="text-h4 text-accent q-mb-md">{{ boardgame.name }}</div>
               <div v-html="boardgame.introduction" />
               <div class="icon_area flex column q-gutter-sm q-mt-md text-h6">
                 <div class="flex items-center">
@@ -182,18 +182,12 @@ const boardgame = reactive({
   .gameflow-area,
   .endgame-area {
     width: 98%;
-    border: 1px solid #fff;
     background-color: $dark;
     border-radius: 16px;
     padding: 2rem;
   }
   .header {
-    // border-left: 15px solid $accent;
-    // padding-left: 1rem;
     margin-bottom: 2rem;
-  }
-  .name {
-    color: $accent;
   }
 
   .info-area {

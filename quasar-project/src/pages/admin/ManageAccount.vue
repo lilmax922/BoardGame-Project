@@ -55,21 +55,21 @@ const columns = [
     name: 'email',
     label: '信箱',
     field: (row) => row.email,
-    align: 'center',
+    align: 'left',
     sortable: true
   },
   {
     name: 'phone',
     label: '電話',
     field: (row) => row.phone,
-    align: 'center',
+    align: 'left',
     sortable: true
   },
   {
     name: 'nickname',
     label: '暱稱',
     field: (row) => row.nickname,
-    align: 'center',
+    align: 'left',
     sortable: true
   },
   {
@@ -80,11 +80,9 @@ const columns = [
   }
 ]
 const openDialog = (index) => {
-  const idx = accounts.value.findIndex(
-    (account) => {
-      return account._id === index
-    }
-  )
+  const idx = accounts.value.findIndex((account) => {
+    return account._id === index
+  })
 
   if (index === -1) {
     accountForm._id = ''
@@ -135,7 +133,6 @@ const onSubmit = async () => {
       <div class="row">
         <div class="col-12 flex items-center">
           <h4 class="q-pr-xl">帳號管理</h4>
-          <q-btn class="add_btn" label="新增帳號" @click="openDialog(-1)" />
         </div>
         <!-- account table -->
         <div class="col-12">
@@ -147,11 +144,16 @@ const onSubmit = async () => {
             :filter="filter"
             :rows-per-page-options="[10, 15, 0]"
           >
+            <!-- add_btn -->
+            <template v-slot:top-left>
+              <q-btn class="add_btn" label="新增帳號" @click="openDialog(-1)" />
+            </template>
+
             <!-- filter_area -->
             <template v-slot:top-right>
               <q-input debounce="300" v-model="filter" placeholder="Search">
                 <template v-slot:append>
-                  <q-icon name="mdi-search" />
+                  <q-icon name="search" />
                 </template>
               </q-input>
             </template>
@@ -188,7 +190,7 @@ const onSubmit = async () => {
                 <q-btn push icon="mdi-close" v-close-popup />
               </q-card-section>
               <div class="text-h4 text-center q-mb-md">
-                {{ accountForm._id > 0 ? "編輯帳號" : "新增帳號" }}
+                {{ accountForm._id.length > 0 ? "編輯帳號" : "新增帳號" }}
               </div>
               <q-card-section>
                 <div class="row">
@@ -200,7 +202,7 @@ const onSubmit = async () => {
                       bottom-slots
                       v-model="accountForm.email"
                       label="E-mail"
-                      :rules="[rules.email, rules.required]"
+                      :rules="[rules.required, rules.email]"
                     >
                       <template v-slot:prepend>
                         <q-icon name="mdi-email" />
@@ -224,7 +226,7 @@ const onSubmit = async () => {
                       bottom-slots
                       v-model="accountForm.phone"
                       label="Phone"
-                      :rules="[rules.phone, rules.required]"
+                      :rules="[rules.required, rules.phone]"
                     >
                       <template v-slot:prepend>
                         <q-icon name="mdi-cellphone" />
@@ -247,7 +249,7 @@ const onSubmit = async () => {
                       bottom-slots
                       v-model="accountForm.nickname"
                       label="NickName"
-                      :rules="[rules.nickname, rules.required]"
+                      :rules="[rules.required, rules.nickname]"
                     >
                       <template v-slot:prepend>
                         <q-icon name="mdi-draw" />
@@ -270,13 +272,12 @@ const onSubmit = async () => {
                       bottom-slots
                       v-model="accountForm.password"
                       label="Password"
-                      :rules="[rules.length, rules.required]"
+                      :rules="[rules.required, rules.length]"
                       :type="accountForm.isPwd ? 'password' : 'text'"
                     >
                       <template v-slot:prepend>
                         <q-icon name="mdi-lock" />
                       </template>
-
                       <template v-slot:append>
                         <q-icon
                           class="cursor-pointer"
@@ -298,9 +299,9 @@ const onSubmit = async () => {
                       v-model="accountForm.confirmPassword"
                       label="Confirm Password"
                       :rules="[
+                        rules.required,
                         rules.length,
                         rules.confirmPassword,
-                        rules.required,
                       ]"
                       :type="accountForm.isConfirmPwd ? 'password' : 'text'"
                     >

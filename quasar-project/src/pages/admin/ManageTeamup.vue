@@ -176,7 +176,7 @@ const onSubmit = async () => {
             <template v-slot:top-right>
               <q-input debounce="300" v-model="filter" placeholder="Search">
                 <template v-slot:append>
-                  <q-icon name="mdi-search" />
+                  <q-icon name="search" />
                 </template>
               </q-input>
             </template>

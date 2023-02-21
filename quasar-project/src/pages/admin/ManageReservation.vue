@@ -112,11 +112,12 @@ const onSubmit = async () => {
             :rows-per-page-options="[10, 15, 0]"
             :filter="filter"
           >
+
             <!-- filter_area -->
             <template v-slot:top-right>
               <q-input debounce="300" v-model="filter" placeholder="Search">
                 <template v-slot:append>
-                  <q-icon name="mdi-search" />
+                  <q-icon name="search" />
                 </template>
               </q-input>
             </template>
@@ -153,7 +154,7 @@ const onSubmit = async () => {
               <q-card-section class="flex justify-end">
                 <q-btn push dense icon="mdi-close" v-close-popup />
               </q-card-section>
-              <div class="text-h4 text-center">編輯預約資料</div>
+              <div class="text-h4 text-center">編輯預約</div>
               <q-card-section>
                 <div class="text-subtitle1">預約人數</div>
                 <q-slider
@@ -182,13 +183,13 @@ const onSubmit = async () => {
 </template>
 
 <style lang="scss">
-.q-table th {
-  font-size: 18px;
-}
+// .q-table th {
+//   font-size: 18px;
+// }
 
-.q-table tbody td {
-  font-size: 16px;
-}
+// .q-table tbody td {
+//   font-size: 16px;
+// }
 
 .edit_dialog {
   position: absolute;

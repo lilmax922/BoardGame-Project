@@ -10,19 +10,6 @@ const { getPostBoardgames } = boardgameStore
 getPostBoardgames()
 const { boardgames } = storeToRefs(boardgameStore)
 
-// const typeGroup = ref(['不限'])
-// const types = reactive([
-//   { label: '不限', value: '不限' },
-//   { label: '陣營', value: '陣營' },
-//   { label: '策略', value: '策略' },
-//   { label: '抽象', value: '抽象' },
-//   { label: '心機', value: '心機' },
-//   { label: '卡牌', value: '卡牌' },
-//   { label: '派對', value: '派對' },
-//   { label: '家庭', value: '家庭' },
-//   { label: '兒童', value: '兒童' }
-// ])
-
 const chips = ref([])
 const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童']
 
@@ -199,7 +186,6 @@ const filterFunc = computed(() => {
     .header-text {
       border-left: 15px solid $primary;
       padding-left: 1rem;
-      // color: $accent;
     }
   }
 
@@ -230,7 +216,6 @@ const filterFunc = computed(() => {
     }
 
     .search_container {
-      border: 1px solid #fff;
       border-radius: 16px;
       padding: 1rem;
 

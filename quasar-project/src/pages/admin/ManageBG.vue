@@ -247,7 +247,7 @@ const rules = {
     return (time && time >= 10) || '不得小於 10'
   },
   age (age) {
-    return (age && age >= 5) || '不得小於 5'
+    return (age && age >= 4) || '不得小於 4'
   }
 }
 
@@ -339,15 +339,17 @@ const onSubmit = async () => {
 </script>
 
 <template lang="pug">
-q-page#manage_boardgames
+q-page#manage_boardgames(padding)
   .container
     .row
       .col-12.flex.items-center
         h4.q-pr-xl 桌遊管理
-        q-btn(@click="openDialog(-1)" label="新增桌遊" color="primary")
       .col-12
         // 桌遊表單
         q-table(title="好玩的桌遊們" :rows="boardgames" :columns="columns" row-key="_id" :filter="filter" :rows-per-page-options="[10,15,0]")
+
+          template(v-slot:top-left)
+            q-btn.add_btn(@click="openDialog(-1)" label="新增桌遊")
 
           template(v-slot:top-right)
             q-input(debounce="300" v-model="filter" placeholder="Search")
@@ -382,7 +384,6 @@ q-page#manage_boardgames
                 q-input(v-model="bgForm.name" filled label="請輸入桌遊名稱" clearable clear-icon="close" :rules="[rules.required]")
                 // 桌遊介紹
                 .text-h6 桌遊介紹
-                //- q-input(v-model="bgForm.introduction" filled autogrow label="請輸入桌遊介紹" clearable :rules="[rules.required]")
                 q-editor(
                   v-model="bgForm.introduction" :dense="$q.screen.lt.md" :toolbar="toolbar" :fonts="font" min-height="5rem"
                   placeholder="請輸入桌遊介紹"
@@ -463,7 +464,6 @@ q-page#manage_boardgames
                   q-card(flat bordered)
                     q-card-section
                       pre(style="white-space: pre-line") {{ bgForm.componentTexts }}
-                //- q-input(v-model="bgForm.componentTexts" filled autogrow label="請輸入內容物介紹" clearable :rules="[rules.required]")
                 // 內容物圖片
                 .text-h6 內容物圖片
                 q-file(filled v-model="bgForm.componentImages" label="選擇圖片(可複選)" use-chips multiple)
@@ -474,7 +474,6 @@ q-page#manage_boardgames
                     q-img(:src="componentImage" width="100px")
                 // 遊戲配置
                 .text-h6 遊戲配置
-                //- q-input(v-model="bgForm.setup" filled autogrow label="請輸入遊戲配置" clearable :rules="[rules.required]")
                 q-editor(
                   v-model="bgForm.setup" :dense="$q.screen.lt.md" :toolbar="toolbar" :fonts="font" min-height="5rem"
                   placeholder="請輸入遊戲配置")
@@ -483,7 +482,6 @@ q-page#manage_boardgames
                       pre(style="white-space: pre-line") {{ bgForm.setup }}
                 // 遊戲流程
                 .text-h6 遊戲流程
-                //- q-input(v-model="bgForm.gameFlow" filled autogrow label="請輸入遊戲流程" clearable :rules="[rules.required]")
                 q-editor(
                   v-model="bgForm.gameFlow" :dense="$q.screen.lt.md" :toolbar="toolbar" :fonts="font" min-height="5rem"
                   placeholder="請輸入遊戲配置")
@@ -492,7 +490,6 @@ q-page#manage_boardgames
                       pre(style="white-space: pre-line") {{ bgForm.gameFlow }}
                 // 遊戲結束
                 .text-h6 遊戲結束
-                //- q-input(v-model="bgForm.endGame" filled autogrow label="請輸入遊戲結束說明" clearable :rules="[rules.required]")
                 q-editor(
                   v-model="bgForm.endGame" :dense="$q.screen.lt.md" :toolbar="toolbar" :fonts="font" min-height="5rem"
                   placeholder="請輸入遊戲配置")
@@ -503,10 +500,22 @@ q-page#manage_boardgames
                 q-checkbox.q-mt-md(label="張貼桌遊" v-model="bgForm.post" size="lg" :rules="[rules.required]")
             q-card-actions.flex.justify-center.q-pb-md.q-gutter-md
               q-btn(label='取消' @click="bgForm.dialog = false" :disable="bgForm.loading")
-              q-btn(label='送出' color='primary' type="submit" :disable="bgForm.loading")
+              q-btn.submit_btn(label='送出' type="submit" :disable="bgForm.loading")
 </template>
 
 <style lang="scss" scoped>
+.add_btn,.submit_btn {
+  color: $dark;
+  background-color: $primary;
+  border-radius: 8px;
+  transition: 0.5s;
+  &:hover {
+    color: $primary;
+    background-color: $dark;
+    border: 1px solid $primary;
+  }
+ }
+
   .edit {
     max-width: 1000px !important;
   }
