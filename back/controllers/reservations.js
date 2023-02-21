@@ -71,6 +71,15 @@ export const getAllReservations = async (req, res) => {
   }
 }
 
+export const getMyReservation = async (req, res) => {
+  try {
+    const result = await reservations.find({ reserver: req.user._id })
+    res.status(200).json({ success: true, message: '成功取得預約', result })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const editReservation = async (req, res) => {
   try {
     const result = await reservations.findByIdAndUpdate(req.params.id, {

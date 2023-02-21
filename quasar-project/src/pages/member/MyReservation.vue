@@ -4,8 +4,10 @@ import { storeToRefs } from 'pinia'
 import { useReservationStore } from 'src/stores/reservation'
 
 const ReservationStore = useReservationStore()
-const { submitReservation } = ReservationStore
+const { submitReservation, getMyReservation } = ReservationStore
 const { reservations } = storeToRefs(ReservationStore)
+
+getMyReservation()
 
 const reservationForm = reactive({
   _id: '',
