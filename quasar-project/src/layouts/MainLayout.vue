@@ -11,6 +11,11 @@ const { logout } = user
 
 const tab = ref('')
 const showRegisterCard = ref(false)
+const rightDrawerOpen = ref(false)
+
+const toggleRightDrawer = () => {
+  rightDrawerOpen.value = !rightDrawerOpen.value
+}
 
 const toggleRegisterCardHandler = (type) => {
   showRegisterCard.value = type
@@ -20,79 +25,174 @@ const close = () => {
 }
 </script>
 
-<template lang="pug">
-q-layout(view='hHh lpR fff')
-  q-header.bg-primary(bordered)
-    q-toolbar
-      q-avatar
-        img(src='../assets/MAXXD.png')
-      q-toolbar-title.logo_name 揪遊列國
-      q-tabs.tabs(v-model="tab")
-        q-route-tab(to="/exploreBGs") 探索桌遊
-        q-route-tab(to="/searchTeamups") 揪團組隊
-        q-route-tab(to="/teamup") 我要揪團
-        q-route-tab(to="/reservation") 手刀預約
-      q-space
-      q-btn(v-if="isLogin" icon='mdi-bell' rounded flat)
-        q-badge(color="accent" floating :label="5")
-        q-menu(fit anchor="bottom left" self="top middle")
-          q-card
-            q-card-section.text-subtitle2 會員通知
-            q-separator
-            q-card-section
-      q-btn(v-if="!isLogin" @click="showLoginCard = true" icon="mdi-account-circle" flat dense size="lg")
-      q-btn-dropdown(v-if="isLogin" flat)
-        template(#label)
-          q-avatar
-            q-img(:src="avatar")
-        q-list.q-pa-xs
-          q-item
-            q-item-section(avatar)
-              q-avatar
-                q-img(:src="avatar")
-            q-item-section.flex-center()
-              div {{ nickname }}
-          q-separator
-          q-item-label.q-pa-sm(overline) 我的主頁
-          q-item(clickable v-if="isLogin && isAdmin" to="/admin")
-            q-item-section(avatar)
-              q-icon(name="mdi-account-cog")
-            q-item-section 管理者後台
-          q-item(clickable v-if="!isAdmin" to="/member/myInfo")
-            q-item-section(avatar)
-              q-icon(name="mdi-account-edit")
-            q-item-section 會員資料
-          q-item(clickable v-if="!isAdmin" to="/member/myReservation")
-            q-item-section(avatar)
-              q-icon(name="mdi-google-downasaur")
-            q-item-section 我的預約
-          q-item(clickable v-if="!isAdmin" to="/member/myTeamup")
-            q-item-section(avatar)
-              q-icon(name="mdi-account-group")
-            q-item-section 我的揪團
-          q-separator(v-if="isLogin")
-          q-item(v-if="isLogin")
-            q-item-section
-              q-btn(@click="logout" icon='fa-solid fa-person-walking-arrow-right' label="登出" flat dense)
-  q-page-container
-    router-view
+<template>
+  <q-layout view="hHh lpR fFf">
+    <q-header bordered class="bg-primary flex items-end" height-hint="90">
+      <q-toolbar class="row" style="width: 100%;">
+        <q-toolbar-title class="col-4" shrink>
+          <!-- <q-img src="../assets/MAXXD.png" width="80px" /> -->
+          <span class="q-pl-md">揪遊列國</span>
+        </q-toolbar-title>
 
-  //- 登入註冊
-  q-dialog(v-model="showLoginCard" persistent)
-    LoginCard(v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close")
-    RegisterCard(v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close")
+        <!-- 分頁 -->
+        <q-tabs class="gt-md col-4 flex items-end">
+          <q-route-tab to="/exploreBGs" label="探索桌遊" />
+          <q-route-tab to="/searchTeamups" label="揪團組隊" />
+          <q-route-tab to="/teamup" label="我要揪團" />
+          <q-route-tab to="/reservation" label="手刀預約" />
+        </q-tabs>
+        <q-space />
+
+        <!-- navbar right_area -->
+        <div class="flex">
+          <!-- 通知 btn -->
+          <q-btn v-if="isLogin" icon="mdi-bell" rounded flat>
+            <q-badge color="accent" floating :label="5" />
+            <q-menu fit anchor="bottom left" self="top middle">
+              <q-card>
+                <q-card-section class="text-subtitle2">會員通知</q-card-section>
+                <q-separator />
+                <q-card-section></q-card-section>
+              </q-card>
+            </q-menu>
+          </q-btn>
+          <!-- 登入/註冊 btn -->
+          <q-btn
+            v-if="!isLogin"
+            @click="showLoginCard = true"
+            icon="mdi-account-circle"
+            flat
+            dense
+            size="lg"
+          />
+          <!-- 使用者下拉選單 -->
+          <q-btn-dropdown v-if="isLogin" flat>
+            <template #label>
+              <q-avatar>
+                <q-img :src="avatar" />
+              </q-avatar>
+            </template>
+            <q-list class="q-pa-xs">
+              <q-item>
+                <q-item-section avatar>
+                  <q-avatar>
+                    <q-img :src="avatar"></q-img>
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section class="flex-center">
+                  {{ nickname }}
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item-label class="q-pa-sm" overline>我的主頁</q-item-label>
+              <!-- 管理者 -->
+              <q-item v-if="isLogin && isAdmin" to="/admin" clickable>
+                <q-item-section avatar>
+                  <q-icon name="mdi-account-cog" />
+                </q-item-section>
+                <q-item-section>管理者後台</q-item-section>
+              </q-item>
+
+              <!-- 會員 -->
+              <q-item v-if="!isAdmin" to="/member/myInfo" clickable>
+                <q-item-section avatar>
+                  <q-icon name="mdi-account-edit" />
+                </q-item-section>
+                <q-item-section>會員資料</q-item-section>
+              </q-item>
+
+              <q-item v-if="!isAdmin" to="/member/myReservation" clickable>
+                <q-item-section avatar>
+                  <q-icon name="mdi-google-downasaur" />
+                </q-item-section>
+                <q-item-section>我的預約</q-item-section>
+              </q-item>
+
+              <q-item v-if="!isAdmin" to="/member/myTeamup" clickable>
+                <q-item-section avatar>
+                  <q-icon name="mdi-account-group" />
+                </q-item-section>
+                <q-item-section>我的揪團</q-item-section>
+              </q-item>
+
+              <q-separator v-if="isLogin" />
+              <q-item v-if="isLogin">
+                <q-item-section>
+                  <q-btn
+                    @click="logout"
+                    icon="fa-solid fa-person-walking-arrow-right"
+                    label="登出"
+                    flat
+                    dense
+                  />
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+        </div>
+
+        <span class="lt-lg">
+          <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
+        </span>
+      </q-toolbar>
+    </q-header>
+
+    <!-- 右側抽屜 -->
+    <q-drawer
+      v-model="rightDrawerOpen"
+      side="right"
+      overlay
+      bordered
+      :width="200"
+      :breakpoint="200"
+    >
+      <!-- drawer content -->
+    </q-drawer>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+
+    <q-dialog v-model="showLoginCard" persistent>
+      <LoginCard
+        v-if="!showRegisterCard"
+        @showRegisterCard="toggleRegisterCardHandler"
+        @closeDialog="close"
+      />
+      <RegisterCard
+        v-if="showRegisterCard"
+        @showRegisterCard="toggleRegisterCardHandler"
+        @closeDialog="close"
+      />
+    </q-dialog>
+
+    <!-- <q-footer class="bg-primary text-dark">
+      <q-toolbar>
+        <q-toolbar-title>
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+          </q-avatar>
+          <div>Title</div>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer> -->
+  </q-layout>
 </template>
 
 <style lang="scss">
+header {
+  height: 65px;
+}
 .logo_name,
-.tabs {
+.q-tabs {
   color: $dark;
+
+  .q-tab__label {
+    font-size: 16px;
+  }
 
   .q-tab__indicator {
     height: 3px;
   }
-}
-.tabs {
-  font-weight: 700;
 }
 </style>
