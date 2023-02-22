@@ -9,6 +9,7 @@ import 'swiper/css/pagination'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
 import TeamupCard from 'src/components/TeamupCard.vue'
 import TestComp from 'src/components/TestComp.vue'
+import FaqAccordion from 'src/components/FaqAccordion.vue'
 
 const $q = useQuasar()
 
@@ -41,21 +42,26 @@ const slide = ref(1)
     </div>
 
     <div class="container">
-      <section class="section01">
+      <section id="section01">
         <div class="row">
           <div class="col-12">
             <div class="text-h4">大家都在玩</div>
-            <swiper
-              class="height"
-              data-aos="fade-up"
-              :modules="modules"
-              :spaceBetween="40"
-              :slidesPerView="'auto'"
-            >
-            <swiper-slide v-for="i in boardgames" :key="i">
-              <BoardgameCard v-bind="i" />
-            </swiper-slide>
-          </swiper>
+            <swiper class="height" data-aos="fade-up" :modules="modules" :spaceBetween="40" :slidesPerView="'auto'">
+              <swiper-slide v-for="i in boardgames" :key="i">
+                <BoardgameCard v-bind="i" />
+              </swiper-slide>
+            </swiper>
+          </div>
+        </div>
+      </section>
+
+      <section id="section02">
+        <div class="row">
+          <div class="col-12">
+            <div class="text-h4">常見問題</div>
+            <div>
+              <FaqAccordion />
+            </div>
           </div>
         </div>
       </section>
@@ -78,11 +84,9 @@ const slide = ref(1)
       width: 35%;
       padding: 1rem;
       backdrop-filter: blur(10px);
-      background: linear-gradient(
-        135deg,
-        rgba($color: #fff, $alpha: 0.1),
-        rgba($color: #fff, $alpha: 0)
-      );
+      background: linear-gradient(135deg,
+          rgba($color: #fff, $alpha: 0.1),
+          rgba($color: #fff, $alpha: 0));
       border-radius: 16px;
       border: 1px solid rgba($color: #fff, $alpha: 0.18);
       box-shadow: 0 8px 32px 0 rgba($color: $dark, $alpha: 0.37);
