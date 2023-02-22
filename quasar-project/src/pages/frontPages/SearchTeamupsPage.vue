@@ -11,10 +11,14 @@ const { teamups } = storeToRefs(teamupStore)
 
 const chips = ref([])
 const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童']
+const filterInput = ref('')
 
-const currentDate = `${new Date().getFullYear()}-${
-  new Date().getMonth() + 1
-}-${new Date().getDate()}`
+// const currentDate = `${new Date().getFullYear()}-${
+//   new Date().getMonth() + 1
+// }-${new Date().getDate()}`
+
+const currentDate = new Date().toLocaleDateString()
+
 const filterCondition = reactive({
   types: ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童'],
   date: currentDate
@@ -30,9 +34,19 @@ const delChip = (i) => {
 
 const filterFunc = computed(() => {
   return teamups.value.filter((teamup) => {
-    return (
-      parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0
-    )
+    const mouth = (new Date(teamup.date).getMonth() + 1).toString().padStart(2, '0')
+    const date = new Date(teamup.date).getDate().toString().padStart(2, '0')
+    if (filterInput.value === '') {
+      return (
+        parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0
+      )
+    } else {
+      console.log(date.includes(filterInput.value), date, filterInput.value, 'date')
+      console.log(mouth.includes(filterInput.value), mouth, filterInput.value, 'mouth')
+      return (
+        parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0 && (date.includes(filterInput.value) || mouth.includes(filterInput.value) || teamup.title.includes(filterInput.value))
+      )
+    }
   })
 })
 
@@ -52,7 +66,6 @@ getAllTeamups()
           <q-breadcrumbs-el label="揪團組隊" />
         </q-breadcrumbs>
       </div>
-
       <section class="header flex items-center q-mt-xl">
         <div class="header-text text-h3 q-pr-lg">揪團組隊</div>
         <q-btn class="teamup_btn" label="我要揪團" to="/teamup" />
@@ -61,7 +74,7 @@ getAllTeamups()
       <section class="teamupList">
         <div class="search_container bg-dark">
           <div class="search-bar">
-            <q-input name="search" rounded placeholder="關鍵字/標籤搜尋">
+            <q-input v-model="filterInput" name="search" rounded placeholder="關鍵字/標籤搜尋">
               <template v-slot:append>
                 <q-btn icon="search" flat rounded />
               </template>
