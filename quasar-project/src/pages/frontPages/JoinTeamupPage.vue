@@ -29,10 +29,10 @@ const teamup = reactive({
   title: '',
   content: '',
   loading: false
-});
+})
 
 // 取揪團資料
-(async () => {
+;(async () => {
   try {
     const { data } = await api.get('/teamups/' + route.params.id)
     teamup._id = data.result._id
@@ -172,7 +172,7 @@ const onSubmit = async () => {
                 </div>
                 <div class="date flex items-center">
                   <q-icon name="mdi-calendar-clock" />
-                  <div>&nbsp; {{ teamup.date.substring(0, 10) }}</div>
+                  <div>&nbsp; {{ new Date(teamup.date).toLocaleDateString() }}</div>
                 </div>
                 <div class="time flex items-center">
                   <q-icon name="mdi-clock-time-four-outline"></q-icon>

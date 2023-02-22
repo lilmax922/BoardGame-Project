@@ -13,12 +13,7 @@ const chips = ref([])
 const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童']
 const filterInput = ref('')
 
-// const currentDate = `${new Date().getFullYear()}-${
-//   new Date().getMonth() + 1
-// }-${new Date().getDate()}`
-
 const currentDate = new Date().toLocaleDateString()
-
 const filterCondition = reactive({
   types: ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童'],
   date: currentDate

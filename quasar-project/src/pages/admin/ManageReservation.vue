@@ -40,7 +40,10 @@ const columns = [
   {
     name: 'date',
     label: '日期',
-    field: (row) => row.date.substring(0, 10),
+    field: (row) => {
+      const date = new Date(row.date).toLocaleDateString()
+      return date
+    },
     align: 'left',
     sortable: true
   },
