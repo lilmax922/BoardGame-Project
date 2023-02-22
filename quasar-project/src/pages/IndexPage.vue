@@ -45,8 +45,15 @@ const slide = ref(1)
       <section id="section01">
         <div class="row">
           <div class="col-12">
-            <div class="text-h4">大家都在玩</div>
-            <swiper class="height" data-aos="fade-up" :modules="modules" :spaceBetween="40" :slidesPerView="'auto'">
+            <div class="title text-h4">大家都在玩</div>
+            123456
+            <swiper
+              class="height"
+              data-aos="fade-up"
+              :modules="modules"
+              :spaceBetween="40"
+              :slidesPerView="'auto'"
+            >
               <swiper-slide v-for="i in boardgames" :key="i">
                 <BoardgameCard v-bind="i" />
               </swiper-slide>
@@ -58,7 +65,7 @@ const slide = ref(1)
       <section id="section02">
         <div class="row">
           <div class="col-12">
-            <div class="text-h4">常見問題</div>
+            <div class="title text-h4">常見問題</div>
             <div>
               <FaqAccordion />
             </div>
@@ -84,9 +91,11 @@ const slide = ref(1)
       width: 35%;
       padding: 1rem;
       backdrop-filter: blur(10px);
-      background: linear-gradient(135deg,
-          rgba($color: #fff, $alpha: 0.1),
-          rgba($color: #fff, $alpha: 0));
+      background: linear-gradient(
+        135deg,
+        rgba($color: #fff, $alpha: 0.1),
+        rgba($color: #fff, $alpha: 0)
+      );
       border-radius: 16px;
       border: 1px solid rgba($color: #fff, $alpha: 0.18);
       box-shadow: 0 8px 32px 0 rgba($color: $dark, $alpha: 0.37);
@@ -104,6 +113,13 @@ const slide = ref(1)
           border: 1px solid $primary;
         }
       }
+    }
+  }
+
+  .container {
+    .title {
+      border-left: 15px solid $accent;
+      padding-left: 1rem;
     }
   }
 }
