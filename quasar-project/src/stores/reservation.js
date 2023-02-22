@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
-import Swal from 'sweetalert2'
+import { Notify } from 'quasar'
 import { apiAuth } from 'src/boot/axios'
 
 export const useReservationStore = defineStore('reservation', () => {
@@ -11,26 +11,30 @@ export const useReservationStore = defineStore('reservation', () => {
       if (form._id === '') {
         const { data } = await apiAuth.post('/reservations', form)
         reservations.push(data.result)
-        await Swal.fire({
-          icon: 'success',
-          title: '成功',
-          text: '預約成功~'
+        Notify.create({
+          message: '預約成功',
+          textColor: 'primary',
+          icon: 'mdi-emoticon-happy-outline',
+          color: 'white'
         })
       } else {
         const { data } = await apiAuth.patch('/reservations/' + form._id, form)
         const index = reservations.findIndex(reservation => reservation._id === form._id)
         reservations[index] = data.result
-        await Swal.fire({
-          icon: 'success',
-          title: '成功',
-          text: '修改成功'
+        Notify.create({
+          message: '修改成功',
+          textColor: 'primary',
+          icon: 'mdi-emoticon-happy-outline',
+          color: 'white'
         })
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: '失敗',
-        text: error?.response?.data?.message || '發生錯誤'
+      Notify.create({
+        message: '資料上傳失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
       })
     }
   }
@@ -40,10 +44,12 @@ export const useReservationStore = defineStore('reservation', () => {
       const { data } = await apiAuth.get('/reservations/all')
       reservations.splice(0, data.result.length, ...data.result)
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: '失敗',
-        text: error?.response?.data?.message || '發生錯誤'
+      Notify.create({
+        message: '資料取得失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
       })
     }
   }
@@ -53,16 +59,19 @@ export const useReservationStore = defineStore('reservation', () => {
       await apiAuth.patch('/reservations/delete/' + _id)
       const index = reservations.findIndex(reservation => reservation._id === _id)
       reservations.splice(index, 1)
-      Swal.fire({
-        icon: 'success',
-        title: '成功',
-        text: '預約刪除成功'
+      Notify.create({
+        message: '刪除成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white'
       })
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: '失敗',
-        text: error?.response?.data?.message || '發生錯誤'
+      Notify.create({
+        message: '資料刪除失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
       })
     }
   }
@@ -72,10 +81,12 @@ export const useReservationStore = defineStore('reservation', () => {
       const { data } = await apiAuth.get('/reservations/getmyreservation')
       reservations.splice(0, data.result.length, ...data.result)
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: '失敗',
-        text: error?.response?.data?.message || '發生錯誤'
+      Notify.create({
+        message: '資料取得失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
       })
     }
   }

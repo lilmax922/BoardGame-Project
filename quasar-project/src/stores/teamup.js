@@ -11,9 +11,6 @@ export const useTeamupStore = defineStore('teamup', () => {
   async function submitTeamup (form, _id) {
     try {
       if (_id === '') {
-        console.log(_id)
-        console.log(form)
-        console.log(form._id)
         const { data } = await apiAuth.post('/teamups', form)
         teamups.push(data.result)
         Notify.create({
@@ -23,9 +20,6 @@ export const useTeamupStore = defineStore('teamup', () => {
           color: 'white'
         })
       } else {
-        console.log(_id)
-        console.log(form)
-        console.log(form._id)
         const { data } = await apiAuth.patch('/teamups/' + _id, form)
         const index = teamups.findIndex((teamup) => teamup._id === _id)
         teamups[index] = data.result
@@ -38,7 +32,7 @@ export const useTeamupStore = defineStore('teamup', () => {
       }
     } catch (error) {
       Notify.create({
-        message: '資料取得失敗',
+        message: '失敗',
         textColor: 'secondary',
         color: 'white',
         icon: 'mdi-emoticon-dead-outline',
@@ -88,14 +82,14 @@ export const useTeamupStore = defineStore('teamup', () => {
       const index = teamups.findIndex((teamup) => teamup._id === _id)
       teamups.splice(index, 1)
       Notify.create({
-        message: '揪團刪除成功',
+        message: '刪除成功',
         textColor: 'primary',
         icon: 'mdi-emoticon-happy-outline',
         color: 'white'
       })
     } catch (error) {
       Notify.create({
-        message: '資料取得失敗',
+        message: '資料刪除失敗',
         textColor: 'secondary',
         color: 'white',
         icon: 'mdi-emoticon-dead-outline',

@@ -276,6 +276,11 @@ const onSubmit = async () => {
 </template>
 
 <style lang="scss">
+// 參加者資訊換行
+.q-table tbody td {
+  white-space: pre-wrap;
+}
+
 .edit_dialog {
   position: absolute;
   top: 10%;
@@ -284,9 +289,5 @@ const onSubmit = async () => {
     background-color: $primary;
     border-radius: 8px;
   }
-}
-
-.swal2-container {
-  z-index: 10000;
 }
 </style>

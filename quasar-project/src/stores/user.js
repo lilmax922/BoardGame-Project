@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed, reactive } from 'vue'
 import { Notify } from 'quasar'
-import Swal from 'sweetalert2'
 import { api, apiAuth } from 'boot/axios.js'
 
 export const useUserStore = defineStore('user', () => {

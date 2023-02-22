@@ -143,6 +143,7 @@ const onSubmit = async () => {
             :row-key="_id"
             :filter="filter"
             :rows-per-page-options="[10, 15, 0]"
+            no-data-label="目前尚無資料"
           >
             <!-- add_btn -->
             <template v-slot:top-left>

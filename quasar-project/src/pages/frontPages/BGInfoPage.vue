@@ -3,7 +3,6 @@ import { ref, reactive } from 'vue'
 import { api } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { Swal } from 'sweetalert2'
 
 const $q = useQuasar()
 const route = useRoute()

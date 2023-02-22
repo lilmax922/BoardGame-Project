@@ -101,7 +101,4 @@ const columns = [
     border-radius: 8px;
   }
 }
-.swal2-container {
-  z-index: 10000;
-}
 </style>

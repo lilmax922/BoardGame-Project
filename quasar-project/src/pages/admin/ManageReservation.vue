@@ -183,14 +183,6 @@ const onSubmit = async () => {
 </template>
 
 <style lang="scss">
-// .q-table th {
-//   font-size: 18px;
-// }
-
-// .q-table tbody td {
-//   font-size: 16px;
-// }
-
 .edit_dialog {
   position: absolute;
   top: 25%;
@@ -199,8 +191,5 @@ const onSubmit = async () => {
     background-color: $primary;
     border-radius: 8px;
   }
-}
-.swal2-container {
-  z-index: 10000;
 }
 </style>
