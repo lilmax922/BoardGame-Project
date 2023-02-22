@@ -64,6 +64,7 @@ export const useTeamupStore = defineStore('teamup', () => {
       const { data: data2 } = await apiAuth.get('/teamups/member?people=participant')
       teamups.splice(0, teamups.length, ...data.result)
       joinedTeamups.splice(0, joinedTeamups.length, ...data2.result)
+      console.log(joinedTeamups)
     } catch (error) {
       Notify.create({
         message: '資料取得失敗',
@@ -100,6 +101,7 @@ export const useTeamupStore = defineStore('teamup', () => {
 
   return {
     teamups,
+    joinedTeamups,
     submitTeamup,
     getAllTeamups,
     getMyTeamup,

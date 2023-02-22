@@ -7,14 +7,14 @@ const { getMyTeamup, deleteTeamup } = teamupStore
 const { teamups, joinedTeamups } = storeToRefs(teamupStore)
 
 getMyTeamup()
-console.log(teamups)
-console.log(joinedTeamups)
+console.log(teamups.value)
+console.log(joinedTeamups.value)
 
 // q-table
 const columns = [
   {
     name: 'title',
-    label: '標題',
+    label: '揪團標題',
     field: row => row.title,
     align: 'left'
   },
