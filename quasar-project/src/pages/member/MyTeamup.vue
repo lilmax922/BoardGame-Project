@@ -7,8 +7,6 @@ const { getMyTeamup, deleteTeamup } = teamupStore
 const { teamups, joinedTeamups } = storeToRefs(teamupStore)
 
 getMyTeamup()
-console.log(teamups.value)
-console.log(joinedTeamups.value)
 
 // q-table
 const columns = [

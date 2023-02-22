@@ -29,7 +29,6 @@ export const createTeamup = async (req, res) => {
     })
     res.status(200).json({ success: true, message: '預約成功', result })
   } catch (error) {
-    console.log(error)
     errorHandler(error, res)
   }
 }

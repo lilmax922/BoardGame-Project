@@ -41,8 +41,6 @@ const filterFunc = computed(() => {
         parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0
       )
     } else {
-      console.log(date.includes(filterInput.value), date, filterInput.value, 'date')
-      console.log(mouth.includes(filterInput.value), mouth, filterInput.value, 'mouth')
       return (
         parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0 && (date.includes(filterInput.value) || mouth.includes(filterInput.value) || teamup.title.includes(filterInput.value))
       )

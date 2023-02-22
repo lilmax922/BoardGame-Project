@@ -65,7 +65,6 @@ export const editReservation = async (req, res) => {
     const result = await reservations.findByIdAndUpdate(req.params.id, {
       totalPeople: req.body.totalPeople
     }, { new: true }).populate('reserver', 'nickname phone')
-    console.log(result)
     if (!result) {
       res.status(404).json({ success: false, message: '找不到此預約' })
     } else {
