@@ -61,7 +61,9 @@ export const useTeamupStore = defineStore('teamup', () => {
   const getMyTeamup = async () => {
     try {
       const { data } = await apiAuth.get('/teamups/member?people=organizer')
-      const { data: data2 } = await apiAuth.get('/teamups/member?people=participant')
+      const { data: data2 } = await apiAuth.get(
+        '/teamups/member?people=participant'
+      )
       teamups.splice(0, teamups.length, ...data.result)
       joinedTeamups.splice(0, joinedTeamups.length, ...data2.result)
     } catch (error) {
@@ -81,7 +83,6 @@ export const useTeamupStore = defineStore('teamup', () => {
       console.log(_id)
       await apiAuth.patch('/teamups/delete/member/' + _id)
       const index = teamups.findIndex((teamup) => teamup._id === _id)
-      console.log(index)
       teamups.splice(index, 1)
       Notify.create({
         message: '刪除成功',
@@ -103,10 +104,8 @@ export const useTeamupStore = defineStore('teamup', () => {
   // 會員刪除參加的揪團
   const deleteMyJoinedTeamup = async (_id) => {
     try {
-      console.log(_id)
       await apiAuth.patch('/teamups/delete/member/' + _id)
       const index = joinedTeamups.findIndex((teamup) => teamup._id === _id)
-      console.log(index)
       teamups.splice(index, 1)
       Notify.create({
         message: '刪除成功',
