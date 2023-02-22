@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useTeamupStore } from 'src/stores/teamup'
 
 const teamupStore = useTeamupStore()
-const { getMyTeamup, deleteTeamup } = teamupStore
+const { getMyTeamup, deleteMyTeamup } = teamupStore
 const { teamups, joinedTeamups } = storeToRefs(teamupStore)
 
 getMyTeamup()
@@ -19,7 +19,10 @@ const columns = [
   {
     name: 'date',
     label: '日期',
-    field: (row) => row.date.substring(0, 10),
+    field: (row) => {
+      const date = new Date(row.date).toLocaleDateString()
+      return date
+    },
     align: 'left',
     sortable: true
   },
@@ -95,8 +98,9 @@ const columns = [
                   color="secondary"
                   fab-mini
                   unelevated
-                  @click="deleteTeamup(props.row._id)"
+                  @click="deleteMyTeamup(props.row._id)"
                 />
+                {{ props.row._id }}
               </q-td>
             </template>
           </q-table>
@@ -132,8 +136,9 @@ const columns = [
                   color="secondary"
                   fab-mini
                   unelevated
-                  @click="deleteTeamup(props.row._id)"
+                  @click="deleteMyTeamup(props.row._id)"
                 />
+                {{ props.row._id }}
               </q-td>
             </template>
           </q-table>

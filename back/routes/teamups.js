@@ -15,6 +15,8 @@ router.get('/member', jwt, getMyTeamup)
 
 router.get('/:id', getTeamup)
 router.post('/:id', jwt, joinOrCancelTeamup)
-router.patch('/delete/:id', jwt, admin, deleteTeamup)
+router.patch('/delete/:id', jwt, admin, deleteTeamup) // admin 刪除揪團
+router.patch('/delete/member/:id', jwt, deleteTeamup) // 會員刪除自己揪團
 router.patch('/:id', content('multipart/form-data'), jwt, upload.boardgameImg, admin, editTeamup)
+
 export default router

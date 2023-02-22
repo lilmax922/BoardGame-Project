@@ -75,6 +75,30 @@ export const useTeamupStore = defineStore('teamup', () => {
     }
   }
 
+  const deleteMyTeamup = async (_id) => {
+    try {
+      console.log(_id)
+      await apiAuth.patch('/teamups/delete/member/' + _id)
+      const index = teamups.findIndex((teamup) => teamup._id === _id)
+      console.log(index)
+      teamups.splice(index, 1)
+      Notify.create({
+        message: '刪除成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white'
+      })
+    } catch (error) {
+      Notify.create({
+        message: '資料刪除失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   // 刪除揪團
   const deleteTeamup = async (_id) => {
     try {
@@ -104,6 +128,7 @@ export const useTeamupStore = defineStore('teamup', () => {
     submitTeamup,
     getAllTeamups,
     getMyTeamup,
-    deleteTeamup
+    deleteTeamup,
+    deleteMyTeamup
   }
 })
