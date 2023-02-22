@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useTeamupStore } from 'src/stores/teamup'
 
 const teamupStore = useTeamupStore()
-const { getMyTeamup, deleteMyTeamup } = teamupStore
+const { getMyTeamup, deleteMyTeamup, deleteMyJoinedTeamup } = teamupStore
 const { teamups, joinedTeamups } = storeToRefs(teamupStore)
 
 getMyTeamup()
@@ -98,7 +98,7 @@ const columns = [
                   color="secondary"
                   fab-mini
                   unelevated
-                  @click="deleteMyTeamup(props.row._id)"
+                  @click="deleteMyJoinedTeamup(props.row._id)"
                 />
                 {{ props.row._id }}
               </q-td>
