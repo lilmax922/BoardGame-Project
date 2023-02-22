@@ -1,9 +1,11 @@
 <script setup>
 import { reactive, watch, ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useQuasar } from 'quasar'
 import { useTeamupStore } from 'stores/teamup.js'
 import { apiAuth } from 'src/boot/axios'
 
+const $q = useQuasar()
 const teamupStore = useTeamupStore()
 const { submitTeamup } = teamupStore
 const { teamups } = storeToRefs(teamupStore)
@@ -44,6 +46,13 @@ const rules = {
       (value.length >= 1 && value.length <= 20) || '長度必須為 1 ~ 20 個字'
     )
   }
+}
+
+const onRejected = (rejectedEntries) => {
+  $q.notify({
+    type: 'negative',
+    message: '檔案不得超過 10 MB'
+  })
 }
 
 const availableTimeBtn = reactive([
@@ -258,16 +267,6 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                   />
                 </div>
 
-                <!-- <div class="main col-6">
-                  <div class="text-h6">主要遊玩類型</div>
-                  <q-option-group
-                    v-model="typeGroup"
-                    :options="typeOptions"
-                    color="primary"
-                    inline
-                  />
-                </div> -->
-
                 <div class="card_image col-6">
                   <div class="text-h6">上傳揪團圖片</div>
                   <q-file
@@ -276,7 +275,10 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                     v-model="teamupForm.cardImage"
                     use-chips
                     label="請選擇卡片圖"
+                    hint="Max file size (10 MB)"
                     style="max-width: 650px"
+                    max-file-size="10485760"
+                    @rejected="onRejected"
                   >
                   </q-file>
                 </div>
