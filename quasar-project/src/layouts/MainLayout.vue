@@ -9,7 +9,6 @@ const user = useUserStore()
 const { isLogin, isAdmin, avatar, nickname, showLoginCard } = storeToRefs(user)
 const { logout } = user
 
-const tab = ref('')
 const showRegisterCard = ref(false)
 const rightDrawerOpen = ref(false)
 
@@ -26,7 +25,7 @@ const close = () => {
 </script>
 
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="hHh lpR fff">
     <q-header bordered class="bg-primary flex items-end" height-hint="90">
       <q-toolbar class="row" style="width: 100%;">
         <q-toolbar-title class="col-4" shrink>
@@ -166,16 +165,16 @@ const close = () => {
       />
     </q-dialog>
 
-    <!-- <q-footer class="bg-primary text-dark">
+    <q-footer class="bg-primary text-dark">
       <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+        <q-toolbar>
+          <q-avatar class="q-mr-sm">
+            <img src="../assets/MAXXD.png" />
           </q-avatar>
-          <div>Title</div>
-        </q-toolbar-title>
+          <span class="text-center" style="font-size:14px;">©2023 泰山職訓網頁 專題設計 by 胡俊宇</span>
+        </q-toolbar>
       </q-toolbar>
-    </q-footer> -->
+    </q-footer>
   </q-layout>
 </template>
 
