@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-
 const props = defineProps({
   _id: {
     type: String,
@@ -43,8 +41,6 @@ const props = defineProps({
   }
 })
 
-// "2023-02-17T00:00:00.000Z"
-const teamupDate = ref(props.date.substring(0, 10))
 </script>
 
 <template>
@@ -70,7 +66,7 @@ const teamupDate = ref(props.date.substring(0, 10))
                 <q-icon name="mdi-calendar-check" size="xs" />
               </q-item-section>
               <q-item-section style="font-size: 18px">
-                &nbsp; {{ teamupDate }}
+                &nbsp; {{ new Date(date).toLocaleDateString() }}
               </q-item-section>
             </q-item>
             <q-item class="q-pa-none">
