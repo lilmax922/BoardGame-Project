@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTeamupStore } from 'src/stores/teamup'
 
@@ -7,6 +8,9 @@ const { getMyTeamup, deleteMyTeamup, deleteMyJoinedTeamup } = teamupStore
 const { teamups, joinedTeamups } = storeToRefs(teamupStore)
 
 getMyTeamup()
+
+const filter1 = ref('')
+const filter2 = ref('')
 
 // q-table
 const columns = [
@@ -79,11 +83,11 @@ const columns = [
             :columns="columns"
             row-key="_id"
             :rows-per-page-options="[10, 15, 0]"
-            :filter="filter"
+            :filter="filter1"
           >
             <!-- filter_area -->
             <template v-slot:top-right>
-              <q-input debounce="300" v-model="filter" placeholder="Search">
+              <q-input debounce="300" v-model="filter1" placeholder="Search">
                 <template v-slot:append>
                   <q-icon name="search" />
                 </template>
@@ -98,7 +102,7 @@ const columns = [
                   color="secondary"
                   fab-mini
                   unelevated
-                  @click="deleteMyJoinedTeamup(props.row._id)"
+                  @click="deleteMyTeamup(props.row._id)"
                 />
                 {{ props.row._id }}
               </q-td>
@@ -116,12 +120,12 @@ const columns = [
             :columns="columns"
             row-key="_id"
             :rows-per-page-options="[10, 15, 0]"
-            :filter="filter"
+            :filter="filter2"
           >
 
             <!-- filter_area -->
             <template v-slot:top-right>
-              <q-input debounce="300" v-model="filter" placeholder="Search">
+              <q-input debounce="300" v-model="filter2" placeholder="Search">
                 <template v-slot:append>
                   <q-icon name="search" />
                 </template>
@@ -136,7 +140,7 @@ const columns = [
                   color="secondary"
                   fab-mini
                   unelevated
-                  @click="deleteMyTeamup(props.row._id)"
+                  @click="deleteMyJoinedTeamup(props.row._id)"
                 />
                 {{ props.row._id }}
               </q-td>
