@@ -11,6 +11,7 @@ getPostBoardgames()
 const { boardgames } = storeToRefs(boardgameStore)
 
 const chips = ref([])
+const filterInput = ref('')
 const types = ['陣營', '策略', '心機', '抽象', '卡牌', '派對', '家庭', '兒童']
 
 const filterCondition = reactive({
@@ -32,15 +33,19 @@ const delChip = (i) => {
 
 const filterFunc = computed(() => {
   return boardgames.value.filter((boardgame) => {
+    console.log(boardgame.name)
+    console.log(boardgame.gameTime)
+    console.log(boardgame.players)
     return (
-      boardgame.gameTime >= filterCondition.gameTime &&
-      boardgame.players.split('~').map(Number)[0] >=
-        filterCondition.players.min &&
-      boardgame.players.split('~').map(Number)[1] <=
-        filterCondition.players.max &&
-      parseInt(
-        _.intersection(boardgame.types, filterCondition.types).length
-      ) !== 0
+      // boardgame.gameTime >= filterCondition.gameTime &&
+      // boardgame.players.split('~').map(Number)[0] >=
+      // filterCondition.players.min &&
+      // boardgame.players.split('~').map(Number)[1] <=
+      // filterCondition.players.max &&
+      // parseInt(
+      //   _.intersection(boardgame.types, filterCondition.types).length
+      // ) !== 0 &&
+      boardgame.name.includes(filterInput.value) || boardgame.players.includes(filterInput.value) || boardgame.gameTime.includes(filterInput.value)
     )
   })
 })
@@ -65,7 +70,7 @@ const filterFunc = computed(() => {
       </section>
       <section class="boardgameList">
         <div class="search_container bg-dark row">
-          <div class="col-sm-12 col-md-12 col-lg-6" style="flex-grow: 1;">
+          <div class="col-sm-12 col-md-12 col-lg-6" style="flex-grow: 1">
             <div class="search-bar col-12 q-mb-sm">
               <div class="flex items-center q-mb-sm">
                 <q-icon class="q-pl-md" name="mdi-text-search" size="sm" />
@@ -95,12 +100,12 @@ const filterFunc = computed(() => {
               <div class="row flex flex-center">
                 <div class="col-12">
                   <!-- <q-option-group
-                      v-model="typeGroup"
-                      :options="types"
-                      type="checkbox"
-                      inline
-                      size="lg"
-                    /> -->
+                        v-model="typeGroup"
+                        :options="types"
+                        type="checkbox"
+                        inline
+                        size="lg"
+                      /> -->
                   <q-select
                     v-model="filterCondition.types"
                     rounded
@@ -135,7 +140,7 @@ const filterFunc = computed(() => {
             </div>
           </div>
 
-          <div class="col-sm-12 col-md-12 col-lg-6" style="flex-grow: 1;">
+          <div class="col-sm-12 col-md-12 col-lg-6" style="flex-grow: 1">
             <div class="game_time col-12 q-mb-md">
               <div class="flex items-center q-mb-sm">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
@@ -200,6 +205,7 @@ const filterFunc = computed(() => {
 
   .header {
     padding-bottom: 55px;
+
     .header-text {
       border-left: 15px solid $primary;
       padding-left: 1rem;
@@ -218,6 +224,7 @@ const filterFunc = computed(() => {
       border: 1px solid $primary;
     }
   }
+
   .boardgameList {
     width: 100%;
 
