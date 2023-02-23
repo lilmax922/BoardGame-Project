@@ -104,9 +104,9 @@ export const useTeamupStore = defineStore('teamup', () => {
   // 會員刪除參加的揪團
   const deleteMyJoinedTeamup = async (_id) => {
     try {
-      await apiAuth.patch('/teamups/delete/member/' + _id)
+      await apiAuth.post('/teamups/' + _id)
       const index = joinedTeamups.findIndex((teamup) => teamup._id === _id)
-      teamups.splice(index, 1)
+      joinedTeamups.splice(index, 1)
       Notify.create({
         message: '刪除成功',
         textColor: 'primary',
