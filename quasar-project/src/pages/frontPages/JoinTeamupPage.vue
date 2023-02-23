@@ -27,7 +27,6 @@ getAllTeamups()
 
 // Swiper
 const modules = [Navigation, Pagination]
-
 const joined = ref(false)
 const teamup = reactive({
   _id: teamups._id || '',
@@ -47,7 +46,10 @@ const teamup = reactive({
 
 const filterHandler = computed(() => {
   return teamups.value.filter((item) => {
-    return item.types.some((type) => teamup.types.includes(type))
+    return (
+      item._id !== teamup._id &&
+      item.types.some((type) => teamup.types.includes(type))
+    )
   })
 });
 
@@ -174,7 +176,6 @@ const onSubmit = async () => {
               </q-card-section>
 
               <q-card-section class="info_area col-xs-12 col-lg-7">
-
                 <div class="q-mb-lg">
                   <span class="nickname_area">
                     <q-icon name="mdi-human-greeting" />
@@ -197,7 +198,12 @@ const onSubmit = async () => {
                 <div class="icon_area q-mt-lg">
                   <div class="type">
                     <q-icon name="mdi-google-downasaur" class="q-pr-sm" />
-                    <q-chip v-for="type in teamup.types" :key="type" color="secondary" size="md">
+                    <q-chip
+                      v-for="type in teamup.types"
+                      :key="type"
+                      color="secondary"
+                      size="md"
+                    >
                       &#35;{{ type }}
                     </q-chip>
                   </div>
@@ -218,14 +224,25 @@ const onSubmit = async () => {
                       {{ teamup.totalPeople }} 人
                     </div>
                   </div>
-                  <q-btn v-if="!joined" class="joinBtn" type="submit" :label="
-                    teamup.currentPeople === teamup.totalPeople
-                      ? '人數已滿'
-                      : '參加揪團'
-                  " :disable="isFull" />
-                  <q-btn v-else class="cancelBtn" type="submit" label="取消參加" :disable="teamup.loading" />
+                  <q-btn
+                    v-if="!joined"
+                    class="joinBtn"
+                    type="submit"
+                    :label="
+                      teamup.currentPeople === teamup.totalPeople
+                        ? '人數已滿'
+                        : '參加揪團'
+                    "
+                    :disable="isFull"
+                  />
+                  <q-btn
+                    v-else
+                    class="cancelBtn"
+                    type="submit"
+                    label="取消參加"
+                    :disable="teamup.loading"
+                  />
                 </div>
-
               </q-card-section>
             </q-card-section>
           </q-card>
@@ -260,7 +277,7 @@ const onSubmit = async () => {
                   '1200': {
                     slidesPerView: 4,
                     spaceBetween: 50,
-                  }
+                  },
                 }"
               >
                 <SwiperSlide v-for="i in filterHandler" :key="i">
@@ -271,7 +288,6 @@ const onSubmit = async () => {
           </div>
         </div>
       </section>
-
     </div>
   </q-page>
 </template>
@@ -280,7 +296,12 @@ const onSubmit = async () => {
 #jointeamup {
   width: 100%;
 
-  section+section {
+  .container section:last-of-type {
+    // 與 footer 的距離
+    margin-bottom: 50px;
+  }
+
+  section + section {
     margin-top: 4rem;
   }
 

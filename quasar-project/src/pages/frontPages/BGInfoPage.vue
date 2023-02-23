@@ -1,13 +1,28 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { api } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import { storeToRefs } from 'pinia'
+import { useBoardgameStore } from 'src/stores/boardgame'
+import BoardgameCard from 'src/components/BoardgameCard.vue'
 
 const $q = useQuasar()
 const route = useRoute()
 const router = useRouter()
+const boardgameStore = useBoardgameStore()
+const { getPostBoardgames } = boardgameStore
+const { boardgames } = storeToRefs(boardgameStore)
 
+getPostBoardgames()
+
+// Swiper
+const modules = [Navigation, Pagination]
 const slide = ref(0) // q-carousel，它跟 carousel 的 :name 綁定
 const carouselSlide = ref([0, 0])
 const boardgame = reactive({
@@ -27,6 +42,15 @@ const boardgame = reactive({
   gameFlow: '',
   endGame: '',
   post: true
+})
+
+const filterHandler = computed(() => {
+  return boardgames.value.filter((item) => {
+    return (
+      item._id !== boardgame._id &&
+      item.types.some((type) => boardgame.types.includes(type))
+    )
+  })
 });
 
 // 取桌遊資料
@@ -64,9 +88,8 @@ const boardgame = reactive({
 </script>
 
 <template>
-  <q-page id="bg-info" padding>
+  <q-page id="bg_info" padding>
     <div class="container">
-
       <!-- 麵包屑 -->
       <div class="breadcrumbs">
         <q-breadcrumbs>
@@ -79,12 +102,14 @@ const boardgame = reactive({
         </q-breadcrumbs>
       </div>
 
-      <div class="row q-mt-xl">
+      <section class="row q-mt-xl">
         <div class="col-4">
           <div class="info-area q-mb-lg">
             <div class="introduce column">
               <div class="header text-h6 q-mb-md">遊戲介紹</div>
-              <div class="text-h4 text-accent q-mb-md">{{ boardgame.name }}</div>
+              <div class="text-h4 text-accent q-mb-md">
+                {{ boardgame.name }}
+              </div>
               <div v-html="boardgame.introduction" />
               <div class="icon_area flex column q-gutter-sm q-mt-md text-h6">
                 <div class="flex items-center">
@@ -168,14 +193,64 @@ const boardgame = reactive({
             </div>
           </div>
         </div>
+      </section>
 
-      </div>
+      <section id="also_like">
+        <div class="row">
+          <div class="col-12">
+            <div class="title text-h4">YOU MAY ALSO LIKE</div>
+            <div class="q-mt-lg">
+              <Swiper
+                class="mySwiper"
+                :modules="modules"
+                :navigation="true"
+                :pagination="true"
+                :slidesPerView="1"
+                :spaceBetween="30"
+                :breakpoints="{
+                  '576': {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                  },
+                  '768': {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                  },
+                  '1024': {
+                    slidesPerView: 3,
+                    spaceBetween: 40,
+                  },
+                  '1200': {
+                    slidesPerView: 4,
+                    spaceBetween: 50,
+                  },
+                }"
+              >
+                <SwiperSlide v-for="i in filterHandler" :key="i">
+                  <BoardgameCard v-bind="i" />
+                </SwiperSlide>
+              </Swiper>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </q-page>
 </template>
 
 <style lang="scss" scoped>
-#bg-info {
+#bg_info {
+  width: 100%;
+
+  .container section:last-of-type {
+    // 與 footer 的距離
+    margin-bottom: 50px;
+  }
+
+  section + section {
+    margin-top: 4rem;
+  }
+
   .info-area,
   .component-area,
   .gameflow-area,
@@ -185,6 +260,7 @@ const boardgame = reactive({
     border-radius: 16px;
     padding: 2rem;
   }
+
   .header {
     margin-bottom: 2rem;
   }
@@ -202,13 +278,22 @@ const boardgame = reactive({
     left: 50%;
     transform: translateX(-50%);
   }
+
   .mainImages-area {
     width: 98%;
     border-radius: 16px;
     margin-top: 2rem;
   }
+
   .q-carousel {
     border-radius: 16px;
+  }
+
+  #also_like {
+    .title {
+      border-left: 15px solid $primary;
+      padding-left: 1rem;
+    }
   }
 }
 </style>
