@@ -9,7 +9,7 @@ const router = Router()
 
 router.post('/', content('multipart/form-data'), jwt, upload.boardgameImg, createTeamup)
 
-router.get('/all', jwt, getAllTeamups)
+router.get('/all', getAllTeamups)
 
 router.get('/member', jwt, getMyTeamup)
 
