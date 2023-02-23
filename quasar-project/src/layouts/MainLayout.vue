@@ -28,13 +28,13 @@ const close = () => {
   <q-layout view="hHh lpR fff">
     <q-header bordered class="bg-primary flex items-end" height-hint="90">
       <q-toolbar class="row" style="width: 100%;">
-        <q-toolbar-title class="col-4" shrink>
+        <q-toolbar-title class="col-xs-6 col-md-3" shrink>
           <!-- <q-img src="../assets/MAXXD.png" width="80px" /> -->
           <span class="q-pl-md">揪遊列國</span>
         </q-toolbar-title>
 
         <!-- 分頁 -->
-        <q-tabs class="gt-md col-4 flex items-end">
+        <q-tabs class="gt-md col-md-6 flex items-end">
           <q-route-tab to="/exploreBGs" label="探索桌遊" />
           <q-route-tab to="/searchTeamups" label="揪團組隊" />
           <q-route-tab to="/teamup" label="我要揪團" />
@@ -43,7 +43,7 @@ const close = () => {
         <q-space />
 
         <!-- navbar right_area -->
-        <div class="flex">
+        <div class="flex justify-end col-xs-6 col-md-3">
           <!-- 通知 btn -->
           <q-btn v-if="isLogin" icon="mdi-bell" dense rounded flat>
             <q-badge color="secondary" floating :label="5" />
