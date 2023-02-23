@@ -1,9 +1,9 @@
 <script setup>
 import { reactive, ref, computed } from 'vue'
-import { api, apiAuth } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
 import { useQuasar, Notify } from 'quasar'
 import { storeToRefs } from 'pinia'
+import { api, apiAuth } from 'src/boot/axios'
 import { useUserStore } from 'src/stores/user'
 import { useTeamupStore } from 'src/stores/teamup'
 
@@ -12,9 +12,12 @@ const router = useRouter()
 const $q = useQuasar()
 const userStore = useUserStore()
 const teamupStore = useTeamupStore()
-const { _id } = storeToRefs(userStore)
 const { isLoginHandler } = userStore
+const { getAllTeamups } = teamupStore
+const { _id } = storeToRefs(userStore)
 const { teamups } = storeToRefs(teamupStore)
+
+getAllTeamups()
 
 const joined = ref(false)
 const teamup = reactive({
@@ -31,6 +34,10 @@ const teamup = reactive({
   title: '',
   content: '',
   loading: false
+})
+
+const filterHandler = computed(() => {
+  return teamups.value.filter((teamup) => teamup.types.includes(teamup.types))
 });
 
 // 取揪團資料
