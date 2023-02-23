@@ -35,7 +35,7 @@ export const createTeamup = async (req, res) => {
 
 export const getTeamup = async (req, res) => {
   try {
-    const result = await teamups.findById(req.params.id)
+    const result = await teamups.findById(req.params.id).populate('organizer', 'nickname')
     if (!result) {
       res.status(404).json({ success: false, message: '找不到此揪團' })
     } else {
