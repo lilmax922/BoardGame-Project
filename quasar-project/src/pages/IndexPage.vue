@@ -1,19 +1,18 @@
 <script setup>
 import { ref, reactive } from 'vue'
-import { api } from 'src/boot/axios'
 import { useQuasar } from 'quasar'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import { Navigation, Pagination } from 'swiper'
+import { storeToRefs } from 'pinia'
+import { useBoardgameStore } from 'src/stores/boardgame'
+import { useTeamupStore } from 'src/stores/teamup'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
 import TeamupCard from 'src/components/TeamupCard.vue'
 import TestComp from 'src/components/TestComp.vue'
 import FaqAccordion from 'src/components/FaqAccordion.vue'
-import { useBoardgameStore } from 'src/stores/boardgame'
-import { useTeamupStore } from 'src/stores/teamup'
-import { storeToRefs } from 'pinia'
 
 const $q = useQuasar()
 const boardgameStore = useBoardgameStore()
@@ -25,6 +24,11 @@ const { teamups } = storeToRefs(teamupStore)
 
 getPostBoardgames()
 getAllTeamups()
+
+// computed
+// const filterTeamups = computed(() => {
+//   return teamups.value.filter((item) => item.types.includes('抽象'))
+// })
 
 // Swiper
 const modules = [Navigation, Pagination]
