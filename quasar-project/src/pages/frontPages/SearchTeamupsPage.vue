@@ -29,15 +29,22 @@ const delChip = (i) => {
 
 const filterFunc = computed(() => {
   return teamups.value.filter((teamup) => {
-    const mouth = (new Date(teamup.date).getMonth() + 1).toString().padStart(2, '0')
+    const mouth = (new Date(teamup.date).getMonth() + 1)
+      .toString()
+      .padStart(2, '0')
     const date = new Date(teamup.date).getDate().toString().padStart(2, '0')
     if (filterInput.value === '') {
       return (
-        parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0
+        parseInt(_.intersection(teamup.types, filterCondition.types).length) !==
+        0
       )
     } else {
       return (
-        parseInt(_.intersection(teamup.types, filterCondition.types).length) !== 0 && (date.includes(filterInput.value) || mouth.includes(filterInput.value) || teamup.title.includes(filterInput.value))
+        parseInt(_.intersection(teamup.types, filterCondition.types).length) !==
+          0 &&
+        (date.includes(filterInput.value) ||
+          mouth.includes(filterInput.value) ||
+          teamup.title.includes(filterInput.value))
       )
     }
   })
@@ -65,29 +72,41 @@ getAllTeamups()
       </section>
 
       <section class="teamupList">
-        <div class="search_container bg-dark">
-          <div class="search-bar">
-            <q-input v-model="filterInput" name="search" rounded placeholder="關鍵字/標籤搜尋">
-              <template v-slot:append>
-                <q-btn icon="search" flat rounded />
-              </template>
-            </q-input>
-          </div>
-          <div class="filter-area q-gutter-md">
-            <div class="game-types">
+        <div class="search_container bg-dark row">
+          <div class="col-sm-12 col-md-12">
+            <div class="search-bar col-12 q-mb-sm">
+              <div class="flex items-center q-mb-sm">
+                <q-icon class="q-pl-md" name="mdi-text-search" size="sm" />
+                <div class="text-h6 q-ml-sm">關鍵字搜尋</div>
+              </div>
+              <div>
+                <q-input
+                  v-model="filterInput"
+                  name="search"
+                  rounded
+                  standout
+                  placeholder="請輸入關鍵字"
+                >
+                  <template v-slot:append>
+                    <q-btn icon="search" flat rounded />
+                  </template>
+                </q-input>
+              </div>
+            </div>
+            <div class="game-types col-12 q-mb-sm">
               <div class="flex items-center">
-                <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
-                <div class="text-h6 q-pa-md">喜歡的桌遊類型</div>
+                <q-icon class="q-pl-md" name="mdi-tag" size="sm" />
+                <div class="text-h6 q-ml-sm">喜歡的桌遊類型</div>
               </div>
               <div class="row flex flex-center">
-                <div class="col-5">
+                <div class="col-12">
                   <q-select
                     v-model="filterCondition.types"
-                    filled
+                    rounded
+                    standout
                     multiple
                     :options="types"
                     label="新增標籤"
-                    style="width: 250px"
                     bottom-slots
                   >
                     <template #append>
@@ -95,12 +114,12 @@ getAllTeamups()
                     </template>
                   </q-select>
                 </div>
-                <div class="col-4">
+                <div>
                   <q-chip
                     v-for="(chip, i) in chips"
                     :key="i"
                     v-model="chips"
-                    color="primary"
+                    color="secondary"
                     text-color="white"
                     clickable
                     icon="mdi-close-circle"
@@ -112,8 +131,9 @@ getAllTeamups()
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- <div class="game_time">
+          <!-- <div class="game_time">
               <div class="flex items-center">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
                 <div class="text-h6 q-pa-md">遊戲時間</div>
@@ -130,7 +150,6 @@ getAllTeamups()
                 />
               </div>
             </div> -->
-          </div>
         </div>
 
         <div class="cards_container">

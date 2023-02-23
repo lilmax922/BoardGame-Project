@@ -64,69 +64,84 @@ const filterFunc = computed(() => {
         <q-btn class="reservation_btn" label="我要預約" to="/reservation" />
       </section>
       <section class="boardgameList">
-        <div class="search_container row">
-          <!-- <div class="search-bar col-6 flex items-center">
-            <q-input
-              name="search"
-              rounded
-              standout
-              placeholder="關鍵字/標籤搜尋"
-              style="width: 500px"
-            >
-              <template v-slot:append>
-                <q-btn icon="search" flat rounded />
-              </template>
-            </q-input>
-          </div> -->
-          <div class="game-types col-6">
-            <div class="flex items-center">
-              <q-icon class="q-pl-md" name="mdi-google-downasaur" size="sm" />
-              <div class="text-h6 q-pa-md">桌遊類型</div>
+        <div class="search_container bg-dark row">
+          <div class="col-sm-12 col-md-12 col-lg-6" style="flex-grow: 1;">
+            <div class="search-bar col-12 q-mb-sm">
+              <div class="flex items-center q-mb-sm">
+                <q-icon class="q-pl-md" name="mdi-text-search" size="sm" />
+                <div class="text-h6 q-ml-sm">關鍵字搜尋</div>
+              </div>
+              <div>
+                <q-input
+                  v-model="filterInput"
+                  name="search"
+                  rounded
+                  standout
+                  placeholder="請輸入關鍵字"
+                  style="max-width: 700px"
+                >
+                  <template v-slot:append>
+                    <q-btn icon="search" flat rounded />
+                  </template>
+                </q-input>
+              </div>
             </div>
-            <div class="row flex flex-center">
-              <div class="col-12">
-                <!-- <q-option-group
+
+            <div class="game-types col-12 q-mb-sm">
+              <div class="flex items-center">
+                <q-icon class="q-pl-md" name="mdi-tag" size="sm" />
+                <div class="text-h6 q-ml-sm">桌遊類型</div>
+              </div>
+              <div class="row flex flex-center">
+                <div class="col-12">
+                  <!-- <q-option-group
                       v-model="typeGroup"
                       :options="types"
                       type="checkbox"
                       inline
                       size="lg"
                     /> -->
-                <q-select
-                  v-model="filterCondition.types"
-                  filled
-                  multiple
-                  :options="types"
-                  label="新增標籤"
-                  bottom-slots
-                >
-                  <template #append>
-                    <q-btn round dense flat icon="add" @click="addChip" />
-                  </template>
-                </q-select>
-              </div>
-              <div>
-                <q-chip
-                  v-for="(chip, i) in chips"
-                  :key="i"
-                  v-model="chips"
-                  color="secondary"
-                  text-color="white"
-                  clickable
-                  icon="mdi-close-circle"
-                  icon-color="white"
-                  @click="delChip(i)"
-                >
-                  {{ chip }}
-                </q-chip>
+                  <q-select
+                    v-model="filterCondition.types"
+                    rounded
+                    standout
+                    multiple
+                    :options="types"
+                    label="新增標籤"
+                    bottom-slots
+                    style="max-width: 700px"
+                  >
+                    <template #append>
+                      <q-btn round dense flat icon="add" @click="addChip" />
+                    </template>
+                  </q-select>
+                </div>
+                <div>
+                  <q-chip
+                    v-for="(chip, i) in chips"
+                    :key="i"
+                    v-model="chips"
+                    color="secondary"
+                    text-color="white"
+                    clickable
+                    icon="mdi-close-circle"
+                    icon-color="white"
+                    @click="delChip(i)"
+                  >
+                    {{ chip }}
+                  </q-chip>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-6">
-            <div class="game_time col-12">
-              <div class="flex items-center">
+
+          <div class="col-sm-12 col-md-12 col-lg-6" style="flex-grow: 1;">
+            <div class="game_time col-12 q-mb-md">
+              <div class="flex items-center q-mb-sm">
                 <q-icon class="q-pl-md" name="mdi-timer-sand" size="sm" />
-                <div class="text-h6 q-pa-md">遊戲時間</div>
+                <div class="text-h6 q-ml-sm">遊戲時間</div>
+              </div>
+              <div>
                 <q-slider
                   v-model="filterCondition.gameTime"
                   class="q-px-lg"
@@ -140,11 +155,13 @@ const filterFunc = computed(() => {
                 />
               </div>
             </div>
-            <div class="players col-12">
-              <div class="flex items-center">
-                <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
 
-                <div class="text-h6 q-pa-md">遊玩人數</div>
+            <div class="players col-12 q-mb-md">
+              <div class="flex items-center q-mb-sm">
+                <q-icon class="q-pl-md" name="mdi-account-group" size="sm" />
+                <div class="text-h6 q-ml-sm">遊玩人數</div>
+              </div>
+              <div>
                 <q-range
                   v-model="filterCondition.players"
                   class="q-px-lg"
@@ -158,9 +175,9 @@ const filterFunc = computed(() => {
               </div>
             </div>
           </div>
-          <div class="filter-area q-gutter-md row"></div>
         </div>
 
+        <!-- 桌遊卡片 -->
         <div class="cards_container">
           <div class="row q-mx-auto">
             <div
@@ -201,9 +218,6 @@ const filterFunc = computed(() => {
       border: 1px solid $primary;
     }
   }
-  .search_container {
-    background-color: $dark;
-  }
   .boardgameList {
     width: 100%;
 
@@ -218,10 +232,7 @@ const filterFunc = computed(() => {
     .search_container {
       border-radius: 16px;
       padding: 1rem;
-
-      .game_time {
-        border-radius: 16px;
-      }
+      width: 100%;
     }
   }
 }
