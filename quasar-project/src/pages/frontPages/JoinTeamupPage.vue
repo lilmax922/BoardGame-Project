@@ -1,11 +1,17 @@
 <script setup>
 import { reactive, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useQuasar, Notify } from 'quasar'
+import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 import { api, apiAuth } from 'src/boot/axios'
 import { useUserStore } from 'src/stores/user'
 import { useTeamupStore } from 'src/stores/teamup'
+import TeamupCard from 'src/components/TeamupCard.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,6 +24,9 @@ const { _id } = storeToRefs(userStore)
 const { teamups } = storeToRefs(teamupStore)
 
 getAllTeamups()
+
+// Swiper
+const modules = [Navigation, Pagination]
 
 const joined = ref(false)
 const teamup = reactive({
@@ -37,7 +46,9 @@ const teamup = reactive({
 })
 
 const filterHandler = computed(() => {
-  return teamups.value.filter((teamup) => teamup.types.includes(teamup.types))
+  return teamups.value.filter((item) => {
+    return item.types.some((type) => teamup.types.includes(type))
+  })
 });
 
 // 取揪團資料
@@ -150,87 +161,117 @@ const onSubmit = async () => {
           </template>
           <q-breadcrumbs-el icon="mdi-home" to="/" />
           <q-breadcrumbs-el label="揪團組隊" to="/searchTeamups" />
-          <q-breadcrumbs-el label="參加揪團" />
+          <q-breadcrumbs-el :label="teamup.title"></q-breadcrumbs-el>
         </q-breadcrumbs>
       </div>
 
-      <q-form @submit="onSubmit" class="teamup_wrap q-mt-xl">
-        <q-card class="teamup_card" flat>
-          <q-card-section class="q-pa-xl" horizontal>
-            <q-img class="card_img col-5" :src="teamup.cardImage" />
+      <section id="teamup_form">
+        <q-form @submit="onSubmit" class="teamup_wrap q-mt-xl">
+          <q-card class="teamup_card" flat>
+            <q-card-section class="q-pa-xl row">
+              <q-card-section class="col-xs-12 col-lg-5">
+                <q-img class="card_img" :src="teamup.cardImage" />
+              </q-card-section>
 
-            <q-card-section class="info_area col-7 flex column">
-              <div class="q-mb-lg">
-                <span class="nickname_area">
-                  <q-icon name="mdi-human-greeting" />
-                  <span class="nickname">
-                    {{ teamup.organizer.nickname }}
+              <q-card-section class="info_area col-xs-12 col-lg-7">
+
+                <div class="q-mb-lg">
+                  <span class="nickname_area">
+                    <q-icon name="mdi-human-greeting" />
+                    <span class="nickname">
+                      {{ teamup.organizer.nickname }}
+                    </span>
                   </span>
-                </span>
-              </div>
-
-              <div class="title_area q-mt-md">
-                <div class="text-h2">{{ teamup.title }}</div>
-              </div>
-
-              <q-separator class="q-my-lg" />
-
-              <div class="content_area">
-                <div class="text-h4">{{ teamup.content }}</div>
-              </div>
-
-              <div class="icon_area q-mt-lg">
-                <div class="type">
-                  <q-icon name="mdi-google-downasaur" class="q-pr-sm" />
-                  <q-chip
-                    v-for="type in teamup.types"
-                    :key="type"
-                    color="secondary"
-                    size="md"
-                  >
-                    &#35;{{ type }}
-                  </q-chip>
                 </div>
-                <div class="date flex items-center">
-                  <q-icon name="mdi-calendar-clock" />
-                  <div>
-                    &nbsp; {{ new Date(teamup.date).toLocaleDateString() }}
+
+                <div class="title_area q-mt-md">
+                  <div class="text-h2">{{ teamup.title }}</div>
+                </div>
+
+                <q-separator class="q-my-lg" />
+
+                <div class="content_area">
+                  <div class="text-h4">{{ teamup.content }}</div>
+                </div>
+
+                <div class="icon_area q-mt-lg">
+                  <div class="type">
+                    <q-icon name="mdi-google-downasaur" class="q-pr-sm" />
+                    <q-chip v-for="type in teamup.types" :key="type" color="secondary" size="md">
+                      &#35;{{ type }}
+                    </q-chip>
                   </div>
-                </div>
-                <div class="time flex items-center">
-                  <q-icon name="mdi-clock-time-four-outline"></q-icon>
-                  <div>&nbsp; {{ teamup.time }}</div>
-                </div>
-                <div class="people flex items-center">
-                  <q-icon name="mdi-account-group"></q-icon>
-                  <div>
-                    &nbsp; {{ teamup.currentPeople }} /
-                    {{ teamup.totalPeople }} 人
+                  <div class="date flex items-center">
+                    <q-icon name="mdi-calendar-clock" />
+                    <div>
+                      &nbsp; {{ new Date(teamup.date).toLocaleDateString() }}
+                    </div>
                   </div>
-                </div>
-                <q-btn
-                  v-if="!joined"
-                  class="joinBtn"
-                  type="submit"
-                  :label="
+                  <div class="time flex items-center">
+                    <q-icon name="mdi-clock-time-four-outline"></q-icon>
+                    <div>&nbsp; {{ teamup.time }}</div>
+                  </div>
+                  <div class="people flex items-center">
+                    <q-icon name="mdi-account-group"></q-icon>
+                    <div>
+                      &nbsp; {{ teamup.currentPeople }} /
+                      {{ teamup.totalPeople }} 人
+                    </div>
+                  </div>
+                  <q-btn v-if="!joined" class="joinBtn" type="submit" :label="
                     teamup.currentPeople === teamup.totalPeople
                       ? '人數已滿'
                       : '參加揪團'
-                  "
-                  :disable="isFull"
-                />
-                <q-btn
-                  v-else
-                  class="cancelBtn"
-                  type="submit"
-                  label="取消參加"
-                  :disable="teamup.loading"
-                />
-              </div>
+                  " :disable="isFull" />
+                  <q-btn v-else class="cancelBtn" type="submit" label="取消參加" :disable="teamup.loading" />
+                </div>
+
+              </q-card-section>
             </q-card-section>
-          </q-card-section>
-        </q-card>
-      </q-form>
+          </q-card>
+        </q-form>
+      </section>
+
+      <section id="search_for">
+        <div class="row">
+          <div class="col-12">
+            <div class="title text-h4">YOU MAY LOOKING FOR</div>
+            <div class="q-mt-lg">
+              <Swiper
+                class="mySwiper"
+                :modules="modules"
+                :navigation="true"
+                :pagination="true"
+                :slidesPerView="1"
+                :spaceBetween="30"
+                :breakpoints="{
+                  '576': {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                  },
+                  '768': {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                  },
+                  '1024': {
+                    slidesPerView: 3,
+                    spaceBetween: 40,
+                  },
+                  '1200': {
+                    slidesPerView: 4,
+                    spaceBetween: 50,
+                  }
+                }"
+              >
+                <SwiperSlide v-for="i in filterHandler" :key="i">
+                  <TeamupCard v-bind="i" />
+                </SwiperSlide>
+              </Swiper>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   </q-page>
 </template>
@@ -238,6 +279,10 @@ const onSubmit = async () => {
 <style lang="scss" scoped>
 #jointeamup {
   width: 100%;
+
+  section+section {
+    margin-top: 4rem;
+  }
 
   .teamup_card {
     max-height: 800px;
@@ -251,6 +296,7 @@ const onSubmit = async () => {
     .card_img {
       max-height: 500px;
       border-radius: 16px;
+      position: static;
     }
 
     .info_area {
@@ -267,6 +313,7 @@ const onSubmit = async () => {
           margin-left: 0.5rem;
         }
       }
+
       .joinBtn {
         width: 200px;
         position: absolute;
@@ -308,6 +355,13 @@ const onSubmit = async () => {
       .time {
         margin-bottom: 1.5rem;
       }
+    }
+  }
+
+  #search_for {
+    .title {
+      border-left: 15px solid $primary;
+      padding-left: 1rem;
     }
   }
 }
