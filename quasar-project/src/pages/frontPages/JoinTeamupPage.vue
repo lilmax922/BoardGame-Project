@@ -2,16 +2,18 @@
 import { reactive, ref, computed } from 'vue'
 import { api, apiAuth } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
-import { Notify } from 'quasar'
+import { useQuasar, Notify } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from 'src/stores/user'
 import { useTeamupStore } from 'src/stores/teamup'
 
 const route = useRoute()
 const router = useRouter()
+const $q = useQuasar()
 const userStore = useUserStore()
 const teamupStore = useTeamupStore()
 const { _id } = storeToRefs(userStore)
+const { isLoginHandler } = userStore
 const { teamups } = storeToRefs(teamupStore)
 
 const joined = ref(false)
@@ -52,11 +54,9 @@ const teamup = reactive({
     // 使用者可以看到 title 變更，但對爬蟲沒用
     document.title = '揪遊列國 | ' + teamup.title
   } catch (error) {
-    Notify.create({
+    $q.notify({
       message: '資料取得失敗',
-      textColor: 'secondary',
-      color: 'white',
-      icon: 'mdi-emoticon-dead-outline',
+      type: 'negative',
       caption: error?.response?.data?.message || '發生錯誤',
       position: 'top'
     })
@@ -69,17 +69,26 @@ const isFull = computed(() => {
 })
 
 const onSubmit = async () => {
+  if (_id.value === teamup.organizer._id) {
+    $q.notify({
+      type: 'negative',
+      message: '無法加入自己發起的揪團'
+    })
+    return
+  }
+
+  if (!isLoginHandler()) return
   const joinTeamup = async () => {
     try {
       await apiAuth.post('/teamups/' + teamup._id)
-      Notify.create({
+      $q.notify({
         message: '參加成功',
         textColor: 'primary',
         icon: 'mdi-emoticon-happy-outline',
         color: 'white'
       })
     } catch (error) {
-      Notify.create({
+      $q.notify({
         message: '資料取得失敗',
         textColor: 'secondary',
         color: 'white',
@@ -91,14 +100,14 @@ const onSubmit = async () => {
   const cancelTeamup = async () => {
     try {
       await apiAuth.post('/teamups/' + teamup._id)
-      Notify.create({
+      $q.notify({
         message: '取消成功',
         textColor: 'primary',
         icon: 'mdi-emoticon-happy-outline',
         color: 'white'
       })
     } catch (error) {
-      Notify.create({
+      $q.notify({
         message: '資料取得失敗',
         textColor: 'secondary',
         color: 'white',
