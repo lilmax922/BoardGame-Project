@@ -29,10 +29,10 @@ const teamup = reactive({
   title: '',
   content: '',
   loading: false
-})
+});
 
 // 取揪團資料
-;(async () => {
+(async () => {
   try {
     const { data } = await api.get('/teamups/' + route.params.id)
     teamup._id = data.result._id
@@ -144,8 +144,13 @@ const onSubmit = async () => {
             <q-img class="card_img col-5" :src="teamup.cardImage" />
 
             <q-card-section class="info_area col-7 flex column">
-              <div class="nickname_area">
-                <div class="text-overline">揪團發起人暱稱</div>
+              <div class="q-mb-lg">
+                <span class="nickname_area">
+                  <q-icon name="mdi-human-greeting" />
+                  <span class="nickname">
+                    {{ teamup.organizer.nickname }}
+                  </span>
+                </span>
               </div>
 
               <div class="title_area q-mt-md">
@@ -172,7 +177,9 @@ const onSubmit = async () => {
                 </div>
                 <div class="date flex items-center">
                   <q-icon name="mdi-calendar-clock" />
-                  <div>&nbsp; {{ new Date(teamup.date).toLocaleDateString() }}</div>
+                  <div>
+                    &nbsp; {{ new Date(teamup.date).toLocaleDateString() }}
+                  </div>
                 </div>
                 <div class="time flex items-center">
                   <q-icon name="mdi-clock-time-four-outline"></q-icon>
@@ -224,13 +231,26 @@ const onSubmit = async () => {
     & {
       font-size: 24px;
     }
+
     .card_img {
       max-height: 500px;
       border-radius: 16px;
     }
+
     .info_area {
       padding-left: 2rem;
 
+      .nickname_area {
+        border-radius: 8px;
+        padding: 0.3rem;
+        background-color: $secondary;
+        color: $dark;
+        font-size: 24px;
+
+        .nickname {
+          margin-left: 0.5rem;
+        }
+      }
       .joinBtn {
         width: 200px;
         position: absolute;
@@ -248,6 +268,7 @@ const onSubmit = async () => {
           background-color: $dark;
         }
       }
+
       .cancelBtn {
         width: 200px;
         position: absolute;
