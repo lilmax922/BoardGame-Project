@@ -92,6 +92,14 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  function isLoginHandler () {
+    if (token.value.length > 0) {
+      return true
+    }
+    showLoginCard.value = true
+    return false
+  }
+
   async function getMyself () {
     if (token.value.length === 0) return
     try {
@@ -158,7 +166,8 @@ export const useUserStore = defineStore('user', () => {
     isLogin,
     isAdmin,
     showLoginCard,
-    accounts
+    accounts,
+    isLoginHandler
   }
 }, {
   persist: {
