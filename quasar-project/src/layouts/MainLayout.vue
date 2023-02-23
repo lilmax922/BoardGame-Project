@@ -45,12 +45,17 @@ const close = () => {
         <!-- navbar right_area -->
         <div class="flex">
           <!-- 通知 btn -->
-          <q-btn v-if="isLogin" icon="mdi-bell" rounded flat>
-            <q-badge color="accent" floating :label="5" />
+          <q-btn v-if="isLogin" icon="mdi-bell" dense rounded flat>
+            <q-badge color="secondary" floating :label="5" />
             <q-menu fit anchor="bottom left" self="top middle">
               <q-card>
-                <q-card-section class="text-subtitle2">會員通知</q-card-section>
-                <q-separator />
+                <q-item>
+                  <q-item-label class="q-pa-sm" overline>我的通知</q-item-label>
+                </q-item>
+                <!-- <q-separator /> -->
+                <q-card-section>
+                  內容
+                </q-card-section>
                 <q-card-section></q-card-section>
               </q-card>
             </q-menu>
@@ -65,7 +70,7 @@ const close = () => {
             size="lg"
           />
           <!-- 使用者下拉選單 -->
-          <q-btn-dropdown v-if="isLogin" flat>
+          <q-btn-dropdown v-if="isLogin" class="q-ml-sm" flat>
             <template #label>
               <q-avatar>
                 <q-img :src="avatar" />
