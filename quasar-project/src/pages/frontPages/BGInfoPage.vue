@@ -130,11 +130,11 @@ const filterHandler = computed(() => {
                   </q-chip>
                 </div>
                 <div>
-                  <q-icon name="mdi-account-group" size="sm" />
+                  <q-icon name="mdi-account-group q-mr-sm" size="sm" />
                   {{ boardgame.players }} 人
                 </div>
                 <div>
-                  <q-icon name="mdi-timer-sand" size="sm" />
+                  <q-icon name="mdi-timer-sand q-mr-sm" size="sm" />
                   約 {{ boardgame.gameTime }} 分鐘
                 </div>
               </div>
@@ -188,7 +188,7 @@ const filterHandler = computed(() => {
           </div>
           <div class="endgame-area q-mb-lg">
             <div class="endgame column">
-              <div class="header text-h4 q-mb-md">結束遊戲</div>
+              <div class="header text-h6 q-mb-md">結束遊戲</div>
               <div v-html="boardgame.endGame" />
             </div>
           </div>
@@ -263,6 +263,7 @@ const filterHandler = computed(() => {
 
   .header {
     margin-bottom: 2rem;
+    color: $primary;
   }
 
   .info-area {
