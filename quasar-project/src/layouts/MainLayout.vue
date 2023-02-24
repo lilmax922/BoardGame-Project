@@ -161,15 +161,14 @@ header {
 }
 .header {
   background-color: rgba(254, 100, 29, 0.95);
+  .logo_name {
+    text-decoration: none;
+  }
 }
-.logo_name {
-  text-decoration: none;
-}
-
 .logo_name,
 .q-tabs {
   color: $dark;
-
+}
   .q-tab {
     padding: 15px 10px;
   }
@@ -181,5 +180,5 @@ header {
   .q-tab__indicator {
     height: 3.5px;
   }
-}
+
 </style>
