@@ -26,15 +26,15 @@ const close = () => {
 
 <template>
   <q-layout view="hHh lpR fff">
-    <q-header bordered class="bg-primary flex items-end" height-hint="90">
+    <q-header class="header flex flex-center" reveal>
       <q-toolbar class="row" style="width: 100%;">
         <q-toolbar-title class="col-xs-6 col-md-3" shrink>
           <!-- <q-img src="../assets/MAXXD.png" width="80px" /> -->
-          <span class="q-pl-md">揪遊列國</span>
+          <router-link class="logo_name" to="/"><span class="q-pl-md">揪遊Lego</span></router-link>
         </q-toolbar-title>
 
         <!-- 分頁 -->
-        <q-tabs class="gt-md col-md-6 flex items-end">
+        <q-tabs active-color="white" class="gt-md col-md-6 flex items-end">
           <q-route-tab to="/exploreBGs" label="探索桌遊" />
           <q-route-tab to="/searchTeamups" label="揪團組隊" />
           <q-route-tab to="/teamup" label="我要揪團" />
@@ -61,14 +61,7 @@ const close = () => {
             </q-menu>
           </q-btn>
           <!-- 登入/註冊 btn -->
-          <q-btn
-            v-if="!isLogin"
-            @click="showLoginCard = true"
-            icon="mdi-account-circle"
-            flat
-            dense
-            size="lg"
-          />
+          <q-btn v-if="!isLogin" @click="showLoginCard = true" icon="mdi-account-circle" flat dense size="lg" />
           <!-- 使用者下拉選單 -->
           <q-btn-dropdown v-if="isLogin" class="q-ml-sm" flat>
             <template #label>
@@ -122,13 +115,7 @@ const close = () => {
               <q-separator v-if="isLogin" />
               <q-item v-if="isLogin">
                 <q-item-section>
-                  <q-btn
-                    @click="logout"
-                    icon="fa-solid fa-person-walking-arrow-right"
-                    label="登出"
-                    flat
-                    dense
-                  />
+                  <q-btn @click="logout" icon="fa-solid fa-person-walking-arrow-right" label="登出" flat dense />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -142,14 +129,7 @@ const close = () => {
     </q-header>
 
     <!-- 右側抽屜 -->
-    <q-drawer
-      v-model="rightDrawerOpen"
-      side="right"
-      overlay
-      bordered
-      :width="200"
-      :breakpoint="200"
-    >
+    <q-drawer v-model="rightDrawerOpen" side="right" overlay bordered :width="200" :breakpoint="200">
       <!-- drawer content -->
     </q-drawer>
 
@@ -158,16 +138,8 @@ const close = () => {
     </q-page-container>
 
     <q-dialog v-model="showLoginCard" persistent>
-      <LoginCard
-        v-if="!showRegisterCard"
-        @showRegisterCard="toggleRegisterCardHandler"
-        @closeDialog="close"
-      />
-      <RegisterCard
-        v-if="showRegisterCard"
-        @showRegisterCard="toggleRegisterCardHandler"
-        @closeDialog="close"
-      />
+      <LoginCard v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close" />
+      <RegisterCard v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close" />
     </q-dialog>
 
     <q-footer class="bg-primary text-dark">
@@ -183,20 +155,31 @@ const close = () => {
   </q-layout>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 header {
   height: 65px;
 }
+.header {
+  background-color: rgba(254, 100, 29, 0.95);
+}
+.logo_name {
+  text-decoration: none;
+}
+
 .logo_name,
 .q-tabs {
   color: $dark;
+
+  .q-tab {
+    padding: 15px 10px;
+  }
 
   .q-tab__label {
     font-size: 16px;
   }
 
   .q-tab__indicator {
-    height: 3px;
+    height: 3.5px;
   }
 }
 </style>

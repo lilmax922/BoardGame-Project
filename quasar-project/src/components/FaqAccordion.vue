@@ -25,7 +25,7 @@ const faqs = reactive([
   {
     icon: 'mdi-help-circle-outline',
     label: '能帶外食嗎',
-    text: '揪遊列國提供的是一個可以安心歡樂暢快玩桌遊不用擔心吵到別人或被趕的環境，因此自帶桌遊一樣正常計費哦。'
+    text: '攜帶外食將酌收每人５０元清潔費，生日蛋糕、水、嬰兒食品除外。'
   }
 ])
 </script>
