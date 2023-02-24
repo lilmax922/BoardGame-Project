@@ -48,10 +48,10 @@ const modules = [Navigation, Pagination]
     <section id="about_section">
       <div class="container">
         <div class="row">
-          <div class="about_title text-h6">關於揪遊Lego</div>
-          <div class="about_content col-12 q-pt-md text-h6 text-center">
+          <div class="about_title text-h5">關於揪遊Lego</div>
+          <p class="about_content col-12 q-pt-md text-h6 text-center">
             在這個科技冷漠的世代，我們希望成為一個讓人們聚在一起，享受桌遊樂趣的地方，並透過桌遊這個媒介，讓人們能夠在日常生活中找到快樂和樂趣。
-          </div>
+          </p>
         </div>
       </div>
     </section>
@@ -167,7 +167,7 @@ const modules = [Navigation, Pagination]
   .hero {
     position: relative;
     width: 100%;
-    height: 75vh;
+    height: 100vh;
     background: url("../assets/images/hero/mix1.png") no-repeat;
     background-size: cover;
     background-position: 50%;
@@ -214,16 +214,17 @@ const modules = [Navigation, Pagination]
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        font-weight: 800;
+        font-weight: 900;
         border-bottom: 1px solid #fff;
         padding-bottom: 2px;
       }
 
       .about_content {
         display: flex;
-        max-width: 500px;
+        max-width: 750px;
         margin-top: 100px;
-
+        color: $text-color;
+        font-weight: 700;
       }
     }
   }

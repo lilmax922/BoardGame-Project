@@ -175,7 +175,7 @@ header {
   }
 
   .q-tab__label {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .q-tab__indicator {
