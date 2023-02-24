@@ -65,7 +65,7 @@ const onSubmit = async () => {
       <q-form @submit="onSubmit" class="flex flex-center column">
         <div class="row avatar_area">
           <div class="col-12 flex flex-center q-my-xl">
-            <q-avatar>
+            <q-avatar size="150px">
               <q-img :src="avatar" />
             </q-avatar>
             <!-- <q-btn
