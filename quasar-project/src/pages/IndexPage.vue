@@ -36,7 +36,7 @@ const modules = [Navigation, Pagination]
 
 <template>
   <q-page id="index">
-    <div class="hero q-mb-md">
+    <div class="hero">
       <!-- <div class="glass row">
             <div class="title col-12 text-h3">關於我們</div>
             <div class="content col-12 q-pt-md text-h6">
@@ -49,7 +49,7 @@ const modules = [Navigation, Pagination]
       <div class="container">
         <div class="row">
           <div class="about_title text-h6">關於揪遊Lego</div>
-          <div class="content about_content col-12 q-pt-md text-h6 text-center">
+          <div class="about_content col-12 q-pt-md text-h6 text-center">
             在這個科技冷漠的世代，我們希望成為一個讓人們聚在一起，享受桌遊樂趣的地方，並透過桌遊這個媒介，讓人們能夠在日常生活中找到快樂和樂趣。
           </div>
         </div>
@@ -203,6 +203,8 @@ const modules = [Navigation, Pagination]
   }
 
   #about_section {
+    margin: 150px 0;
+
     .row {
       width: 100%;
       display: flex;
