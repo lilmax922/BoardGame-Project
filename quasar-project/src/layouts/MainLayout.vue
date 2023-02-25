@@ -26,15 +26,18 @@ const close = () => {
 
 <template>
   <q-layout view="hHh lpR fff">
-    <q-header class="header flex flex-center" reveal>
-      <q-toolbar class="row" style="width: 100%;">
+    <q-header id="mainlayout" class="header flex flex-center" reveal>
+      <q-toolbar class="row" style="width: 100%">
         <q-toolbar-title class="col-xs-6 col-md-3" shrink>
-          <!-- <q-img src="../assets/MAXXD.png" width="80px" /> -->
-          <router-link class="logo_name" to="/"><span class="q-pl-md">揪遊Lego</span></router-link>
+          <router-link style="text-decoration: none" to="/">
+            <q-img src="../assets/logo.png" width="50px" />
+            <span class="logo_name q-pl-md">揪遊Lego</span>
+          </router-link>
         </q-toolbar-title>
 
         <!-- 分頁 -->
         <q-tabs active-color="white" class="gt-md col-md-6 flex items-end">
+          <q-route-tab to="/" label="首頁" />
           <q-route-tab to="/exploreBGs" label="探索桌遊" />
           <q-route-tab to="/searchTeamups" label="揪團組隊" />
           <q-route-tab to="/teamup" label="我要揪團" />
@@ -53,15 +56,20 @@ const close = () => {
                   <q-item-label class="q-pa-sm" overline>我的通知</q-item-label>
                 </q-item>
                 <!-- <q-separator /> -->
-                <q-card-section>
-                  內容
-                </q-card-section>
+                <q-card-section> 內容 </q-card-section>
                 <q-card-section></q-card-section>
               </q-card>
             </q-menu>
           </q-btn>
           <!-- 登入/註冊 btn -->
-          <q-btn v-if="!isLogin" @click="showLoginCard = true" icon="mdi-account-circle" flat dense size="lg" />
+          <q-btn
+            v-if="!isLogin"
+            @click="showLoginCard = true"
+            icon="mdi-account-circle"
+            flat
+            dense
+            size="lg"
+          />
           <!-- 使用者下拉選單 -->
           <q-btn-dropdown v-if="isLogin" class="q-ml-sm" flat>
             <template #label>
@@ -115,7 +123,13 @@ const close = () => {
               <q-separator v-if="isLogin" />
               <q-item v-if="isLogin">
                 <q-item-section>
-                  <q-btn @click="logout" icon="fa-solid fa-person-walking-arrow-right" label="登出" flat dense />
+                  <q-btn
+                    @click="logout"
+                    icon="fa-solid fa-person-walking-arrow-right"
+                    label="登出"
+                    flat
+                    dense
+                  />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -129,7 +143,14 @@ const close = () => {
     </q-header>
 
     <!-- 右側抽屜 -->
-    <q-drawer v-model="rightDrawerOpen" side="right" overlay bordered :width="200" :breakpoint="200">
+    <q-drawer
+      v-model="rightDrawerOpen"
+      side="right"
+      overlay
+      bordered
+      :width="200"
+      :breakpoint="200"
+    >
       <!-- drawer content -->
     </q-drawer>
 
@@ -138,47 +159,62 @@ const close = () => {
     </q-page-container>
 
     <q-dialog v-model="showLoginCard" persistent>
-      <LoginCard v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close" />
-      <RegisterCard v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close" />
+      <LoginCard
+        v-if="!showRegisterCard"
+        @showRegisterCard="toggleRegisterCardHandler"
+        @closeDialog="close"
+      />
+      <RegisterCard
+        v-if="showRegisterCard"
+        @showRegisterCard="toggleRegisterCardHandler"
+        @closeDialog="close"
+      />
     </q-dialog>
 
     <q-footer class="bg-primary text-dark">
       <q-toolbar>
-        <q-toolbar>
           <q-avatar class="q-mr-sm">
-            <img src="../assets/MAXXD.png" />
+            <img src="../assets/logo.png" />
           </q-avatar>
-          <span class="text-center" style="font-size:14px;">©2023 泰山職訓網頁 專題設計 by 胡俊宇</span>
-        </q-toolbar>
+          <span class="text-center" style="font-size: 14px"
+            >©2023 泰山職訓 網頁專題設計 by 胡俊宇</span
+          >
       </q-toolbar>
     </q-footer>
   </q-layout>
 </template>
 
-<style lang="scss" scoped>
-header {
-  height: 65px;
-}
-.header {
-  background-color: rgba(254, 100, 29, 0.95);
-  .logo_name {
-    text-decoration: none;
+<style lang="scss">
+#mainlayout {
+  header {
+    height: 65px;
   }
-}
-.logo_name,
-.q-tabs {
-  color: $dark;
-}
+
+  .header {
+    background-color: $primary;
+  }
+
+  .logo_name,
+  .q-tabs {
+    color: $dark;
+  }
+
   .q-tab {
     padding: 15px 10px;
   }
 
   .q-tab__label {
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: 500;
+
+    &:hover {
+      color: #fff;
+      transition: 0.5s;
+    }
   }
 
   .q-tab__indicator {
     height: 3.5px;
   }
-
+}
 </style>
