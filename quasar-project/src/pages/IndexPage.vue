@@ -29,38 +29,45 @@ const { teamups } = storeToRefs(teamupStore)
 getPostBoardgames()
 getAllTeamups()
 
-// computed
-// const filterTeamups = computed(() => {
-//   return teamups.value.filter((item) => item.types.includes('抽象'))
-// })
-
 // Swiper
 const modules = [Navigation, Pagination, Autoplay]
 </script>
 
 <template>
   <q-page id="index">
-    <div class="hero flex flex-center">
-      <div class="container">
-        <div class="text-center">
-          <p class="hero-title text-h2">
-            Board games bring people closer together.
-          </p>
-          <div class="flex flex-center q-gutter-md q-mt-lg">
-            <div>
-              <q-btn
-                class="hero_btn"
-                to="/reservation"
-                label="我要預約"
-              ></q-btn>
-            </div>
-            <div>
-              <q-btn class="hero_btn" to="/teamup" label="我要揪團"></q-btn>
-            </div>
+    <section class="hero flex flex-center">
+      <div class="row">
+        <div class="inner_container col-12">
+          <div class="banner_content text-center">
+            <div class="text-h3 text-weight-bold">WELCOME TO</div>
+            <br />
+            <div class="text-h3 text-weight-bold">揪遊Lego</div>
           </div>
         </div>
+        <div class="video_container col-12">
+          <video
+            class="intro_video"
+            src="../assets/intro.mp4"
+            autoplay
+            loop
+            muted
+          />
+        </div>
+        <div class="btn_area col-12 flex flex-center q-gutter-md q-mt-lg">
+              <div>
+                <q-btn
+                  class="hero_btn"
+                  to="/reservation"
+                  label="RESERVATION"
+                ></q-btn>
+              </div>
+              <div>
+                <q-btn class="hero_btn" to="/teamup" label="TEAMUP"></q-btn>
+              </div>
+        </div>
       </div>
-    </div>
+
+    </section>
 
     <section id="about_section">
       <div class="container">
@@ -76,7 +83,7 @@ const modules = [Navigation, Pagination, Autoplay]
           </div>
           <p
             class="about_title col-12 text-h5 text-accent text-center text-weight-bold"
-            data-aos="fade-right"
+            data-aos="fade-up-right"
             data-aos-duration="1500"
             data-aos-easing="ease-in-sine"
           >
@@ -84,7 +91,7 @@ const modules = [Navigation, Pagination, Autoplay]
           </p>
           <p
             class="about_content col-12 q-pt-md text-h6 text-weight-medium text-center"
-            data-aos="fade-left"
+            data-aos="fade-up-left"
             data-aos-duration="1500"
             data-aos-easing="ease-in-sine"
           >
@@ -103,6 +110,17 @@ const modules = [Navigation, Pagination, Autoplay]
       </div>
     </section>
 
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-12 flex flex-center" style="margin-top: 150px;">
+            <div class="title text-h6" data-aos="fade-up"
+              data-aos-duration="1000">WHAT YOU LOOKING FOR</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 桌遊 -->
     <section id="boardgame_section">
       <div class="container">
@@ -111,9 +129,9 @@ const modules = [Navigation, Pagination, Autoplay]
             <div
               data-aos="fade-right"
               data-aos-duration="1500"
-              class="title text-h4"
+              class="subtitle text-h4"
             >
-              大家都在<span class="text-accent">玩</span>
+              Board Games
             </div>
             <!-- boardgame Swiper Area -->
             <div class="content">
@@ -140,11 +158,7 @@ const modules = [Navigation, Pagination, Autoplay]
                   '1024': {
                     slidesPerView: 3,
                     spaceBetween: 40,
-                  },
-                  '1200': {
-                    slidesPerView: 4,
-                    spaceBetween: 50,
-                  },
+                  }
                 }"
               >
                 <SwiperSlide v-for="i in boardgames" :key="i">
@@ -163,11 +177,11 @@ const modules = [Navigation, Pagination, Autoplay]
         <div class="row">
           <div class="col-12">
             <div
-              class="title text-h4"
+              class="subtitle text-h4"
               data-aos="fade-right"
               data-aos-duration="1500"
             >
-              大家都在<span class="text-accent">揪</span>
+              Teamups
             </div>
             <div class="content">
               <Swiper
@@ -193,11 +207,7 @@ const modules = [Navigation, Pagination, Autoplay]
                   '1024': {
                     slidesPerView: 3,
                     spaceBetween: 40,
-                  },
-                  '1200': {
-                    slidesPerView: 4,
-                    spaceBetween: 50,
-                  },
+                  }
                 }"
               >
                 <SwiperSlide v-for="i in teamups" :key="i">
@@ -210,16 +220,6 @@ const modules = [Navigation, Pagination, Autoplay]
       </div>
     </section>
 
-    <!-- <section>
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-12">
-                        <div>本期EVENT</div>
-                      </div>
-                    </div>
-                  </div>
-                </section> -->
-
     <!-- FAQ -->
     <section id="faq_section">
       <div class="container">
@@ -228,9 +228,9 @@ const modules = [Navigation, Pagination, Autoplay]
             <div
               class="text-center"
               data-aos="fade-up"
-              data-aos-duration="3000"
+              data-aos-duration="2500"
             >
-              <div class="faq text-h6">常見問題</div>
+              <div class="faq text-h6">FAQs</div>
             </div>
             <div class="content">
               <FaqAccordion />
@@ -240,27 +240,78 @@ const modules = [Navigation, Pagination, Autoplay]
       </div>
     </section>
 
-      <section>
-        <div>
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/25OpgUg5qCI" frameborder="0" allowfullscreen></iframe>
+    <!-- contact us -->
+    <section>
+      <div class="row">
+        <div class="col-12">
+          <div class="col-6"></div>
+          <div class="col-6"></div>
         </div>
-      </section>
+      </div>
+    </section>
+
   </q-page>
 </template>
 
 <style lang="scss">
 #index {
+  overflow-x: hidden;
+
+  .container {
+    .title {
+      display: inline-block;
+      font-weight: 900;
+      border-bottom: 1px solid #fff;
+      padding-bottom: 2px;
+    }
+
+    .subtitle {
+      border-left: 15px solid $primary;
+      padding-left: 1rem;
+    }
+
+    .content {
+      margin: 2rem 0 4.5rem 0;
+    }
+  }
+
   .hero {
     position: relative;
     width: 100%;
-    height: 75vh;
-    background: url("../assets/images/hero/boardgames-banner-image.png")
-      no-repeat;
-    background-size: cover;
-    background-position: 50%;
+    height: 100vh;
+    background: url('../assets/mask.png') no-repeat center/100% 100%;
+    // background-size: cover;
 
-    .hero-title {
-      font-weight: 700;
+    .inner_container {
+      display: table;
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+
+      .banner_content {
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+
+    .video_container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+
+      .intro_video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .hero_btn {
@@ -269,9 +320,9 @@ const modules = [Navigation, Pagination, Autoplay]
       border: 1px solid #fff;
 
       &:hover {
-        transition: 0.5s;
         color: $dark;
         background-color: #fff;
+        transition: 0.5s;
       }
     }
 
@@ -308,21 +359,6 @@ const modules = [Navigation, Pagination, Autoplay]
           border: 1px solid $primary;
         }
       }
-    }
-  }
-
-  .container {
-    .title {
-      border-left: 15px solid $primary;
-      padding-left: 1rem;
-      // text-align: center;
-      // border-bottom: 1px solid #fff;
-      // padding-bottom: 2px;
-      // display: inline-block;
-    }
-
-    .content {
-      margin: 2rem 0 4.5rem 0;
     }
   }
 
