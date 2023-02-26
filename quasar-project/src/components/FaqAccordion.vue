@@ -31,7 +31,6 @@ const faqs = reactive([
 </script>
 
 <template>
-  <div class="q-pa-md">
     <q-list bordered>
       <q-expansion-item
         v-for="faq in faqs"
@@ -51,5 +50,4 @@ const faqs = reactive([
         </q-card>
       </q-expansion-item>
     </q-list>
-  </div>
 </template>
