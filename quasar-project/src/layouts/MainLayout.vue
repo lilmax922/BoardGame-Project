@@ -26,12 +26,12 @@ const close = () => {
 
 <template>
   <q-layout view="hHh lpR fff">
-    <q-header id="mainlayout" class="header flex flex-center" reveal>
+    <q-header id="mainlayout" class="flex flex-center" reveal>
       <q-toolbar class="row" style="width: 100%">
         <q-toolbar-title class="col-xs-6 col-md-3" shrink>
           <router-link style="text-decoration: none" to="/">
             <q-img src="../assets/logo.png" width="50px" />
-            <span class="logo_name q-pl-md">揪遊Lego</span>
+            <span class="logo_name q-pl-md">揪遊</span>
           </router-link>
         </q-toolbar-title>
 
@@ -186,12 +186,10 @@ const close = () => {
 
 <style lang="scss">
 #mainlayout {
+  // background-color: #fff;
+
   header {
     height: 65px;
-  }
-
-  .header {
-    background-color: $primary;
   }
 
   .logo_name,
