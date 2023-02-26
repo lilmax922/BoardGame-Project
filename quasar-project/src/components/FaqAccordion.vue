@@ -32,15 +32,15 @@ const faqs = reactive([
 
 <template>
   <div class="q-pa-md">
-    <q-list>
+    <q-list bordered>
       <q-expansion-item
         v-for="faq in faqs"
         :key="faq"
         group="faq_group"
         :icon="faq.icon"
         :label="faq.label"
-        header-class="text-primary"
         expand-separator
+        header-class="text-primary"
         :default-opened="faq === faqs[1]"
         popup
       >
