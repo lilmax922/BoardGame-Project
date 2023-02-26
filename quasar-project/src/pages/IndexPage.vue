@@ -54,19 +54,18 @@ const modules = [Navigation, Pagination, Autoplay]
           />
         </div>
         <div class="btn_area col-12 flex flex-center q-gutter-md q-mt-lg">
-              <div>
-                <q-btn
-                  class="hero_btn"
-                  to="/reservation"
-                  label="RESERVATION"
-                ></q-btn>
-              </div>
-              <div>
-                <q-btn class="hero_btn" to="/teamup" label="TEAMUP"></q-btn>
-              </div>
+          <div>
+            <q-btn
+              class="hero_btn"
+              to="/reservation"
+              label="RESERVATION"
+            ></q-btn>
+          </div>
+          <div>
+            <q-btn class="hero_btn" to="/teamup" label="TEAMUP"></q-btn>
+          </div>
         </div>
       </div>
-
     </section>
 
     <!-- 關於揪遊 -->
@@ -111,12 +110,18 @@ const modules = [Navigation, Pagination, Autoplay]
       </div>
     </section>
 
+    <!-- what you looking for -->
     <section>
       <div class="container">
         <div class="row">
-          <div class="col-12 flex flex-center" style="margin-top: 100px;">
-            <div class="title text-h6" data-aos="fade-up"
-              data-aos-duration="1000">WHAT YOU LOOKING FOR</div>
+          <div class="col-12 flex flex-center" style="margin-top: 100px">
+            <div
+              class="title text-h6"
+              data-aos="fade-up"
+              data-aos-duration="1000"
+            >
+              WHAT YOU LOOKING FOR
+            </div>
           </div>
         </div>
       </div>
@@ -162,7 +167,7 @@ const modules = [Navigation, Pagination, Autoplay]
                   '1500': {
                     slidesPerView: 4,
                     spaceBetween: 50,
-                  }
+                  },
                 }"
               >
                 <SwiperSlide v-for="i in boardgames" :key="i">
@@ -214,7 +219,7 @@ const modules = [Navigation, Pagination, Autoplay]
                   '1500': {
                     slidesPerView: 4,
                     spaceBetween: 50,
-                  }
+                  },
                 }"
               >
                 <SwiperSlide v-for="i in teamups" :key="i">
@@ -237,7 +242,7 @@ const modules = [Navigation, Pagination, Autoplay]
               data-aos="fade-up"
               data-aos-duration="2000"
             >
-              <div class="faq text-h6">FAQs</div>
+              <div class="title text-h6">FAQs</div>
             </div>
             <div class="content">
               <FaqAccordion />
@@ -248,15 +253,97 @@ const modules = [Navigation, Pagination, Autoplay]
     </section>
 
     <!-- contact us -->
-    <section>
-      <div class="row">
-        <div class="col-12">
-          <div class="col-6"></div>
-          <div class="col-6"></div>
+    <!-- <section id="contact_section">
+      <div class="container">
+        <div class="row q-mx-lg">
+          <div class="text-center text-h6 col-12">
+            <p class="title">CONTACT US</p>
+          </div>
+          <div class="col-sm-12 col-md-4" style="flex-grow: 1;">
+            <div class="icon">
+              <q-icon name="mdi-map-marker" size="sm">
+              </q-icon>
+                <span>新北市泰山區貴子里致遠新村55之1號</span>
+            </div >
+            <div class="icon">
+              <q-icon name="mdi-phone" size="sm"></q-icon>
+              <span>(02)1111-2222</span>
+            </div>
+            <div class="icon">
+              <q-icon name="mdi-email" size="sm"></q-icon>
+              <span>joyo@boardgame.com</span>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4 text-center" style="flex-grow: 1;">
+            <q-img src="../assets/logo.png" alt="logo" width="150px"/>
+          </div>
+          <div class="col-sm-12 col-md-4">
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <section id="contact_section">
+      <div class="container">
+        <div class="row">
+          <!-- contact us -->
+          <div class="col-12">
+            <div
+              class="text-center"
+              data-aos="fade-up"
+              data-aos-duration="2000"
+            >
+              <div class="text-h6 title">CONTACT US</div>
+            </div>
+          </div>
+          <!-- phone -->
+          <div
+            class="col-sm-12 col-md-4 column flex-center content"
+            data-aos="fade-right"
+            data-aos-duration="2000"
+            style="flex-grow: 1"
+          >
+            <img
+              src="https://www.shop1688.com.tw/sys/newSys/phone.png"
+              alt="map"
+              width="150"
+            />
+            <b class="q-mt-lg">(02) 2222-7777</b>
+          </div>
+          <!-- address -->
+          <div
+            class="col-sm-12 col-md-4 column flex-center content"
+            data-aos="zoom-in"
+            data-aos-duration="2000"
+            style="flex-grow: 1"
+          >
+            <img
+              src="https://www.shop1688.com.tw/sys/newSys/map.png"
+              alt="map"
+              width="150"
+            />
+            <b class="q-mt-lg">新北市泰山區貴子里致遠新村55之1號</b>
+          </div>
+          <!-- opening hours -->
+          <div
+            class="col-sm-12 col-md-4 column flex-center content"
+            data-aos="fade-left"
+            data-aos-duration="2000"
+            style="flex-grow: 1"
+          >
+            <img
+              src="https://www.shop1688.com.tw/sys/newSys/open.png"
+              alt="map"
+              width="150"
+            />
+            <b class="q-mt-lg text-center"
+              >Monday to Saturday <br />
+              10:00 - 21:00</b
+            >
+          </div>
         </div>
       </div>
     </section>
-
   </q-page>
 </template>
 
@@ -264,29 +351,30 @@ const modules = [Navigation, Pagination, Autoplay]
 #index {
   overflow-x: hidden;
 
-  .container {
-    .title {
-      display: inline-block;
-      font-weight: 900;
-      border-bottom: 1px solid #fff;
-      padding-bottom: 2px;
-    }
-
-    .subtitle {
-      border-left: 15px solid $primary;
-      padding-left: 1rem;
-    }
-
-    .content {
-      margin: 2rem 0 4.5rem 0;
-    }
+  // .container {
+  .title {
+    display: inline-block;
+    font-weight: 900;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 2px;
   }
+
+  .subtitle {
+    border-left: 15px solid $primary;
+    padding-left: 1rem;
+  }
+
+  .content {
+    margin: 2rem 0 4.5rem 0;
+  }
+
+  // }
 
   .hero {
     position: relative;
     width: 100%;
     height: 100vh;
-    background: url('../assets/mask.png') no-repeat center/100% 100%;
+    background: url("../assets/mask.png") no-repeat center/100% 100%;
     // background-size: cover;
 
     .inner_container {
@@ -367,13 +455,6 @@ const modules = [Navigation, Pagination, Autoplay]
         }
       }
     }
-  }
-
-  .faq {
-    font-weight: 900;
-    border-bottom: 1px solid #fff;
-    padding-bottom: 2px;
-    display: inline-block;
   }
 
   #about_section {
