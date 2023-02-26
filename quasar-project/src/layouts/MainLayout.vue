@@ -63,27 +63,20 @@ const close = () => {
         <div class="flex items-center justify-end col-xs-8 col-md-3">
           <!-- 通知 btn -->
           <!-- <q-btn v-if="isLogin" icon="mdi-bell" dense rounded flat>
-            <q-badge color="secondary" floating :label="5" />
-            <q-menu fit anchor="bottom left" self="top middle">
-              <q-card>
-                <q-item>
-                  <q-item-label class="q-pa-sm" overline>我的通知</q-item-label>
-                </q-item>
-                <q-card-section> 內容 </q-card-section>
-                <q-card-section></q-card-section>
-              </q-card>
-            </q-menu>
-          </q-btn> -->
+              <q-badge color="secondary" floating :label="5" />
+              <q-menu fit anchor="bottom left" self="top middle">
+                <q-card>
+                  <q-item>
+                    <q-item-label class="q-pa-sm" overline>我的通知</q-item-label>
+                  </q-item>
+                  <q-card-section> 內容 </q-card-section>
+                  <q-card-section></q-card-section>
+                </q-card>
+              </q-menu>
+            </q-btn> -->
 
           <!-- 登入/註冊 btn -->
-          <q-btn
-            v-if="!isLogin"
-            @click="showLoginCard = true"
-            icon="mdi-account-circle"
-            flat
-            dense
-            size="lg"
-          />
+          <q-btn v-if="!isLogin" @click="showLoginCard = true" icon="mdi-account-circle" flat dense size="lg" />
           <!-- 使用者下拉選單 -->
           <q-btn-dropdown v-if="isLogin" class="q-ml-sm" flat>
             <template #label>
@@ -129,70 +122,135 @@ const close = () => {
 
               <q-item v-if="!isAdmin" to="/member/myTeamup" clickable>
                 <q-item-section avatar>
-                  <q-icon name="mdi-account-group" />
-                </q-item-section>
-                <q-item-section>我的揪團</q-item-section>
-              </q-item>
+                <q-icon name="mdi-account-group" />
+              </q-item-section>
+              <q-item-section>我的揪團</q-item-section>
+            </q-item>
 
-              <q-separator v-if="isLogin" />
-              <q-item v-if="isLogin">
-                <q-item-section>
-                  <q-btn
-                    @click="logout"
-                    icon="fa-solid fa-person-walking-arrow-right"
-                    label="登出"
-                    flat
-                    dense
-                  />
-                </q-item-section>
+            <q-separator v-if="isLogin" />
+            <q-item v-if="isLogin">
+              <q-item-section>
+                <q-btn @click="logout" icon="fa-solid fa-person-walking-arrow-right" label="登出" flat dense />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+
+        <q-btn class="lt-lg" dense flat round icon="menu">
+          <q-menu transition-show="jump-down" transition-hide="jump-up">
+            <q-list style="min-width: 100px">
+              <q-item clickable to="/">
+                <q-item-section>首頁</q-item-section>
+              </q-item>
+              <q-item clickable to="/exploreBGs">
+                <q-item-section>探索桌遊</q-item-section>
+              </q-item>
+              <q-item clickable to="/searchTeamups">
+                <q-item-section>揪團組隊</q-item-section>
+              </q-item>
+              <q-item clickable to="/teamup">
+                <q-item-section>我要揪團</q-item-section>
+              </q-item>
+              <q-item clickable to="/reservation">
+                <q-item-section>手刀預約</q-item-section>
               </q-item>
             </q-list>
-          </q-btn-dropdown>
+          </q-menu>
 
-          <!-- <div class="lt-lg q-pr-lg"> -->
-            <q-btn class="lt-lg" dense flat round icon="menu" @click="toggleRightDrawer" />
-          <!-- </div> -->
-        </div>
+        </q-btn>
+      </div>
 
-      </q-toolbar>
-    </q-header>
+    </q-toolbar>
+  </q-header>
 
-    <!-- 右側抽屜 -->
-    <q-drawer
+  <!-- 右側抽屜 -->
+  <!-- <q-drawer
       v-model="rightDrawerOpen"
       side="right"
       overlay
-      bordered
       :width="200"
       :breakpoint="200"
     >
-      <!-- drawer content -->
-    </q-drawer>
+      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px;">
+          <q-list padding>
+            <q-item clickable v-ripple to="/">
+              <q-item-section avatar>
+                <q-icon name="inbox" />
+              </q-item-section>
+
+              <q-item-section>
+                首頁
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple to="/exploreBGs">
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
+
+              <q-item-section>
+                探索桌遊
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple to="/searchTeamups">
+              <q-item-section avatar>
+                  <q-icon name="send" />
+                </q-item-section>
+
+                <q-item-section>
+                  揪團組隊
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable v-ripple to="/teamup">
+                <q-item-section avatar>
+                  <q-icon name="drafts" />
+                </q-item-section>
+
+                <q-item-section>
+                  我要揪團
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable v-ripple to="/reservation">
+                <q-item-section avatar>
+                  <q-icon name="drafts" />
+                </q-item-section>
+
+                <q-item-section>
+                  手刀預約
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-scroll-area>
+
+          <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+            <div class="absolute-bottom bg-transparent">
+              <q-avatar size="56px" class="q-mb-sm">
+                <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              </q-avatar>
+              <div class="text-weight-bold">Razvan Stoenescu</div>
+              <div>@rstoenescu</div>
+            </div>
+          </q-img>
+      </q-drawer> -->
 
     <q-page-container>
       <router-view />
     </q-page-container>
 
     <q-dialog v-model="showLoginCard" persistent>
-      <LoginCard
-        v-if="!showRegisterCard"
-        @showRegisterCard="toggleRegisterCardHandler"
-        @closeDialog="close"
-      />
-      <RegisterCard
-        v-if="showRegisterCard"
-        @showRegisterCard="toggleRegisterCardHandler"
-        @closeDialog="close"
-      />
+      <LoginCard v-if="!showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close" />
+      <RegisterCard v-if="showRegisterCard" @showRegisterCard="toggleRegisterCardHandler" @closeDialog="close" />
     </q-dialog>
 
     <q-footer class="bg-primary text-dark">
       <q-toolbar>
-          <q-avatar class="q-mr-sm">
-            <img src="../assets/logo.png" />
-          </q-avatar>
-          <span class="text-center" style="font-size: 14px"
-            >©2023 泰山職訓 網頁專題設計 by 胡俊宇</span>
+        <q-avatar class="q-mr-sm">
+          <img src="../assets/logo.png" />
+        </q-avatar>
+        <span class="text-center" style="font-size: 14px">©2023 泰山職訓 網頁專題設計 by 胡俊宇</span>
       </q-toolbar>
     </q-footer>
   </q-layout>
