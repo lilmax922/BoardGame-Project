@@ -41,7 +41,7 @@ const modules = [Navigation, Pagination, Autoplay]
           <div class="banner_content text-center">
             <div class="text-h3 text-weight-bold">WELCOME TO</div>
             <br />
-            <div class="text-h3 text-weight-bold">揪遊Lego</div>
+            <div class="text-h3 text-weight-bold">揪遊</div>
           </div>
         </div>
         <div class="video_container col-12">
@@ -78,7 +78,7 @@ const modules = [Navigation, Pagination, Autoplay]
               data-aos="fade-up"
               data-aos-duration="1000"
             >
-              關於揪遊Lego
+              關於揪遊
             </p>
           </div>
           <p
@@ -95,7 +95,7 @@ const modules = [Navigation, Pagination, Autoplay]
             data-aos-duration="1500"
             data-aos-easing="ease-in-sine"
           >
-            一個能夠聚在一起享受桌遊樂趣的地方，透過桌遊，讓人們能夠在揪遊Lego獲得快樂和樂趣。
+            一個能夠聚在一起享受桌遊樂趣的地方，透過桌遊，讓人們能夠在揪遊獲得快樂。
           </p>
         </div>
       </div>
@@ -113,7 +113,7 @@ const modules = [Navigation, Pagination, Autoplay]
     <section>
       <div class="container">
         <div class="row">
-          <div class="col-12 flex flex-center" style="margin-top: 150px;">
+          <div class="col-12 flex flex-center" style="margin-top: 100px;">
             <div class="title text-h6" data-aos="fade-up"
               data-aos-duration="1000">WHAT YOU LOOKING FOR</div>
           </div>
@@ -138,7 +138,6 @@ const modules = [Navigation, Pagination, Autoplay]
               <Swiper
                 class="mySwiper"
                 :modules="modules"
-                :navigation="true"
                 :autoplay="{
                   delay: 3000,
                   disableOnInteraction: false,
@@ -158,6 +157,10 @@ const modules = [Navigation, Pagination, Autoplay]
                   '1024': {
                     slidesPerView: 3,
                     spaceBetween: 40,
+                  },
+                  '1500': {
+                    slidesPerView: 4,
+                    spaceBetween: 50,
                   }
                 }"
               >
@@ -187,7 +190,6 @@ const modules = [Navigation, Pagination, Autoplay]
               <Swiper
                 class="mySwiper"
                 :modules="modules"
-                :navigation="true"
                 :autoplay="{
                   delay: 3000,
                   disableOnInteraction: false,
@@ -207,6 +209,10 @@ const modules = [Navigation, Pagination, Autoplay]
                   '1024': {
                     slidesPerView: 3,
                     spaceBetween: 40,
+                  },
+                  '1500': {
+                    slidesPerView: 4,
+                    spaceBetween: 50,
                   }
                 }"
               >
@@ -228,7 +234,7 @@ const modules = [Navigation, Pagination, Autoplay]
             <div
               class="text-center"
               data-aos="fade-up"
-              data-aos-duration="2500"
+              data-aos-duration="2000"
             >
               <div class="faq text-h6">FAQs</div>
             </div>
