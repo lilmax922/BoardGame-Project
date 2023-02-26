@@ -40,7 +40,7 @@ const faqs = reactive([
         :label="faq.label"
         expand-separator
         header-class="text-primary"
-        :default-opened="faq === faqs[1]"
+        :default-opened="faq === faqs[0]"
         popup
       >
         <q-card>
