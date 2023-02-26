@@ -40,9 +40,14 @@ const modules = [Navigation, Pagination, Autoplay]
       <div class="row">
         <div class="inner_container col-12">
           <div class="banner_content text-center">
-            <div class="text-h3 text-weight-bold">WELCOME <br/> TO</div>
+            <div class="text-h3 text-weight-bold">
+              WELCOME <br />
+              TO
+            </div>
             <br />
-            <div class="text-h3 text-weight-bold text-primary">揪遊</div>
+            <div class="text-h3 text-weight-bold joyo" data-aos="zoom-in-up" data-aos-duration="2000">
+              揪遊
+            </div>
           </div>
         </div>
         <div class="video_container col-12">
@@ -309,7 +314,7 @@ const modules = [Navigation, Pagination, Autoplay]
             />
             <b class="q-mt-lg text-center"
               >Monday to Saturday <br />
-              10:00 - 21:00</b
+              10:00 - 22:00</b
             >
           </div>
         </div>
@@ -361,6 +366,11 @@ const modules = [Navigation, Pagination, Autoplay]
       .banner_content {
         display: table-cell;
         vertical-align: middle;
+
+        .joyo {
+          color: $primary;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
       }
     }
 
@@ -387,44 +397,14 @@ const modules = [Navigation, Pagination, Autoplay]
 
       &:hover {
         color: $dark;
-        background-color: #fff;
+        background-color: $primary;
+        border: none;
         transition: 0.5s;
       }
     }
 
     .hero_content {
       color: $textColor;
-    }
-
-    .glass {
-      position: absolute;
-      top: 50%;
-      left: 10%;
-      width: 35%;
-      padding: 1rem;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(
-        135deg,
-        rgba($color: #fff, $alpha: 0.1),
-        rgba($color: #fff, $alpha: 0)
-      );
-      border-radius: 16px;
-      border: 1px solid rgba($color: #fff, $alpha: 0.18);
-      box-shadow: 0 8px 32px 0 rgba($color: $dark, $alpha: 0.37);
-
-      .reservation_btn {
-        color: $dark;
-        background-color: rgba($color: $primary, $alpha: 0.65);
-        border-radius: 8px;
-        box-shadow: 0 8px 32px 0 rgba($color: $dark, $alpha: 0.37);
-
-        &:hover {
-          transition: 0.5s;
-          background-color: rgba($color: $dark, $alpha: 0.65);
-          color: $primary;
-          border: 1px solid $primary;
-        }
-      }
     }
   }
 
