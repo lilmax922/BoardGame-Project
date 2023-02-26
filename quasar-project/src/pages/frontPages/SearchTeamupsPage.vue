@@ -68,7 +68,7 @@ getAllTeamups()
       </div>
       <section class="header flex items-center q-mt-xl">
         <div class="header-text text-h3 q-pr-lg">揪團組隊</div>
-        <q-btn class="teamup_btn" label="我要揪團" to="/teamup" />
+        <q-btn class="teamup_btn gt-sm" label="我要揪團" to="/teamup" />
       </section>
 
       <section class="teamupList">

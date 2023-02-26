@@ -31,7 +31,8 @@ const availableTimeBtn = reactive([
   { time: '05:00 PM', available: true },
   { time: '06:00 PM', available: true },
   { time: '07:00 PM', available: true },
-  { time: '08:00 PM', available: true }
+  { time: '08:00 PM', available: true },
+  { time: '09:00 PM', available: true }
 ])
 
 const max = computed(() => {
@@ -44,7 +45,7 @@ const max = computed(() => {
       i++
     }
     return i - startIdx
-  } else return 11 // 總共 11 個時段
+  } else return 12 // 總共 12 個時段
 })
 
 watch(
@@ -114,9 +115,8 @@ const onSubmit = async () => {
   reservationForm.loading = false
 }
 
-reservationForm.selectedDate = `${date.getFullYear()}-0${
-  date.getMonth() + 1
-}-${date.getDate()}`
+reservationForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1
+  }-${date.getDate()}`
 </script>
 
 <template>
@@ -154,68 +154,33 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
             <p>4. 如有其他問題、特殊情況可私訊聯繫粉專管理員。</p>
           </div>
 
-          <q-form
-            class="q-gutter-md flex flex-center column"
-            @submit="onSubmit"
-          >
-            <q-card-section class="flex justify-around" horizontal>
-              <q-card-section class="col-8 q-gutter-md">
+          <q-form class="q-gutter-md flex flex-center column" @submit="onSubmit">
+            <q-card-section class="row flex justify-around">
+              <q-card-section class="form_area col-xs-12 q-gutter-md">
                 <div class="text-h6">預約日期</div>
                 <div class="row justify-between">
-                  <q-date
-                    class="col-7"
-                    v-model="reservationForm.selectedDate"
-                    subtitle="請選擇預約日期"
-                    text-color="dark"
-                    :mask="mask"
-                    today-btn
-                    navigation-min-year-month="2023/02"
-                    navigation-max-year-month="2023/12"
-                  />
-                  <div
-                    v-if="reservationForm.selectedDate !== ''"
-                    class="col-5 q-gutter-md flex justify-center"
-                  >
-                    <q-btn
-                      class="time_btn"
-                      :color="
-                        timeBtn.time === reservationForm.selectedTime
-                          ? 'info'
-                          : 'secondary'
-                      "
-                      @click="reservationForm.selectedTime = timeBtn.time"
-                      v-for="timeBtn in availableTimeBtn"
-                      :key="timeBtn.time"
-                      :disable="!timeBtn.available"
-                      checked-icon="task_alt"
-                      unchecked-icon="panorama_fish_eye"
-                    >
+                  <q-date class="col-xs-12 col-xl-7 q-mb-xs-lg q-mb-xl-none" v-model="reservationForm.selectedDate" subtitle="請選擇預約日期" text-color="dark"
+                    :mask="mask" today-btn navigation-min-year-month="2023/02" navigation-max-year-month="2023/12" />
+                  <div v-if="reservationForm.selectedDate !== ''" class="col-xs-12 col-xl-5 q-gutter-md flex justify-center">
+                    <q-btn class="timeBtn" :color="
+                      timeBtn.time === reservationForm.selectedTime
+                        ? 'info'
+                        : 'secondary'
+                    " @click="reservationForm.selectedTime = timeBtn.time" v-for="timeBtn in availableTimeBtn"
+                      :key="timeBtn.time" :disable="!timeBtn.available" checked-icon="task_alt"
+                      unchecked-icon="panorama_fish_eye">
                       {{ timeBtn.time }}
                     </q-btn>
                   </div>
                   <div class="text-h6 q-mt-md">預約時數</div>
-                  <q-slider
-                    v-model="reservationForm.selectedHour"
-                    markers
-                    marker-labels
-                    thumb-color="secondary"
-                    :min="1"
-                    :max="max"
-                  />
+                  <q-slider class="col-xs-12" v-model="reservationForm.selectedHour" markers marker-labels thumb-color="secondary" :min="1"
+                    :max="max" />
                   <div class="text-h6">預約人數</div>
-                  <q-slider
-                    v-model="reservationForm.selectedPeople"
-                    markers
-                    marker-labels
-                    thumb-color="secondary"
-                    :min="1"
-                    :max="10"
-                  />
+                  <q-slider class="col-xs-12" v-model="reservationForm.selectedPeople" markers marker-labels thumb-color="secondary"
+                    :min="1" :max="10" />
                 </div>
               </q-card-section>
-              <q-card-section
-                class="col-4 flex justify-around items-center column"
-              >
+              <q-card-section class="confirm_area col-xs-12 flex justify-around items-center column">
                 <div class="confirm_text text-h4 text-center q-pb-xl">--- 預約確認 ---</div>
                 <div class="flex items-start column">
                   <p class="text-h6">
@@ -230,12 +195,7 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
                   </p>
                 </div>
                 <div class="text-center">
-                  <q-btn
-                    class="submit_btn"
-                    label="送出預約"
-                    type="submit"
-                    :disable="reservationForm.loading"
-                  />
+                  <q-btn class="submit_btn" label="送出預約" type="submit" :disable="reservationForm.loading" />
                 </div>
               </q-card-section>
             </q-card-section>
@@ -250,6 +210,7 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
 #reservation {
   .notice {
     padding-bottom: 50px;
+
     .notice-header {
       border-left: 15px solid $primary;
       padding-left: 1rem;
@@ -261,15 +222,17 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
 
     .card_wrap {
       border-radius: 16px;
-      padding: 2rem;
+      // padding: 2rem;
 
-      .time_btn {
-        padding: -10px 15px !important;
+      .timeBtn {
+        width: 100px;
+        height: 50px;
         border-radius: 8px;
       }
-       .confirm_text {
+
+      .confirm_text {
         color: $accent;
-       }
+      }
 
       .submit_btn {
         font-size: 20px;
@@ -286,6 +249,15 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${
           border: 1px solid $primary;
         }
       }
+    }
+  }
+
+  @media (min-width:1400px) {
+    .form_area {
+      width: 70%;
+    }
+    .confirm_area {
+      width: 30%;
     }
   }
 }

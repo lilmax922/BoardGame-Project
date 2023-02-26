@@ -66,7 +66,8 @@ const availableTimeBtn = reactive([
   { time: '05:00 PM', available: true },
   { time: '06:00 PM', available: true },
   { time: '07:00 PM', available: true },
-  { time: '08:00 PM', available: true }
+  { time: '08:00 PM', available: true },
+  { time: '09:00 PM', available: true }
 ])
 
 const max = computed(() => {
@@ -79,7 +80,7 @@ const max = computed(() => {
       i++
     }
     return i - startIdx
-  } else return 11 // 總共 11 個時段
+  } else return 12 // 總共 12 個時段
 })
 
 watch(
@@ -132,8 +133,7 @@ watch(
           }
         }
       })
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 )
 
@@ -180,26 +180,29 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
         <q-card class="card_wrap" flat>
           <q-form class="q-gutter-md" @submit="onSubmit">
             <!-- Choose teamup date & time -->
-            <q-card-section class="q-gutter-md">
-              <div class="text-h4">選擇揪團日期</div>
-              <div class="row justify-evenly">
-                <!-- Calendar -->
-                <q-date
-                  class="col-12 col-md-7"
-                  v-model="teamupForm.selectedDate"
-                  subtitle="請選擇揪團日期"
-                  :mask="mask"
-                  today-btn
-                  navigation-min-year-month="2023/02"
-                  navigation-max-year-month="2023/12"
-                  style="max-width: 500px"
-                  text-color="dark"
-                />
-                <div class="col-12 col-md-5 flex column justify-between">
+            <q-card-section >
+              <div class="text-h4 text-center q-my-lg">選擇揪團日期</div>
+              <div class="row">
+                <!-- Calendar_area -->
+                <div class="col-xs-12 col-xl-6 text-center q-mb-xs-lg q-mb-xl-none">
+                  <q-date
+                    v-model="teamupForm.selectedDate"
+                    subtitle="請選擇揪團日期"
+                    :mask="mask"
+                    today-btn
+                    navigation-min-year-month="2023/02"
+                    navigation-max-year-month="2023/12"
+                    style="width: 60%"
+                    text-color="dark"
+                  />
+                </div>
+
+                <!-- time_area -->
+                <div class="col-xs-12 col-xl-6 flex column justify-xs-center justify-xl-around">
                   <!-- timeBtn -->
                   <div
                     v-if="teamupForm.selectedDate !== ''"
-                    class="col-5 q-gutter-md flex justify-start"
+                    class="q-gutter-md q-mb-xs-lg q-mb-xl-none flex justify-center"
                   >
                     <q-btn
                       class="timeBtn"
@@ -218,10 +221,11 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                       {{ timeBtn.time }}
                     </q-btn>
                   </div>
-
-                  <div class="hour">
+                  <!-- hour -->
+                  <div class="hour flex flex-center column">
                     <div class="text-h6">預約時數</div>
                     <q-slider
+                    class="text-center"
                       v-model="teamupForm.selectedHour"
                       markers
                       marker-labels
@@ -237,9 +241,9 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
 
             <!-- teamup info -->
             <q-card-section class="q-gutter-md">
-              <div class="text-h4">填寫揪團資料</div>
+              <div class="text-h4 text-center q-my-lg">填寫揪團資料</div>
               <div class="row">
-                <div class="title col-6">
+                <div class="title col-xs-12 col-xl-6" style="flex-grow: 1;">
                   <div class="text-h6">來點酷酷的標題吧!</div>
                   <q-input
                     v-model="teamupForm.title"
@@ -248,12 +252,12 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                     label="請新增標題"
                     autogrow
                     clearable
-                    style="max-width: 650px"
+                    style="max-width: 95%"
                     :rules="[rules.required, rules.length]"
                   />
                 </div>
 
-                <div class="content col-6">
+                <div class="content col-xs-12 col-xl-6" style="flex-grow: 1;">
                   <div class="text-h6">想新增甚麼內容嗎?</div>
                   <q-input
                     v-model="teamupForm.content"
@@ -262,12 +266,12 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                     label="請新增內容"
                     autogrow
                     clearable
-                    style="max-width: 650px"
+                    style="max-width: 95%"
                     :rules="[rules.required]"
                   />
                 </div>
 
-                <div class="card_image col-6">
+                <div class="card_image col-xs-12 col-xl-6" style="flex-grow: 1;">
                   <div class="text-h6">上傳揪團圖片</div>
                   <q-file
                     rounded
@@ -276,16 +280,17 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                     use-chips
                     label="請選擇卡片圖"
                     hint="Max file size (10 MB)"
-                    style="max-width: 650px"
+                    style="max-width: 95%"
                     max-file-size="10485760"
                     @rejected="onRejected"
                   >
                   </q-file>
                 </div>
 
-                <div class="types col-6">
+                <div class="types col-xs-12 col-xl-6">
                   <div class="text-h6">我有興趣的類型</div>
                   <q-option-group
+                    class="text-center"
                     v-model="typeGroup"
                     :options="typeOptions"
                     color="primary"
@@ -294,7 +299,7 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                   />
                 </div>
 
-                <div class="current_people col-6">
+                <div class="current_people col-xs-12 col-xl-6">
                   <div class="text-h6">目前人數</div>
                   <q-slider
                     v-model="teamupForm.currentPeople"
@@ -303,11 +308,11 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                     thumb-color="secondary"
                     :min="1"
                     :max="10"
-                    style="max-width: 650px"
+                    style="max-width: 95%"
                   />
                 </div>
 
-                <div class="total_people col-6">
+                <div class="total_people col-xs-12 col-xl-6">
                   <div class="text-h6">揪團總人數</div>
                   <q-slider
                     v-model="teamupForm.totalPeople"
@@ -316,7 +321,7 @@ teamupForm.selectedDate = `${date.getFullYear()}-0${
                     thumb-color="secondary"
                     :min="1"
                     :max="10"
-                    style="max-width: 650px"
+                    style="max-width: 95%"
                   />
                 </div>
               </div>

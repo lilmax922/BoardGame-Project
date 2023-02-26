@@ -66,7 +66,7 @@ const filterFunc = computed(() => {
       </div>
       <section class="header flex items-center q-mt-xl">
         <div class="header-text text-h3 q-pr-lg">探索桌遊</div>
-        <q-btn class="reservation_btn" label="我要預約" to="/reservation" />
+        <q-btn class="reservation_btn gt-sm" label="我要預約" to="/reservation" />
       </section>
       <section class="boardgameList">
         <div class="search_container bg-dark row">
