@@ -22,13 +22,27 @@ const toggleRegisterCardHandler = (type) => {
 const close = () => {
   showLoginCard.value = false
 }
+
+// onMounted(() => {
+//   const navbar = this.$refs.navbar
+
+//   window.addEventListener('scroll', () => {
+//     // Change navbar color when scrolling up
+//     if (window.scrollY > 0) {
+//       navbar.style.backgroundColor = 'orange'
+//     } else {
+//       navbar.style.backgroundColor = ''
+//     }
+//   })
+// })
+
 </script>
 
 <template>
   <q-layout view="hHh lpR fff">
     <q-header id="mainlayout" class="flex flex-center" reveal>
-      <q-toolbar class="row" style="width: 100%">
-        <q-toolbar-title class="col-xs-6 col-md-3" shrink>
+      <q-toolbar class="row" style="width: 100%;">
+        <q-toolbar-title class="col-xs-4 col-md-3">
           <router-link style="text-decoration: none" to="/">
             <q-img src="../assets/logo.png" width="50px" />
             <span class="logo_name q-pl-md">揪遊</span>
@@ -36,7 +50,7 @@ const close = () => {
         </q-toolbar-title>
 
         <!-- 分頁 -->
-        <q-tabs active-color="white" class="gt-md col-md-6 flex items-end">
+        <q-tabs active-color="primary" dense class="gt-md col-md-6 flex items-end">
           <q-route-tab to="/" label="首頁" />
           <q-route-tab to="/exploreBGs" label="探索桌遊" />
           <q-route-tab to="/searchTeamups" label="揪團組隊" />
@@ -46,21 +60,21 @@ const close = () => {
         <q-space />
 
         <!-- navbar right_area -->
-        <div class="flex justify-end col-xs-6 col-md-3">
+        <div class="flex items-center justify-end col-xs-8 col-md-3">
           <!-- 通知 btn -->
-          <q-btn v-if="isLogin" icon="mdi-bell" dense rounded flat>
+          <!-- <q-btn v-if="isLogin" icon="mdi-bell" dense rounded flat>
             <q-badge color="secondary" floating :label="5" />
             <q-menu fit anchor="bottom left" self="top middle">
               <q-card>
                 <q-item>
                   <q-item-label class="q-pa-sm" overline>我的通知</q-item-label>
                 </q-item>
-                <!-- <q-separator /> -->
                 <q-card-section> 內容 </q-card-section>
                 <q-card-section></q-card-section>
               </q-card>
             </q-menu>
-          </q-btn>
+          </q-btn> -->
+
           <!-- 登入/註冊 btn -->
           <q-btn
             v-if="!isLogin"
@@ -134,11 +148,12 @@ const close = () => {
               </q-item>
             </q-list>
           </q-btn-dropdown>
+
+          <!-- <div class="lt-lg q-pr-lg"> -->
+            <q-btn class="lt-lg" dense flat round icon="menu" @click="toggleRightDrawer" />
+          <!-- </div> -->
         </div>
 
-        <span class="lt-lg">
-          <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
-        </span>
       </q-toolbar>
     </q-header>
 
@@ -177,8 +192,7 @@ const close = () => {
             <img src="../assets/logo.png" />
           </q-avatar>
           <span class="text-center" style="font-size: 14px"
-            >©2023 泰山職訓 網頁專題設計 by 胡俊宇</span
-          >
+            >©2023 泰山職訓 網頁專題設計 by 胡俊宇</span>
       </q-toolbar>
     </q-footer>
   </q-layout>
@@ -186,27 +200,30 @@ const close = () => {
 
 <style lang="scss">
 #mainlayout {
+  width: 100%;
   // background-color: #fff;
+  background-color: rgba(255, 255, 255, 0);
 
-  header {
-    height: 65px;
+  .q-toolbar {
+    width: 100%;
+    height: 80px;
   }
 
   .logo_name,
   .q-tabs {
-    color: $dark;
+    color: #fff;
   }
 
-  .q-tab {
-    padding: 15px 10px;
-  }
+  // .q-tab {
+  //   padding: 15px 10px;
+  // }
 
   .q-tab__label {
     font-size: 16px;
     font-weight: 500;
 
     &:hover {
-      color: #fff;
+      color: $primary;
       transition: 0.5s;
     }
   }
