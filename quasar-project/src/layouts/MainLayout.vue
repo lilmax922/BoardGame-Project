@@ -10,15 +10,26 @@ const { isLogin, isAdmin, avatar, nickname, showLoginCard } = storeToRefs(user)
 const { logout } = user
 
 const showRegisterCard = ref(false)
-const rightDrawerOpen = ref(false)
-
-const toggleRightDrawer = () => {
-  rightDrawerOpen.value = !rightDrawerOpen.value
-}
+const memberDropdown = [
+  { icon: 'mdi-account-edit', text: '會員資料', to: '/member/myInfo' },
+  { icon: 'mdi-google-downasaur', text: '我的預約', to: '/member/myReservation' },
+  { icon: 'mdi-account-group', text: '我的揪團', to: '/member/myTeamup' }
+]
+const adminDropdown = [
+  { icon: 'mdi-google-downasaur', text: '桌遊管理', to: '/admin/manageBG' },
+  { icon: 'mdi-account-edit', text: '帳號管理', to: '/admin/manageAccount' },
+  {
+    icon: 'mdi-calendar-edit',
+    text: '預約管理',
+    to: '/admin/manageReservation'
+  },
+  { icon: 'mdi-account-group', text: '揪團管理', to: '/admin/manageTeamup' }
+]
 
 const toggleRegisterCardHandler = (type) => {
   showRegisterCard.value = type
 }
+
 const close = () => {
   showLoginCard.value = false
 }
@@ -96,38 +107,30 @@ const close = () => {
                 </q-item-section>
               </q-item>
               <q-separator />
-              <q-item-label class="q-pa-sm" overline>我的主頁</q-item-label>
+              <q-item-label v-if="!isAdmin" class="q-pa-sm" overline>我的主頁</q-item-label>
+              <q-item-label v-if="isAdmin" class="q-pa-sm" overline>後台管理</q-item-label>
               <!-- 管理者 -->
-              <q-item v-if="isLogin && isAdmin" to="/admin" clickable>
+              <div v-if="isLogin && isAdmin">
+              <q-item v-for="i in adminDropdown" :key="i" :to="i.to" clickable>
                 <q-item-section avatar>
-                  <q-icon name="mdi-account-cog" />
+                  <q-icon :name="i.icon" />
                 </q-item-section>
-                <q-item-section>管理者後台</q-item-section>
+                <q-item-section>{{ i.text }}</q-item-section>
               </q-item>
+            </div>
 
               <!-- 會員 -->
-              <q-item v-if="!isAdmin" to="/member/myInfo" clickable>
+              <div  v-if="!isAdmin">
+              <q-item v-for="i in memberDropdown" :key="i" :to="i.to" clickable>
                 <q-item-section avatar>
-                  <q-icon name="mdi-account-edit" />
+                  <q-icon :name="i.icon" />
                 </q-item-section>
-                <q-item-section>會員資料</q-item-section>
+                <q-item-section>{{ i.text }}</q-item-section>
               </q-item>
-
-              <q-item v-if="!isAdmin" to="/member/myReservation" clickable>
-                <q-item-section avatar>
-                  <q-icon name="mdi-google-downasaur" />
-                </q-item-section>
-                <q-item-section>我的預約</q-item-section>
-              </q-item>
-
-              <q-item v-if="!isAdmin" to="/member/myTeamup" clickable>
-                <q-item-section avatar>
-                <q-icon name="mdi-account-group" />
-              </q-item-section>
-              <q-item-section>我的揪團</q-item-section>
-            </q-item>
+            </div>
 
             <q-separator v-if="isLogin" />
+
             <q-item v-if="isLogin">
               <q-item-section>
                 <q-btn @click="logout" icon="fa-solid fa-person-walking-arrow-right" label="登出" flat dense />
@@ -163,79 +166,6 @@ const close = () => {
     </q-toolbar>
   </q-header>
 
-  <!-- 右側抽屜 -->
-  <!-- <q-drawer
-      v-model="rightDrawerOpen"
-      side="right"
-      overlay
-      :width="200"
-      :breakpoint="200"
-    >
-      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px;">
-          <q-list padding>
-            <q-item clickable v-ripple to="/">
-              <q-item-section avatar>
-                <q-icon name="inbox" />
-              </q-item-section>
-
-              <q-item-section>
-                首頁
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple to="/exploreBGs">
-              <q-item-section avatar>
-                <q-icon name="star" />
-              </q-item-section>
-
-              <q-item-section>
-                探索桌遊
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple to="/searchTeamups">
-              <q-item-section avatar>
-                  <q-icon name="send" />
-                </q-item-section>
-
-                <q-item-section>
-                  揪團組隊
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-ripple to="/teamup">
-                <q-item-section avatar>
-                  <q-icon name="drafts" />
-                </q-item-section>
-
-                <q-item-section>
-                  我要揪團
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-ripple to="/reservation">
-                <q-item-section avatar>
-                  <q-icon name="drafts" />
-                </q-item-section>
-
-                <q-item-section>
-                  手刀預約
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-scroll-area>
-
-          <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
-            <div class="absolute-bottom bg-transparent">
-              <q-avatar size="56px" class="q-mb-sm">
-                <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-              </q-avatar>
-              <div class="text-weight-bold">Razvan Stoenescu</div>
-              <div>@rstoenescu</div>
-            </div>
-          </q-img>
-      </q-drawer> -->
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -259,7 +189,6 @@ const close = () => {
 <style lang="scss">
 #mainlayout {
   width: 100%;
-  // background-color: #fff;
   background-color: rgba(255, 255, 255, 0);
 
   .q-toolbar {
@@ -271,10 +200,6 @@ const close = () => {
   .q-tabs {
     color: #fff;
   }
-
-  // .q-tab {
-  //   padding: 15px 10px;
-  // }
 
   .q-tab__label {
     font-size: 16px;
