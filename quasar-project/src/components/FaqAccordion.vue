@@ -10,7 +10,7 @@ const faqs = reactive([
   {
     icon: 'mdi-help-circle-outline',
     label: '桌遊店提供哪些遊戲？',
-    text: '揪遊列國提供各種類型的桌遊，包括策略遊戲、派對遊戲、家庭遊戲等等。在店裡您可以自由選擇並遊玩。'
+    text: '揪遊提供各種類型的桌遊，包括策略遊戲、派對遊戲、家庭遊戲等等。在店裡您可以自由選擇並遊玩。'
   },
   {
     icon: 'mdi-help-circle-outline',
@@ -20,7 +20,7 @@ const faqs = reactive([
   {
     icon: 'mdi-help-circle-outline',
     label: '我可以自己帶桌遊嗎？',
-    text: '當然可以，揪遊列國提供的是一個可以安心歡樂暢快玩桌遊不用擔心吵到別人或被趕的環境，因此自帶桌遊一樣正常計費哦。'
+    text: '當然可以，揪遊提供的是一個可以安心歡樂暢快玩桌遊不用擔心吵到別人或被趕的環境，因此自帶桌遊一樣正常計費哦。'
   },
   {
     icon: 'mdi-help-circle-outline',

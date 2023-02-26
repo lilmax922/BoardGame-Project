@@ -69,6 +69,7 @@ const modules = [Navigation, Pagination, Autoplay]
 
     </section>
 
+    <!-- 關於揪遊 -->
     <section id="about_section">
       <div class="container">
         <div class="row">
