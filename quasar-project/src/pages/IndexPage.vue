@@ -35,13 +35,14 @@ const modules = [Navigation, Pagination, Autoplay]
 
 <template>
   <q-page id="index">
+    <!-- intro video -->
     <section class="hero flex flex-center">
       <div class="row">
         <div class="inner_container col-12">
           <div class="banner_content text-center">
-            <div class="text-h3 text-weight-bold">WELCOME TO</div>
+            <div class="text-h3 text-weight-bold">WELCOME <br/> TO</div>
             <br />
-            <div class="text-h3 text-weight-bold">揪遊</div>
+            <div class="text-h3 text-weight-bold text-primary">揪遊</div>
           </div>
         </div>
         <div class="video_container col-12">
@@ -101,7 +102,7 @@ const modules = [Navigation, Pagination, Autoplay]
       </div>
     </section>
 
-    <!-- 店內桌遊 parallax -->
+    <!-- 店內桌遊 Parallax -->
     <section>
       <div class="row">
         <div class="col-12">
@@ -110,7 +111,7 @@ const modules = [Navigation, Pagination, Autoplay]
       </div>
     </section>
 
-    <!-- what you looking for -->
+    <!-- What You Looking For -->
     <section>
       <div class="container">
         <div class="row">
@@ -252,37 +253,7 @@ const modules = [Navigation, Pagination, Autoplay]
       </div>
     </section>
 
-    <!-- contact us -->
-    <!-- <section id="contact_section">
-      <div class="container">
-        <div class="row q-mx-lg">
-          <div class="text-center text-h6 col-12">
-            <p class="title">CONTACT US</p>
-          </div>
-          <div class="col-sm-12 col-md-4" style="flex-grow: 1;">
-            <div class="icon">
-              <q-icon name="mdi-map-marker" size="sm">
-              </q-icon>
-                <span>新北市泰山區貴子里致遠新村55之1號</span>
-            </div >
-            <div class="icon">
-              <q-icon name="mdi-phone" size="sm"></q-icon>
-              <span>(02)1111-2222</span>
-            </div>
-            <div class="icon">
-              <q-icon name="mdi-email" size="sm"></q-icon>
-              <span>joyo@boardgame.com</span>
-            </div>
-          </div>
-          <div class="col-sm-12 col-md-4 text-center" style="flex-grow: 1;">
-            <q-img src="../assets/logo.png" alt="logo" width="150px"/>
-          </div>
-          <div class="col-sm-12 col-md-4">
-          </div>
-        </div>
-      </div>
-    </section> -->
-
+    <!-- Contact Us -->
     <section id="contact_section">
       <div class="container">
         <div class="row">
