@@ -131,12 +131,10 @@ const onSubmit = async () => {
   <q-page id="manage_account" padding>
     <div class="container">
       <div class="row">
-        <div class="col-12 flex items-center">
-          <h4 class="q-pr-xl">帳號管理</h4>
-        </div>
         <!-- account table -->
         <div class="col-12">
           <q-table
+            class="table"
             title="Account Management"
             :rows="accounts"
             :columns="columns"
@@ -343,6 +341,9 @@ const onSubmit = async () => {
 </template>
 
 <style lang="scss" scoped>
+.table {
+  margin-top: 100px;
+}
 .input {
   padding-bottom: 1rem;
 }

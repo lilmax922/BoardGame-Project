@@ -164,10 +164,8 @@ const onSubmit = async () => {
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h4>揪團管理</h4>
-        </div>
-        <div class="col-12">
           <q-table
+            class="table"
             title="Teamups"
             :rows="teamups"
             :columns="columns"
@@ -279,6 +277,10 @@ const onSubmit = async () => {
 </template>
 
 <style lang="scss">
+.table {
+  margin-top: 100px;
+}
+
 // 參加者資訊換行
 .q-table tbody td {
   white-space: pre-wrap;

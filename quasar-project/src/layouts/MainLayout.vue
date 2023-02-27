@@ -50,11 +50,11 @@ const close = () => {
 </script>
 
 <template>
-  <q-layout view="hHh lpR fff">
-    <q-header id="mainlayout" class="flex flex-center" reveal>
+  <q-layout id="mainlayout" view="hHh lpR fff">
+    <q-header  class="header flex flex-center" reveal>
       <q-toolbar class="row" style="width: 100%;">
         <q-toolbar-title class="col-xs-4 col-md-3">
-          <router-link style="text-decoration: none" to="/">
+          <router-link to="/">
             <img class="logo" src="../assets/logo.png" />
           </router-link>
         </q-toolbar-title>
@@ -188,12 +188,15 @@ const close = () => {
 <style lang="scss">
 #mainlayout {
   width: 100%;
+  .header {
+  width: 100%;
   background-color: rgba(255, 255, 255, 0);
 
   .logo {
     height: 90%;
     position: absolute;
-    top: 5%;
+    top: 10%;
+    left: 6.5%;
     filter: drop-shadow(0px 0px 3px $primary);
   }
 
@@ -202,7 +205,6 @@ const close = () => {
     height: 80px;
   }
 
-  .logo_name,
   .q-tabs {
     color: #fff;
   }
@@ -220,5 +222,6 @@ const close = () => {
   .q-tab__indicator {
     height: 3.5px;
   }
+}
 }
 </style>

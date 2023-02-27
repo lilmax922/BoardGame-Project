@@ -342,11 +342,9 @@ const onSubmit = async () => {
 q-page#manage_boardgames(padding)
   .container
     .row
-      .col-12.flex.items-center
-        h4.q-pr-xl 桌遊管理
       .col-12
         // 桌遊表單
-        q-table(title="好玩的桌遊們" :rows="boardgames" :columns="columns" row-key="_id" :filter="filter" :rows-per-page-options="[10,15,0]")
+        q-table.table(:rows="boardgames" :columns="columns" row-key="_id" :filter="filter" :rows-per-page-options="[5,10,15,0]")
 
           template(v-slot:top-left)
             q-btn.add_btn(@click="openDialog(-1)" label="新增桌遊")
@@ -361,7 +359,6 @@ q-page#manage_boardgames(padding)
 
           template(v-slot:body-cell-post="props")
             q-td.text-center
-              //- p {{ props.row.post }}
               q-toggle(v-model="props.row.post" color="accent")
 
           template(v-slot:body-cell-edit="props")
@@ -504,6 +501,9 @@ q-page#manage_boardgames(padding)
 </template>
 
 <style lang="scss" scoped>
+.table {
+  margin-top: 100px;
+}
 .add_btn,.submit_btn {
   color: $dark;
   background-color: $primary;

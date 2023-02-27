@@ -74,10 +74,8 @@ const columns = [
       <!-- 發起的揪團 -->
       <div class="row">
         <div class="col-12">
-          <h4>我的揪團</h4>
-        </div>
-        <div class="col-12">
           <q-table
+            class="table"
             title="發起的揪團"
             :rows="teamups"
             :columns="columns"
@@ -153,14 +151,9 @@ const columns = [
 </template>
 
 <style lang="scss">
-.edit_dialog {
-  position: absolute;
-  top: 25%;
-
-  .submit_btn {
-    color: #fff;
-    background-color: $primary;
-    border-radius: 8px;
+#my_teamup {
+  .table {
+    margin-top: 100px;
   }
 }
 </style>

@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useReservationStore } from 'src/stores/reservation'
 
 const ReservationStore = useReservationStore()
-const { getMyReservation, deleteReservation } = ReservationStore
+const { getMyReservation, deleteMyReservation } = ReservationStore
 const { reservations } = storeToRefs(ReservationStore)
 
 getMyReservation()
@@ -55,11 +55,9 @@ const columns = [
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h4>我的預約</h4>
-        </div>
-        <div class="col-12">
           <q-table
-            title="Reservations"
+          class="table"
+            title="我的預約"
             :rows="reservations"
             :columns="columns"
             row-key="_id"
@@ -83,7 +81,7 @@ const columns = [
                   color="secondary"
                   fab-mini
                   unelevated
-                  @click="deleteReservation(props.row._id)"
+                  @click="deleteMyReservation(props.row._id)"
                 />
               </q-td>
             </template>
@@ -95,13 +93,9 @@ const columns = [
 </template>
 
 <style lang="scss">
-.edit_dialog {
-  position: absolute;
-  top: 25%;
-  .submit_btn {
-    color: #fff;
-    background-color: $primary;
-    border-radius: 8px;
+#my_reservation {
+  .table {
+    margin-top: 100px;
   }
 }
 </style>
