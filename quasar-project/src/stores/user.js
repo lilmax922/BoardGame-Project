@@ -131,7 +131,7 @@ export const useUserStore = defineStore('user', () => {
 
   const editUser = async (form) => {
     try {
-      const { data } = await apiAuth.patch('/users/edituser', form)
+      await apiAuth.patch('/users/edituser', form)
       Notify.create({
         message: '修改成功',
         textColor: 'primary',
@@ -139,6 +139,30 @@ export const useUserStore = defineStore('user', () => {
         color: 'white'
       })
     } catch (error) {
+      Notify.create({
+        message: '資料取得失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
+  const deleteUser = async (_id) => {
+    console.log(_id)
+    try {
+      await apiAuth.patch('/users/deleteUser/' + _id, { status: 1 })
+      const index = accounts.findIndex((user) => user._id === _id)
+      accounts.splice(index, 1)
+      Notify.create({
+        message: '刪除成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white'
+      })
+    } catch (error) {
+      console.log(error)
       Notify.create({
         message: '資料取得失敗',
         textColor: 'secondary',
@@ -163,6 +187,7 @@ export const useUserStore = defineStore('user', () => {
     getMyself,
     getAllUsers,
     editUser,
+    deleteUser,
     isLogin,
     isAdmin,
     showLoginCard,

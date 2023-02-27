@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia'
 import { useUserStore } from 'src/stores/user'
 
 const userStore = useUserStore()
-const { getAllUsers, editUser, register } = userStore
+const { getAllUsers, editUser, register, deleteUser } = userStore
 const { accounts } = storeToRefs(userStore)
 
 getAllUsers()
@@ -173,7 +173,7 @@ const onSubmit = async () => {
                   color="secondary"
                   fab-mini
                   unelevated
-                  @click="deleteTeamup(props.row._id)"
+                  @click="deleteUser(props.row._id)"
                 />
               </q-td>
             </template>
