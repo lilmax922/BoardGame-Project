@@ -55,7 +55,7 @@ const props = defineProps({
             &#35;{{ type }}
           </q-chip>
         </div>
-        <div class="text-h5">{{ title }}</div>
+        <div class="text-h5 teamup_title">{{ title }}</div>
       </q-card-section>
       <q-separator inset />
       <q-card-section class="flex-center" horizontal>

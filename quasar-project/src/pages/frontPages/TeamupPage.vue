@@ -43,7 +43,7 @@ const rules = {
   },
   length (value) {
     return (
-      (value.length >= 1 && value.length <= 20) || '長度必須為 1 ~ 20 個字'
+      (value.length >= 1 && value.length <= 30) || '長度必須為 1 ~ 30 個字'
     )
   }
 }
