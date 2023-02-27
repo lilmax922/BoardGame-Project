@@ -54,6 +54,30 @@ export const useReservationStore = defineStore('reservation', () => {
     }
   }
 
+  // 會員刪除預約
+  const deleteMyReservation = async (_id) => {
+    try {
+      await apiAuth.patch('/reservations/delete/member/' + _id)
+      const index = reservations.findIndex(reservation => reservation._id === _id)
+      reservations.splice(index, 1)
+      Notify.create({
+        message: '刪除成功',
+        textColor: 'primary',
+        icon: 'mdi-emoticon-happy-outline',
+        color: 'white'
+      })
+    } catch (error) {
+      Notify.create({
+        message: '資料刪除失敗',
+        textColor: 'secondary',
+        color: 'white',
+        icon: 'mdi-emoticon-dead-outline',
+        caption: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
+  // 管理員刪除預約
   const deleteReservation = async (_id) => {
     try {
       await apiAuth.patch('/reservations/delete/' + _id)
@@ -96,6 +120,7 @@ export const useReservationStore = defineStore('reservation', () => {
     submitReservation,
     getAllReservations,
     getMyReservation,
-    deleteReservation
+    deleteReservation,
+    deleteMyReservation
   }
 })

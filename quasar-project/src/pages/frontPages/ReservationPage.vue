@@ -151,7 +151,7 @@ reservationForm.selectedDate = `${date.getFullYear()}-0${date.getMonth() + 1
               3.
               資料送出後待門市確認訂位狀況，並電話回覆訂位成功後才算完成訂位哦！（營業時間２４Ｈ內回覆）
             </p>
-            <p>4. 如有其他問題、特殊情況可私訊聯繫粉專管理員。</p>
+            <p>4. 如有其他問題、特殊情況可來電聯繫店內工作人員。</p>
           </div>
 
           <q-form class="q-gutter-md flex flex-center column" @submit="onSubmit">
