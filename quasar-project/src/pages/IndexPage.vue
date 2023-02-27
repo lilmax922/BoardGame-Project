@@ -48,6 +48,17 @@ const modules = [Navigation, Pagination, Autoplay]
             <div class="text-h3 text-weight-bold joyo" data-aos="zoom-in-up" data-aos-duration="2000">
               揪遊
             </div>
+            <br />
+            <div class="flex flex-xs-center column-xs row-md q-gutter-md q-mt-md">
+            <q-btn
+              class="hero_btn"
+              to="/reservation"
+              label="RESERVATION"
+            ></q-btn>
+            <q-btn class="hero_btn" to="/teamup" label="TEAMUP"></q-btn>
+          </div>
+          <!-- <div>
+          </div> -->
           </div>
         </div>
         <div class="video_container col-12">
@@ -59,18 +70,9 @@ const modules = [Navigation, Pagination, Autoplay]
             muted
           />
         </div>
-        <div class="btn_area col-12 flex flex-center q-gutter-md q-mt-lg">
-          <div>
-            <q-btn
-              class="hero_btn"
-              to="/reservation"
-              label="RESERVATION"
-            ></q-btn>
-          </div>
-          <div>
-            <q-btn class="hero_btn" to="/teamup" label="TEAMUP"></q-btn>
-          </div>
-        </div>
+        <!-- <div class="btn_area col-12 flex flex-center q-gutter-md q-mt-lg">
+
+        </div> -->
       </div>
     </section>
 
