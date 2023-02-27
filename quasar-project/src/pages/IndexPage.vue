@@ -189,7 +189,7 @@ const modules = [Navigation, Pagination, Autoplay]
     </section>
 
     <!-- 揪團 -->
-    <section id="teamup_section">
+    <section v-if="teamups.length >= 1" id="teamup_section">
       <div class="container">
         <div class="row">
           <div class="col-12">
