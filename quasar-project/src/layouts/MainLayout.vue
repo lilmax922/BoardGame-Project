@@ -55,8 +55,7 @@ const close = () => {
       <q-toolbar class="row" style="width: 100%;">
         <q-toolbar-title class="col-xs-4 col-md-3">
           <router-link style="text-decoration: none" to="/">
-            <q-img src="../assets/logo.png" width="50px" />
-            <span class="logo_name q-pl-md">揪遊</span>
+            <img class="logo" src="../assets/logo.png" />
           </router-link>
         </q-toolbar-title>
 
@@ -190,6 +189,13 @@ const close = () => {
 #mainlayout {
   width: 100%;
   background-color: rgba(255, 255, 255, 0);
+
+  .logo {
+    height: 90%;
+    position: absolute;
+    top: 5%;
+    filter: drop-shadow(0px 0px 3px $primary);
+  }
 
   .q-toolbar {
     width: 100%;
