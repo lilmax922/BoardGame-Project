@@ -25,6 +25,13 @@
       -webkit-line-clamp: 1;
     }
 
+    .teamup_title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 1;
+    }
+
     .q-item__section--main {
       flex: none;
       margin-left: 0;
