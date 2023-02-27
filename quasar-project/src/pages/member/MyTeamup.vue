@@ -102,7 +102,6 @@ const columns = [
                   unelevated
                   @click="deleteMyTeamup(props.row._id)"
                 />
-                {{ props.row._id }}
               </q-td>
             </template>
           </q-table>
@@ -140,7 +139,6 @@ const columns = [
                   unelevated
                   @click="deleteMyJoinedTeamup(props.row._id)"
                 />
-                {{ props.row._id }}
               </q-td>
             </template>
           </q-table>
