@@ -53,6 +53,11 @@ const schema = new Schema(
       // 0 = 使用者
       // 1 = 管理員
       default: 0
+    },
+    status: {
+      type: Number,
+      // 1 = 刪除
+      default: 0
     }
   }, { versionKey: false }) // 不要紀錄修改次數
 
