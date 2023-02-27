@@ -65,7 +65,7 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     // 把目前請求的 JWT 從資料庫拿掉
-    req.user.tokens = req.user.tokens.filter(token => token !== req.token)
+    req.user.tokens = req.user.tokens.filter((token) => token !== req.token)
     await req.user.save()
     res.status(200).json({ success: true, message: '登出成功' })
   } catch (error) {
@@ -76,7 +76,7 @@ export const logout = async (req, res) => {
 // 過期 JWT 換新 JWT
 export const extend = async (req, res) => {
   try {
-    const idx = req.user.tokens.findIndex(token => token === req.token)
+    const idx = req.user.tokens.findIndex((token) => token === req.token)
     const token = jwt.sign({ _id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '7 days' })
     req.user.tokens[idx] = token
     await req.user.save()
@@ -127,7 +127,7 @@ export const editMyself = async (req, res) => {
 
 export const getAllUser = async (req, res) => {
   try {
-    const result = await users.find().select('-password')
+    const result = await users.find({ status: 0 }).select('-password')
     res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
@@ -152,5 +152,14 @@ export const editUser = async (req, res) => {
     })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
+export const deleteUser = async (req, res) => {
+  try {
+    await users.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true })
+    res.status(200).json({ success: true, message: '' })
+  } catch (error) {
+    errorHandler(error, res)
   }
 }
