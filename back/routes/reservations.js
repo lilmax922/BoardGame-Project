@@ -6,12 +6,14 @@ import { createReservation, getReservation, getAllReservations, editReservation,
 
 const router = Router()
 
-router.post('/getdate', content('application/json'), jwt, getReservation)
 router.post('/', content('application/json'), jwt, createReservation)
+router.post('/getdate', content('application/json'), jwt, getReservation)
+
 router.get('/all', jwt, admin, getAllReservations)
 router.get('/getmyreservation', jwt, getMyReservation)
+
 router.patch('/delete/:id', jwt, admin, deleteReservation)
+router.patch('/delete/member/:id', jwt, deleteReservation)
 router.patch('/:id', content('application/json'), jwt, admin, editReservation)
-// router.get('/:id', jwt, getReservation)
 
 export default router
