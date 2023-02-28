@@ -19,7 +19,7 @@ const filterCondition = reactive({
   gameTime: 0,
   players: {
     min: 1,
-    max: 12
+    max: 10
   }
 })
 
@@ -31,24 +31,38 @@ const delChip = (i) => {
   chips.value.splice(i, 1)
 }
 
-const filterFunc = computed(() => {
+const filterHandler = computed(() => {
   return boardgames.value.filter((boardgame) => {
-    console.log(boardgame.name)
-    console.log(boardgame.gameTime)
-    console.log(boardgame.players)
-    return (
-      // boardgame.gameTime >= filterCondition.gameTime &&
-      // boardgame.players.split('~').map(Number)[0] >=
-      // filterCondition.players.min &&
-      // boardgame.players.split('~').map(Number)[1] <=
-      // filterCondition.players.max &&
-      // parseInt(
-      //   _.intersection(boardgame.types, filterCondition.types).length
-      // ) !== 0 &&
-      boardgame.name.includes(filterInput.value) || boardgame.players.includes(filterInput.value) || boardgame.gameTime.includes(filterInput.value)
-    )
+    const players = boardgame.players.split('~')
+    const trimmedPlayers = players.map((player) => player.trim())
+
+    if (filterInput.value === '') {
+      return (
+        filterCondition.players.min <= boardgame.players.split('~').map(Number)[0] &&
+        filterCondition.players.max >= boardgame.players.split('~').map(Number)[1] &&
+        filterCondition.gameTime <= boardgame.gameTime &&
+        parseInt(_.intersection(filterCondition.types, boardgame.types).length) !== 0
+      )
+    } else {
+      return (
+        (filterCondition.players.min <= boardgame.players.split('~').map(Number)[0] &&
+        filterCondition.players.max >= boardgame.players.split('~').map(Number)[1] &&
+        filterCondition.gameTime <= boardgame.gameTime &&
+        parseInt(_.intersection(filterCondition.types, boardgame.types).length) !== 0) &&
+
+        (trimmedPlayers.includes(filterInput.value) ||
+        boardgame.name.includes(filterInput.value) ||
+        boardgame.gameTime.toString() === filterInput.value)
+      )
+    }
   })
 })
+// && players.includes(filterInput.value)
+
+// (filterCondition.players.min <= boardgame.players.split('~').map(Number)[0] &&
+//            filterCondition.players.max >= boardgame.players.split('~').map(Number)[1] &&
+//            filterCondition.gameTime <= boardgame.gameTime &&
+//            parseInt(_.intersection(filterCondition.types, boardgame.types).length) !== 0)
 </script>
 
 <template>
@@ -77,14 +91,8 @@ const filterFunc = computed(() => {
                 <div class="text-h6 q-ml-sm">關鍵字搜尋</div>
               </div>
               <div>
-                <q-input
-                  v-model="filterInput"
-                  name="search"
-                  rounded
-                  standout
-                  placeholder="請輸入關鍵字"
-                  style="max-width: 700px"
-                >
+                <q-input v-model="filterInput" name="search" rounded standout placeholder="請輸入關鍵字"
+                  style="max-width: 700px">
                   <template v-slot:append>
                     <q-btn icon="search" flat rounded />
                   </template>
@@ -100,39 +108,22 @@ const filterFunc = computed(() => {
               <div class="row flex flex-center">
                 <div class="col-12">
                   <!-- <q-option-group
-                        v-model="typeGroup"
-                        :options="types"
-                        type="checkbox"
-                        inline
-                        size="lg"
-                      /> -->
-                  <q-select
-                    v-model="filterCondition.types"
-                    rounded
-                    standout
-                    multiple
-                    :options="types"
-                    label="新增標籤"
-                    bottom-slots
-                    style="max-width: 700px"
-                  >
+                            v-model="typeGroup"
+                            :options="types"
+                            type="checkbox"
+                            inline
+                            size="lg"
+                          /> -->
+                  <q-select v-model="filterCondition.types" rounded standout multiple :options="types" label="新增標籤"
+                    bottom-slots style="max-width: 700px">
                     <template #append>
                       <q-btn round dense flat icon="add" @click="addChip" />
                     </template>
                   </q-select>
                 </div>
                 <div>
-                  <q-chip
-                    v-for="(chip, i) in chips"
-                    :key="i"
-                    v-model="chips"
-                    color="secondary"
-                    text-color="white"
-                    clickable
-                    icon="mdi-close-circle"
-                    icon-color="white"
-                    @click="delChip(i)"
-                  >
+                  <q-chip v-for="(chip, i) in chips" :key="i" v-model="chips" color="secondary" text-color="white"
+                    clickable icon="mdi-close-circle" icon-color="white" @click="delChip(i)">
                     {{ chip }}
                   </q-chip>
                 </div>
@@ -147,17 +138,8 @@ const filterFunc = computed(() => {
                 <div class="text-h6 q-ml-sm">遊戲時間</div>
               </div>
               <div>
-                <q-slider
-                  v-model="filterCondition.gameTime"
-                  class="q-px-lg"
-                  :min="0"
-                  :max="60"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  :step="10"
-                  snap
-                />
+                <q-slider v-model="filterCondition.gameTime" class="q-px-lg" :min="0" :max="60" markers marker-labels
+                  thumb-color="secondary" :step="10" snap />
               </div>
             </div>
 
@@ -167,16 +149,8 @@ const filterFunc = computed(() => {
                 <div class="text-h6 q-ml-sm">遊玩人數</div>
               </div>
               <div>
-                <q-range
-                  v-model="filterCondition.players"
-                  class="q-px-lg"
-                  :min="1"
-                  :max="10"
-                  markers
-                  marker-labels
-                  thumb-color="secondary"
-                  snap
-                />
+                <q-range v-model="filterCondition.players" class="q-px-lg" :min="1" :max="10" markers marker-labels
+                  thumb-color="secondary" snap />
               </div>
             </div>
           </div>
@@ -185,11 +159,8 @@ const filterFunc = computed(() => {
         <!-- 桌遊卡片 -->
         <div class="cards_container">
           <div class="row q-mx-auto">
-            <div
-              class="col-12 col-md-6 col-lg-4 col-xl-3 flex flex-center q-mb-lg"
-              v-for="(boardgame, i) in filterFunc"
-              :key="i"
-            >
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 flex flex-center q-mb-lg"
+              v-for="(boardgame, i) in filterHandler" :key="i">
               <BoardgameCard class="bg_card q-mb-lg" v-bind="boardgame" />
             </div>
           </div>
