@@ -223,12 +223,9 @@ const close = () => {
     </q-dialog>
 
     <q-footer class="bg-primary text-dark">
-      <q-toolbar>
-        <q-avatar class="q-mr-sm">
-          <img src="../assets/logo.png" />
-        </q-avatar>
-        <span class="text-center" style="font-size: 14px"
-          >©2023 泰山職訓 網頁專題設計 by 胡俊宇</span
+      <q-toolbar class="flex flex-center">
+        <div class="text-center" style="font-size: 14px"
+          >©2023 泰山職訓 網頁專題設計 by 胡俊宇</div
         >
       </q-toolbar>
     </q-footer>
