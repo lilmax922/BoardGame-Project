@@ -1,19 +1,17 @@
 <script setup>
-import { ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination, Autoplay } from 'swiper'
+import { Autoplay } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import AOS from 'aos'
-import '../../node_modules/aos/dist/aos.css'
+import 'aos/dist/aos.css'
 import { storeToRefs } from 'pinia'
 import { useBoardgameStore } from 'src/stores/boardgame'
 import { useTeamupStore } from 'src/stores/teamup'
 import BoardgameCard from 'src/components/BoardgameCard.vue'
 import TeamupCard from 'src/components/TeamupCard.vue'
-import TestComp from 'src/components/TestComp.vue'
 import FaqAccordion from 'src/components/FaqAccordion.vue'
 
 AOS.init()
@@ -30,7 +28,7 @@ getPostBoardgames()
 getAllTeamups()
 
 // Swiper
-const modules = [Navigation, Pagination, Autoplay]
+const modules = [Autoplay]
 </script>
 
 <template>
@@ -70,9 +68,6 @@ const modules = [Navigation, Pagination, Autoplay]
             muted
           />
         </div>
-        <!-- <div class="btn_area col-12 flex flex-center q-gutter-md q-mt-lg">
-
-        </div> -->
       </div>
     </section>
 
@@ -329,7 +324,6 @@ const modules = [Navigation, Pagination, Autoplay]
 #index {
   overflow-x: hidden;
 
-  // .container {
   .title {
     display: inline-block;
     font-weight: 900;
@@ -345,8 +339,6 @@ const modules = [Navigation, Pagination, Autoplay]
   .content {
     margin: 2rem 0 4.5rem 0;
   }
-
-  // }
 
   .hero {
     position: relative;

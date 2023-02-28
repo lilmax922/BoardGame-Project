@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination } from 'swiper'
+import { Autoplay } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -26,7 +26,7 @@ const { teamups } = storeToRefs(teamupStore)
 getAllTeamups()
 
 // Swiper
-const modules = [Navigation, Pagination]
+const modules = [Autoplay]
 const joined = ref(false)
 const teamup = reactive({
   _id: teamups._id || '',
@@ -257,8 +257,10 @@ const onSubmit = async () => {
               <Swiper
                 class="mySwiper"
                 :modules="modules"
-                :navigation="true"
-                :pagination="true"
+                :autoplay="{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                }"
                 :slidesPerView="1"
                 :spaceBetween="30"
                 :breakpoints="{
@@ -274,7 +276,7 @@ const onSubmit = async () => {
                     slidesPerView: 3,
                     spaceBetween: 40,
                   },
-                  '1200': {
+                  '1500': {
                     slidesPerView: 4,
                     spaceBetween: 50,
                   },

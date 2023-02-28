@@ -4,7 +4,7 @@ import { api } from 'src/boot/axios'
 import { useRoute, useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination } from 'swiper'
+import { Autoplay } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -21,8 +21,7 @@ const { boardgames } = storeToRefs(boardgameStore)
 
 getPostBoardgames()
 
-// Swiper
-const modules = [Navigation, Pagination]
+const modules = [Autoplay] // Swiper
 const slide = ref(0) // q-carousel，它跟 carousel 的 :name 綁定
 const carouselSlide = ref([0, 0])
 const boardgame = reactive({
@@ -203,8 +202,10 @@ const filterHandler = computed(() => {
               <Swiper
                 class="mySwiper"
                 :modules="modules"
-                :navigation="true"
-                :pagination="true"
+                :autoplay="{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                }"
                 :slidesPerView="1"
                 :spaceBetween="30"
                 :breakpoints="{
@@ -220,7 +221,7 @@ const filterHandler = computed(() => {
                     slidesPerView: 3,
                     spaceBetween: 40,
                   },
-                  '1200': {
+                  '1500': {
                     slidesPerView: 4,
                     spaceBetween: 50,
                   },
